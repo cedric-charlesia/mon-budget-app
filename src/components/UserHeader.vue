@@ -33,6 +33,7 @@ const user = loggedInUserStore();
 .welcome-user {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 1.3rem;
 }
 
 .welcome-user p {
