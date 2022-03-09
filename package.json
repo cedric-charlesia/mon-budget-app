@@ -2,6 +2,7 @@
   "name": "mon-budget-client",
   "version": "0.0.0",
   "scripts": {
+<<<<<<< HEAD
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview --port 5050",
@@ -11,10 +12,18 @@
   "dependencies": {
     "axios": "^0.26.0",
     "pinia": "^2.0.11",
+=======
+    "dev": "vite --port 4000",
+    "build": "vite build",
+    "preview": "vite preview --port 5050"
+  },
+  "dependencies": {
+>>>>>>> 801bb4587fc6839701b3651fccbfb206a2ff24e1
     "vue": "^3.2.31",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@rushstack/eslint-patch": "^1.1.0",
     "@types/node": "^16.11.25",
     "@vitejs/plugin-vue": "^2.2.2",
@@ -29,3 +38,9 @@
     "vue-tsc": "^0.31.4"
   }
 }
+=======
+    "@vitejs/plugin-vue": "^2.2.2",
+    "vite": "^2.8.4"
+  }
+}
+>>>>>>> 801bb4587fc6839701b3651fccbfb206a2ff24e1
