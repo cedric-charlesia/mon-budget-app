@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* General Settinds*/
 :root {
 --main-color: #F1D00A;
@@ -11,28 +10,10 @@
 }
 
 body {
-=======
-/* General settings */
-
-:root {
-  --main-color: #F1D00A;
-  --accent-color: #21325E;
-  --grey-color: #F0F0F0;
-  /* Text color */
-  --text-color: #000;
-  --text-white-color: #fff;
-  --main-title-size: 1.5rem;
-  --text-size: 1rem;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
->>>>>>> 801bb4587fc6839701b3651fccbfb206a2ff24e1
   background-color: var(--main-color);
   color: var(--accent-color);
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-<<<<<<< HEAD
   transition: color 0.5s, background-color 0.5s;
   font-family: Inter, 'Helvetica Neue', sans-serif;
   font-size: var(--text-size);
@@ -40,6 +21,3 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-=======
-}
->>>>>>> 801bb4587fc6839701b3651fccbfb206a2ff24e1

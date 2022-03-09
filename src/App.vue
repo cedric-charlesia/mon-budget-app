@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import Header from "@/components/Header.vue";
@@ -19,20 +18,6 @@ import Footer from "@/components/Footer.vue";
 <style>
 @import "@/assets/normalize.css";
 @import "@/assets/base.css";
-=======
-<script setup>
-import HomeView from '@/views/HomeView.vue'
-</script>
-
-<template>
-  <HomeView />
-
-</template>
-
-<style>
-@import "./assets/normalize.css";
-@import "./assets/base.css";
->>>>>>> 801bb4587fc6839701b3651fccbfb206a2ff24e1
 
 #app {
   height: 100vh;
