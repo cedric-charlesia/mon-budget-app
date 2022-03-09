@@ -5,5 +5,6 @@ const user = loggedInUserStore();
 </script>
 
 <template>
-  <h1>Hello, my name is {{ user.username }}</h1>
+  <h1>Hello!</h1>
+  <p>Hello, my name is {{ user.username }}</p>
 </template>
