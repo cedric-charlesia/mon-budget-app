@@ -8,7 +8,6 @@ export const loggedInUserStore = defineStore({
     id: 0,
     username: "",
     email: "",
-    errors: [],
   }),
   getters: {},
   actions: {
@@ -16,6 +15,10 @@ export const loggedInUserStore = defineStore({
       try {
         await UserService.login(user)
           .then((response) => {
+            this.id = parseInt(response.data.id, 10);
+            this.username = response.data.username;
+            this.email = response.data.email;
+
             localStorage.setItem("token", response.headers.authorization);
             localStorage.setItem("id", response.data.id);
 
@@ -24,14 +27,10 @@ export const loggedInUserStore = defineStore({
               headers: { Authorization: `${response.headers.authorization}` },
             };
 
-            this.id = userId;
-            this.username = response.data.username;
-
             if (userId) {
-              console.log("userId", userId);
               UserService.user(userId, token)
                 .then((response) => {
-                  console.log(response.data);
+                  console.log("response data", response.data);
                   router.push({
                     name: "user",
                     params: response.data,

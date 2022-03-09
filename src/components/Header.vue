@@ -13,7 +13,7 @@ defineProps<{
   <h2 class="subtitle">{{ subTitle }}</h2>
 </template>
 
-<style scoped>
+<style>
 .main-title {
   font-size: var(--main-title-size);
 }

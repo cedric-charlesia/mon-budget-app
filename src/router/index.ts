@@ -3,6 +3,7 @@ import RegisterView from "../views/RegisterView.vue";
 import LoginView from "../views/LoginView.vue";
 import UserView from "../views/UserView.vue";
 import notFoundView from "../views/notFoundView.vue";
+import { loggedInUserStore } from "@/stores/loggedInUser";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,7 +22,12 @@ const router = createRouter({
       path: "/user/:id",
       name: "user",
       component: UserView,
-      meta: { requiresAuth: true },
+      beforeEnter() {
+        const user = loggedInUserStore();
+        if (!user.id) {
+          return { name: "login" };
+        }
+      },
     },
     {
       path: "/404",
@@ -29,15 +35,6 @@ const router = createRouter({
       component: notFoundView,
     },
   ],
-});
-
-router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    console.log("ok");
-  } else {
-    console.log("not ok");
-  }
-  next();
 });
 
 export default router;

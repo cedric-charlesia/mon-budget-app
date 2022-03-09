@@ -7,7 +7,7 @@ import { RouterLink } from "vue-router";
   <main>
     <LoginForm />
     <div class="login-register">
-      <p>Pas encore inscrit ?"</p>
+      <p>Pas encore inscrit ?</p>
       <RouterLink to="/">S'inscrire</RouterLink>
     </div>
   </main>

@@ -1,18 +1,9 @@
 <script setup lang="ts">
-import { RouterView } from "vue-router";
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
+import HomePageView from "@/views/HomePageView.vue";
 </script>
 
 <template>
-  <Header
-    mainTitle="Mon Budget"
-    subTitle="L'application qui personnalise et gère mon budget en toute simplicité !"
-  />
-
-  <RouterView />
-
-  <Footer legalMentions="Mentions Légales" copyright="Cédric CHARLESIA ©2022" />
+  <HomePageView />
 </template>
 
 <style>
