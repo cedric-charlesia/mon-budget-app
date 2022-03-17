@@ -13,7 +13,7 @@
           <p></p>
           <div>
             <p></p>
-            <input type="checkbox">
+            <input type="checkbox" />
           </div>
         </div>
       </div>

@@ -1,11 +1,23 @@
 <script setup lang="ts">
 import { loggedInUserStore } from "@/stores/loggedInUser";
 import { RouterLink } from "vue-router";
+import router from "@/router";
+
 defineProps<{
   mainTitle: string;
 }>();
 
 const user = loggedInUserStore();
+
+const logout = () => {
+  user.id = NaN;
+
+  localStorage.removeItem("token");
+
+  router.push({
+    name: "login",
+  });
+};
 </script>
 
 <template>
@@ -15,6 +27,7 @@ const user = loggedInUserStore();
     </h1>
     <div class="welcome-user">
       <p>Mars 2022</p>
+      <button @click.prevent="logout()">Se déconnecter</button>
       <p>Bonjour, {{ user.username }} !</p>
     </div>
   </div>

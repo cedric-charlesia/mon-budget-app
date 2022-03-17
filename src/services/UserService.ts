@@ -10,13 +10,26 @@ const apiClient = axios.create({
 });
 
 export default {
-  register(formdata: unknown) {
+  register(formdata: object) {
     return apiClient.post("/signup", formdata);
   },
-  login(formdata: unknown) {
+  login(formdata: object) {
     return apiClient.post("/login", formdata);
   },
-  user(id: unknown, auth: AxiosRequestConfig<unknown> | undefined) {
+  user(id: number, auth: AxiosRequestConfig<unknown> | undefined) {
     return apiClient.get(`/user/${id}`, auth);
+  },
+  getUserTransactionsSummary(
+    id: number,
+    catId: number,
+    transactionId: number,
+    userToken: unknown
+  ) {
+    return apiClient.get(
+      `/user/${id}/categories/${catId}/transactions/${transactionId}`,
+      {
+        headers: { authorization: `${userToken}` },
+      }
+    );
   },
 };

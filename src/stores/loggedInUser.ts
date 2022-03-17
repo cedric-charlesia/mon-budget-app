@@ -5,13 +5,14 @@ import router from "@/router";
 export const loggedInUserStore = defineStore({
   id: "loggedInUser",
   state: () => ({
-    id: 0,
+    id: NaN,
     username: "",
     email: "",
+    amount: "",
   }),
   getters: {},
   actions: {
-    async loginUser(user: unknown) {
+    async loginUser(user: object) {
       try {
         await UserService.login(user)
           .then((response) => {
@@ -20,14 +21,14 @@ export const loggedInUserStore = defineStore({
             this.email = response.data.email;
 
             localStorage.setItem("token", response.headers.authorization);
-            localStorage.setItem("id", response.data.id);
+            // localStorage.setItem("id", response.data.id);
 
             const userId = parseInt(response.data.id, 10);
             const token = {
               headers: { Authorization: `${response.headers.authorization}` },
             };
 
-            if (userId) {
+            if (!isNaN(userId) && isFinite(userId)) {
               UserService.user(userId, token)
                 .then((response) => {
                   console.log("response data", response.data);

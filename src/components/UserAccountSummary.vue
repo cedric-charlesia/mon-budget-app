@@ -1,4 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// import { loggedInUserStore } from "@/stores/loggedInUser";
+// import UserService from "@/services/UserService";
+
+// const user = loggedInUserStore();
+</script>
 
 <template>
   <section class="transaction_summary">
