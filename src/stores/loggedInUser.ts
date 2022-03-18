@@ -30,7 +30,6 @@ export const loggedInUserStore = defineStore({
             this.email = response.data.email;
 
             localStorage.setItem("token", response.headers.authorization);
-            // localStorage.setItem("id", response.data.id);
 
             const userId = parseInt(response.data.id, 10);
             const token = {
@@ -54,22 +53,15 @@ export const loggedInUserStore = defineStore({
 
               UserService.getUserCategories(userId, userToken).then(
                 (response) => {
-                  // console.log("this user categories are:");
-                  if (response.data) {
-                    this.categories = response.data;
-                    console.log(response.data);
-                  }
-                  return null;
+                  if (response.data === []) return this.categories;
+                  this.categories = response.data;
                 }
               );
 
               UserService.getUserTransactions(userId, userToken).then(
                 (response) => {
-                  // console.log("this user transactions are:", response.data);
-                  if (response.data) {
-                    this.transactions = response.data;
-                  }
-                  return null;
+                  if (response.data === []) return this.transactions;
+                  this.transactions = response.data;
                 }
               );
             }
@@ -82,24 +74,38 @@ export const loggedInUserStore = defineStore({
       }
     },
     getTotalIncomeOrExpense(categoryType: string) {
-      const categories: number[] = [];
-
-      for (const category of this.categories) {
-        if (category.type === `${categoryType}`) {
-          categories.push(category.id);
-        }
-      }
-
       let totalIncomeOrExpense = 0;
 
       for (const transaction of this.transactions) {
-        for (const category of categories) {
-          if (category === transaction.category_id) {
+        for (const category of this.categories) {
+          if (
+            category.type === `${categoryType}` &&
+            category.id === transaction.category_id
+          ) {
             totalIncomeOrExpense += +transaction.amount;
           }
         }
       }
       return totalIncomeOrExpense;
+    },
+    showCurrentMonth() {
+      const now = Date.now();
+      const currentMonth = new Date(now).toLocaleDateString("fr-FR", {
+        // weekday: "short",
+        year: "numeric",
+        month: "short",
+        // day: "numeric",
+      });
+      return currentMonth;
+    },
+    showTransactionDate(date: string) {
+      const transactionDate = new Date(date).toLocaleDateString("fr-FR", {
+        // weekday: "short",
+        // year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+      return transactionDate;
     },
   },
 });

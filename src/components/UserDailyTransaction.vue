@@ -5,23 +5,22 @@ const user = loggedInUserStore();
 </script>
 
 <template>
-  <section class="daily_transaction">
+  <div
+    class="daily_transaction"
+    v-for="transaction of user.transactions"
+    :key="transaction.id"
+  >
     <div class="daily_transaction_header">
-      <p>12 Fév</p>
+      <p>{{ user.showTransactionDate(transaction.date) }}</p>
       <p>20 €</p>
       <p>2200 €</p>
     </div>
 
-    <div
-      class="daily_transaction_content"
-      v-for="transaction of user.transactions"
-      :key="transaction.id"
-    >
-      <p class="transaction_icon" v-if="transaction.description !== ''">
+    <div class="daily_transaction_content">
+      <p class="transaction_icon" v-if="transaction">
         {{ transaction.description.charAt(0).toUpperCase() }}
       </p>
-      <p v-else class="remove"></p>
-      <div class="transaction_details" v-if="transaction.description !== ''">
+      <div class="transaction_details" v-if="transaction">
         <p>
           {{ transaction.description }}
         </p>
@@ -30,9 +29,8 @@ const user = loggedInUserStore();
           <input type="checkbox" />
         </div>
       </div>
-      <div v-else class="remove"></div>
     </div>
-  </section>
+  </div>
 </template>
 
 <style scoped>
@@ -56,11 +54,12 @@ const user = loggedInUserStore();
 
 .daily_transaction_total {
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.7rem;
 }
 
 .daily_transaction_total input[type="checkbox"] {
   transform: scale(1.5);
+  margin-right: 0.5rem;
 }
 
 .transaction_details {
@@ -76,9 +75,5 @@ const user = loggedInUserStore();
   margin: auto;
   border-radius: 50%;
   border: 2px solid var(--grey-color);
-}
-
-.remove {
-  display: none;
 }
 </style>

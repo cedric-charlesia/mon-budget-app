@@ -15,6 +15,7 @@
 .transaction_button button {
   cursor: pointer;
   padding: 1rem;
+  margin-top: 0.7rem;
   border: none;
   background-color: var(--accent-color);
   color: var(--text-white-color);

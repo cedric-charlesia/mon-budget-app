@@ -9,6 +9,11 @@
     --text-size: 1rem;
 }
 
+html {
+	scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
 body {
   background-color: var(--main-color);
   color: var(--accent-color);

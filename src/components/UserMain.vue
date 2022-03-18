@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // import UserCalendar from "@/components/UserCalendar.vue";
-import UserAccountSummary from "@/components/UserAccountSummary.vue";
+// import UserAccountSummary from "@/components/UserAccountSummary.vue";
 import UserDailyTransaction from "@/components/UserDailyTransaction.vue";
 import UserTransactionButton from "@/components/UserTransactionButton.vue";
 </script>
@@ -8,9 +8,9 @@ import UserTransactionButton from "@/components/UserTransactionButton.vue";
 <template>
   <main>
     <div class="main_content">
+      <!-- <UserCalendar /> -->
+      <!-- <UserAccountSummary /> -->
       <div class="transactions">
-        <!-- <UserCalendar /> -->
-        <UserAccountSummary />
         <UserDailyTransaction />
       </div>
       <UserTransactionButton />
@@ -23,6 +23,12 @@ import UserTransactionButton from "@/components/UserTransactionButton.vue";
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 80vh;
+  height: 65vh;
+}
+
+.transactions {
+  overflow-y: auto;
+  padding: 0.25rem;
+  padding-top: 0.25rem;
 }
 </style>

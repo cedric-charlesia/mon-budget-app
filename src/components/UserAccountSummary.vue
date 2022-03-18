@@ -18,7 +18,13 @@ const user = loggedInUserStore();
     </div>
     <div>
       <p>Total</p>
-      <p class="transaction_total">{{ user.getTotalIncomeOrExpense("revenu") - user.getTotalIncomeOrExpense("dépense") }} &euro;</p>
+      <p class="transaction_total">
+        {{
+          user.getTotalIncomeOrExpense("revenu") -
+          user.getTotalIncomeOrExpense("dépense")
+        }}
+        &euro;
+      </p>
     </div>
   </div>
 </template>

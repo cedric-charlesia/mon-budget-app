@@ -3,6 +3,8 @@ import { loggedInUserStore } from "@/stores/loggedInUser";
 import { RouterLink } from "vue-router";
 import router from "@/router";
 import LogOut from "@/components/images/LogOut.vue";
+// import UserCalendar from "@/components/UserCalendar.vue";
+import UserAccountSummary from "@/components/UserAccountSummary.vue";
 
 defineProps<{
   mainTitle: string;
@@ -31,9 +33,11 @@ const logout = () => {
       <button @click.prevent="logout()" class="logout"><LogOut /></button>
     </div>
     <div class="welcome-user">
-      <p>Mars 2022</p>
+      <p>{{ user.showCurrentMonth() }}</p>
     </div>
   </div>
+  <!-- <UserCalendar /> -->
+  <UserAccountSummary />
 </template>
 
 <style scoped>
@@ -59,7 +63,7 @@ const logout = () => {
 .welcome-user {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1.3rem;
+  margin-bottom: 0.5rem;
 }
 
 .welcome-user p {
