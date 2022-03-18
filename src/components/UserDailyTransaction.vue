@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { loggedInUserStore } from "@/stores/loggedInUser";
+
+const user = loggedInUserStore();
+</script>
 
 <template>
   <section class="daily_transaction">
@@ -8,15 +12,25 @@
       <p>2200 €</p>
     </div>
 
-    <div class="daily_transaction_content">
-      <p class="transaction_icon">N</p>
-      <div class="transaction_details">
-        <p>Nourriture</p>
+    <div
+      class="daily_transaction_content"
+      v-for="transaction of user.transactions"
+      :key="transaction.id"
+    >
+      <p class="transaction_icon" v-if="transaction.description !== ''">
+        {{ transaction.description.charAt(0).toUpperCase() }}
+      </p>
+      <p v-else class="remove"></p>
+      <div class="transaction_details" v-if="transaction.description !== ''">
+        <p>
+          {{ transaction.description }}
+        </p>
         <div class="daily_transaction_total">
-          <p>20 €</p>
+          <p>{{ transaction.amount }} &euro;</p>
           <input type="checkbox" />
         </div>
       </div>
+      <div v-else class="remove"></div>
     </div>
   </section>
 </template>
@@ -54,6 +68,7 @@
   justify-content: space-between;
   width: 95%;
   margin-left: 0.7rem;
+  text-transform: capitalize;
 }
 
 .transaction_icon {
@@ -61,5 +76,9 @@
   margin: auto;
   border-radius: 50%;
   border: 2px solid var(--grey-color);
+}
+
+.remove {
+  display: none;
 }
 </style>

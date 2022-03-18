@@ -1,25 +1,26 @@
 <script setup lang="ts">
-// import { loggedInUserStore } from "@/stores/loggedInUser";
-// import UserService from "@/services/UserService";
+import { loggedInUserStore } from "@/stores/loggedInUser";
 
-// const user = loggedInUserStore();
+const user = loggedInUserStore();
 </script>
 
 <template>
-  <section class="transaction_summary">
+  <div class="transaction_summary">
     <div>
       <p>Revenus</p>
-      <p class="income">2200 €</p>
+      <p class="income">{{ user.getTotalIncomeOrExpense("revenu") }} &euro;</p>
     </div>
     <div>
       <p>Dépenses</p>
-      <p class="expense">70 €</p>
+      <p class="expense">
+        {{ user.getTotalIncomeOrExpense("dépense") }} &euro;
+      </p>
     </div>
     <div>
       <p>Total</p>
-      <p class="transaction_total">2130 €</p>
+      <p class="transaction_total">{{ user.getTotalIncomeOrExpense("revenu") - user.getTotalIncomeOrExpense("dépense") }} &euro;</p>
     </div>
-  </section>
+  </div>
 </template>
 
 <style scoped>

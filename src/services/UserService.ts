@@ -1,4 +1,4 @@
-import axios, { type AxiosRequestConfig } from "axios";
+import axios from "axios";
 
 const apiClient = axios.create({
   baseURL: "http://localhost:3001",
@@ -16,20 +16,17 @@ export default {
   login(formdata: object) {
     return apiClient.post("/login", formdata);
   },
-  user(id: number, auth: AxiosRequestConfig<unknown> | undefined) {
-    return apiClient.get(`/user/${id}`, auth);
+  user(id: number, token: object) {
+    return apiClient.get(`/user/${id}`, token);
   },
-  getUserTransactionsSummary(
-    id: number,
-    catId: number,
-    transactionId: number,
-    userToken: unknown
-  ) {
-    return apiClient.get(
-      `/user/${id}/categories/${catId}/transactions/${transactionId}`,
-      {
-        headers: { authorization: `${userToken}` },
-      }
-    );
+  getUserCategories(id: number, userToken: unknown) {
+    return apiClient.get(`/user/${id}/categories`, {
+      headers: { authorization: `${userToken}` },
+    });
+  },
+  getUserTransactions(id: number, userToken: unknown) {
+    return apiClient.get(`/user/${id}/transactions`, {
+      headers: { authorization: `${userToken}` },
+    });
   },
 };

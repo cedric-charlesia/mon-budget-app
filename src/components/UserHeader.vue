@@ -2,6 +2,7 @@
 import { loggedInUserStore } from "@/stores/loggedInUser";
 import { RouterLink } from "vue-router";
 import router from "@/router";
+import LogOut from "@/components/images/LogOut.vue";
 
 defineProps<{
   mainTitle: string;
@@ -10,7 +11,7 @@ defineProps<{
 const user = loggedInUserStore();
 
 const logout = () => {
-  user.id = NaN;
+  user.$reset;
 
   localStorage.removeItem("token");
 
@@ -22,22 +23,34 @@ const logout = () => {
 
 <template>
   <div class="account-container">
-    <h1 class="main-title user-title">
-      <RouterLink to="/">{{ mainTitle }}</RouterLink>
-    </h1>
+    <div class="top-nav">
+      <h1 class="main-title user-title">
+        <RouterLink to="/">{{ mainTitle }}</RouterLink>
+      </h1>
+      <p class="greetings">Bonjour, {{ user.username }} !</p>
+      <button @click.prevent="logout()" class="logout"><LogOut /></button>
+    </div>
     <div class="welcome-user">
       <p>Mars 2022</p>
-      <button @click.prevent="logout()">Se déconnecter</button>
-      <p>Bonjour, {{ user.username }} !</p>
     </div>
   </div>
 </template>
 
 <style scoped>
-.account_container {
-  height: 100vh;
-  display: grid;
-  grid-template-rows: 5% 5% 85% 5%;
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.greetings {
+  margin-bottom: 0;
+}
+
+.logout {
+  width: 8%;
+  background-color: transparent;
+  border: none;
 }
 
 .user-title {

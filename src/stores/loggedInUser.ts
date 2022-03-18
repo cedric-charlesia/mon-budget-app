@@ -8,7 +8,16 @@ export const loggedInUserStore = defineStore({
     id: NaN,
     username: "",
     email: "",
-    amount: "",
+    categories: [{ id: NaN, tag: "", type: "", user_id: NaN }],
+    transactions: [
+      {
+        id: NaN,
+        date: "",
+        description: "",
+        amount: 0,
+        category_id: NaN,
+      },
+    ],
   }),
   getters: {},
   actions: {
@@ -31,7 +40,7 @@ export const loggedInUserStore = defineStore({
             if (!isNaN(userId) && isFinite(userId)) {
               UserService.user(userId, token)
                 .then((response) => {
-                  console.log("response data", response.data);
+                  console.log("User is:", response.data);
                   router.push({
                     name: "user",
                     params: response.data,
@@ -40,6 +49,29 @@ export const loggedInUserStore = defineStore({
                 .catch((error) => {
                   console.error(error);
                 });
+
+              const userToken = localStorage.getItem("token");
+
+              UserService.getUserCategories(userId, userToken).then(
+                (response) => {
+                  // console.log("this user categories are:");
+                  if (response.data) {
+                    this.categories = response.data;
+                    console.log(response.data);
+                  }
+                  return null;
+                }
+              );
+
+              UserService.getUserTransactions(userId, userToken).then(
+                (response) => {
+                  // console.log("this user transactions are:", response.data);
+                  if (response.data) {
+                    this.transactions = response.data;
+                  }
+                  return null;
+                }
+              );
             }
           })
           .catch((error) => {
@@ -48,6 +80,26 @@ export const loggedInUserStore = defineStore({
       } catch (error) {
         console.error(error);
       }
+    },
+    getTotalIncomeOrExpense(categoryType: string) {
+      const categories: number[] = [];
+
+      for (const category of this.categories) {
+        if (category.type === `${categoryType}`) {
+          categories.push(category.id);
+        }
+      }
+
+      let totalIncomeOrExpense = 0;
+
+      for (const transaction of this.transactions) {
+        for (const category of categories) {
+          if (category === transaction.category_id) {
+            totalIncomeOrExpense += +transaction.amount;
+          }
+        }
+      }
+      return totalIncomeOrExpense;
     },
   },
 });
