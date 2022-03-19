@@ -5,28 +5,26 @@ const user = loggedInUserStore();
 </script>
 
 <template>
-  <div
-    class="daily_transaction"
-    v-for="transaction of user.transactions"
-    :key="transaction.id"
-  >
+  <div class="daily_transaction" v-for="date of user.dates" :key="date">
     <div class="daily_transaction_header">
-      <p>{{ user.showTransactionDate(transaction.date) }}</p>
-      <p>20 €</p>
-      <p>2200 €</p>
+      <p>{{ user.showTransactionDate(date) }}</p>
+      <!-- <p>20 €</p>
+      <p>2200 €</p> -->
     </div>
 
-    <div class="daily_transaction_content">
-      <p class="transaction_icon" v-if="transaction">
-        {{ transaction.description.charAt(0).toUpperCase() }}
-      </p>
-      <div class="transaction_details" v-if="transaction">
-        <p>
-          {{ transaction.description }}
+    <div v-for="transaction of user.transactions" :key="transaction.id">
+      <div class="daily_transaction_content" v-if="transaction.date === date">
+        <p class="transaction_icon">
+          {{ transaction.description.charAt(0).toUpperCase() }}
         </p>
-        <div class="daily_transaction_total">
-          <p>{{ transaction.amount }} &euro;</p>
-          <input type="checkbox" />
+        <div class="transaction_details">
+          <p>
+            {{ transaction.description }}
+          </p>
+          <div class="daily_transaction_total">
+            <p>{{ transaction.amount }} &euro;</p>
+            <input type="checkbox" />
+          </div>
         </div>
       </div>
     </div>

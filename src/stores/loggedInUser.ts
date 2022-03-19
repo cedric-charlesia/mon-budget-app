@@ -9,6 +9,7 @@ export const loggedInUserStore = defineStore({
     username: "",
     email: "",
     categories: [{ id: NaN, tag: "", type: "", user_id: NaN }],
+    dates: [""],
     transactions: [
       {
         id: NaN,
@@ -61,6 +62,18 @@ export const loggedInUserStore = defineStore({
               UserService.getUserTransactions(userId, userToken).then(
                 (response) => {
                   if (response.data === []) return this.transactions;
+
+                  const dates: string[] = [];
+
+                  for (const transaction of response.data) {
+                    dates.push(transaction.date);
+                  }
+                  const filteredDates = dates.filter(
+                    (date, index) => dates.indexOf(date) === index
+                  );
+                  // console.log("Transactions dates are:", dates);
+                  // console.log("Filtered dates are:", filteredDates);
+                  this.dates = filteredDates;
                   this.transactions = response.data;
                 }
               );
