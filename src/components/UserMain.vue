@@ -2,7 +2,7 @@
 // import UserCalendar from "@/components/UserCalendar.vue";
 // import UserAccountSummary from "@/components/UserAccountSummary.vue";
 import UserDailyTransaction from "@/components/UserDailyTransaction.vue";
-import UserTransactionButton from "@/components/UserTransactionButton.vue";
+import UserTransactionModal from "@/components/UserTransactionModal.vue";
 </script>
 
 <template>
@@ -13,7 +13,7 @@ import UserTransactionButton from "@/components/UserTransactionButton.vue";
       <div class="transactions">
         <UserDailyTransaction />
       </div>
-      <UserTransactionButton />
+      <UserTransactionModal />
     </div>
   </main>
 </template>

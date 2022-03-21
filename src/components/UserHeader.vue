@@ -33,7 +33,7 @@ const logout = () => {
       <button @click.prevent="logout()" class="logout"><LogOut /></button>
     </div>
     <div class="welcome-user">
-      <p>{{ user.showCurrentMonth() }}</p>
+      <!-- <p>{{ user.showCurrentMonth(user.dates[0]) }}</p> -->
     </div>
   </div>
   <!-- <UserCalendar /> -->

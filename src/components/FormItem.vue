@@ -26,6 +26,7 @@
   height: 1rem;
   padding: 1rem;
   border: none;
+  border-radius: 0.15em;
 }
 
 .user-form button {
@@ -33,5 +34,6 @@
   background-color: var(--accent-color);
   color: var(--grey-color);
   padding: 1.5rem;
+  border-radius: 0.15em;
 }
 </style>

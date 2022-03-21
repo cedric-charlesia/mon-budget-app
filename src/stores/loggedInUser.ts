@@ -8,15 +8,15 @@ export const loggedInUserStore = defineStore({
     id: NaN,
     username: "",
     email: "",
-    categories: [{ id: NaN, tag: "", type: "", user_id: NaN }],
+    categories: [{ id: 0, tag: "", type: "", user_id: 0 }],
     dates: [""],
     transactions: [
       {
-        id: NaN,
+        id: 0,
         date: "",
         description: "",
         amount: 0,
-        category_id: NaN,
+        category_id: 0,
       },
     ],
   }),
@@ -101,16 +101,16 @@ export const loggedInUserStore = defineStore({
       }
       return totalIncomeOrExpense;
     },
-    showCurrentMonth() {
-      const now = Date.now();
-      const currentMonth = new Date(now).toLocaleDateString("fr-FR", {
-        // weekday: "short",
-        year: "numeric",
-        month: "short",
-        // day: "numeric",
-      });
-      return currentMonth;
-    },
+    // showCurrentMonth(date: string) {
+    //   // const now = Date.now();
+    //   const currentMonth = new Date(date).toLocaleDateString("fr-FR", {
+    //     // weekday: "short",
+    //     year: "numeric",
+    //     month: "long",
+    //     // day: "numeric",
+    //   });
+    //   return currentMonth;
+    // },
     showTransactionDate(date: string) {
       const transactionDate = new Date(date).toLocaleDateString("fr-FR", {
         // weekday: "short",

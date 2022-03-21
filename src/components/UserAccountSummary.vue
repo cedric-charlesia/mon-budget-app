@@ -17,7 +17,7 @@ const user = loggedInUserStore();
       </p>
     </div>
     <div>
-      <p>Total</p>
+      <p>Solde</p>
       <p class="transaction_total">
         {{
           user.getTotalIncomeOrExpense("revenu") -
@@ -36,7 +36,8 @@ const user = loggedInUserStore();
 }
 
 .income {
-  color: #2eb086;
+  /* color: #2eb086; */
+  color: #248f6d;
   font-weight: bold;
 }
 
