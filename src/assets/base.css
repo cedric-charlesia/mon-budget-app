@@ -1,12 +1,12 @@
 /* General Settinds*/
 :root {
---main-color: #F1D00A;
-    --accent-color: #21325E;
-    --grey-color: #F0F0F0;
-    --text-color: #000;
-    --text-white-color: #fff;
-    --main-title-size: 1.5rem;
-    --text-size: 1rem;
+  --main-color: #F1D00A;
+  --accent-color: #21325E;
+  --grey-color: #F0F0F0;
+  --text-color: #000;
+  --text-white-color: #fff;
+  --main-title-size: 1.5rem;
+  --text-size: 1rem;
 }
 
 html {

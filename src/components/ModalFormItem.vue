@@ -2,7 +2,7 @@
   <form class="modal-form">
     <div class="transaction-type">
       <slot name="modalRadio">
-        <input type="radio" id="" name="" />
+        <input type="radio" id="" name="" value="" required />
         <label for="" name=""></label>
       </slot>
     </div>
@@ -13,18 +13,19 @@
     </slot>
     <div class="add-category">
       <slot name="inputCategory">
+        <label for="" name="" class="add-category-label"></label>
         <input type="text" />
-      </slot>
-      <slot name="addCategoryButton">
-        <button></button>
       </slot>
     </div>
     <slot name="transactionDate">
       <label for="" name="" class="date-label"></label>
-      <input type="date" id="" value="" />
+      <input type="date" id="" value="" required />
+    </slot>
+    <slot name="inputDescription">
+      <input type="text" required />
     </slot>
     <slot name="inputAmount">
-      <input type="number" />
+      <input type="number" required />
     </slot>
     <div class="transaction-validation">
       <slot name="cancelTransactionButton">
@@ -45,6 +46,7 @@
   padding: 1rem;
 }
 
+.add-category-label,
 .date-label {
   text-align: left;
 }
@@ -94,7 +96,7 @@
 .modal-form input[type="date"],
 .modal-form input[type="number"] {
   height: 1rem;
-  padding: 1rem;
+  padding: 0.75rem;
   border: none;
   background-color: var(--grey-color);
   border-radius: 0.15em;
@@ -104,11 +106,6 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-.modal-form .add-category button {
-  width: 50%;
-  margin: auto;
 }
 
 .modal-form .transaction-validation {
@@ -121,7 +118,7 @@
   border: none;
   background-color: var(--accent-color);
   color: var(--grey-color);
-  padding: 1rem;
+  padding: 0.75rem;
   border-radius: 0.15em;
 }
 </style>

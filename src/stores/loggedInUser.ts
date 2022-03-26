@@ -49,39 +49,105 @@ export const loggedInUserStore = defineStore({
                 .catch((error) => {
                   console.error(error);
                 });
-
-              const userToken = localStorage.getItem("token");
-
-              UserService.getUserCategories(userId, userToken).then(
-                (response) => {
-                  if (response.data === []) return this.categories;
-                  this.categories = response.data;
-                }
-              );
-
-              UserService.getUserTransactions(userId, userToken).then(
-                (response) => {
-                  if (response.data === []) return this.transactions;
-
-                  const dates: string[] = [];
-
-                  for (const transaction of response.data) {
-                    dates.push(transaction.date);
-                  }
-                  const filteredDates = dates.filter(
-                    (date, index) => dates.indexOf(date) === index
-                  );
-                  // console.log("Transactions dates are:", dates);
-                  // console.log("Filtered dates are:", filteredDates);
-                  this.dates = filteredDates;
-                  this.transactions = response.data;
-                }
-              );
+              this.getUserCategories();
+              this.getUserTransactions();
             }
           })
           .catch((error) => {
             console.error(error);
           });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getUserCategories() {
+      const userToken = localStorage.getItem("token");
+
+      try {
+        await UserService.getUserCategories(this.id, userToken).then(
+          (response) => {
+            if (response.data === []) return this.categories;
+            this.categories = response.data;
+          }
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getUserTransactions() {
+      const userToken = localStorage.getItem("token");
+
+      try {
+        await UserService.getUserTransactions(this.id, userToken).then(
+          (response) => {
+            if (response.data === []) return this.transactions;
+
+            const dates: string[] = [];
+
+            for (const transaction of response.data) {
+              dates.push(transaction.date);
+            }
+            const filteredDates = dates.filter(
+              (date, index) => dates.indexOf(date) === index
+            );
+            // console.log("Transactions dates are:", dates);
+            // console.log("Filtered dates are:", filteredDates);
+            this.dates = filteredDates;
+            this.transactions = response.data;
+          }
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async addTransaction(category: any, transaction: any) {
+      const userToken = localStorage.getItem("token");
+
+      try {
+        if (category.tag !== "") {
+          await UserService.addCategories(this.id, userToken, category)
+            .then((response) => {
+              console.log(response.data);
+              // this.categories = response.data;
+
+              const catId = response.data.id;
+
+              transaction.amount = parseInt(transaction.amount, 10);
+              transaction.category_id = catId;
+
+              UserService.addTransaction(transaction, this.id, catId, userToken)
+                .then((response) => {
+                  console.log(response.data);
+                  this.getUserCategories();
+                  this.getUserTransactions();
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else if (category.tag === "") {
+          transaction.amount = parseInt(transaction.amount, 10);
+          transaction.category_id = parseInt(transaction.category_id, 10);
+
+          await UserService.addTransaction(
+            transaction,
+            this.id,
+            transaction.category_id,
+            userToken
+          )
+            .then((response) => {
+              console.log(response.data);
+              this.getUserCategories();
+              this.getUserTransactions();
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
       } catch (error) {
         console.error(error);
       }

@@ -24,9 +24,28 @@ export default {
       headers: { authorization: `${userToken}` },
     });
   },
+  addCategories(id: number, userToken: unknown, category: object) {
+    return apiClient.post(`/user/${id}/categories`, category, {
+      headers: { authorization: `${userToken}` },
+    });
+  },
   getUserTransactions(id: number, userToken: unknown) {
     return apiClient.get(`/user/${id}/transactions`, {
       headers: { authorization: `${userToken}` },
     });
+  },
+  addTransaction(
+    formdata: object,
+    id: number,
+    catId: number,
+    userToken: unknown
+  ) {
+    return apiClient.post(
+      `/user/${id}/categories/${catId}/transactions`,
+      formdata,
+      {
+        headers: { authorization: `${userToken}` },
+      }
+    );
   },
 };

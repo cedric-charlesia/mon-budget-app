@@ -1,7 +1,74 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import ModalFormItem from "./ModalFormItem.vue";
+import { loggedInUserStore } from "@/stores/loggedInUser";
+
+const user = loggedInUserStore();
+
 const showModal = ref(false);
+
+const type = ref("");
+const category_id = ref("");
+const tag = ref("");
+const date = ref("");
+const description = ref("");
+const amount = ref("");
+
+const addTransaction = async () => {
+  const formDataCategory = new FormData();
+  const formDataTransaction = new FormData();
+
+  formDataCategory.append("type", type.value);
+  formDataCategory.append("tag", tag.value);
+
+  formDataTransaction.append("category_id", category_id.value);
+  formDataTransaction.append("date", date.value);
+  formDataTransaction.append("description", description.value);
+  formDataTransaction.append("amount", amount.value);
+
+  try {
+    interface Category {
+      type: string;
+      tag: string;
+      user_id: number;
+      [key: string]: unknown;
+    }
+
+    let category: Category = {
+      type: "",
+      tag: "",
+      user_id: user.id,
+    };
+
+    for (let [key, val] of formDataCategory.entries()) {
+      category[`${key}`] = `${val}`;
+      JSON.stringify(category);
+    }
+
+    interface Transaction {
+      category_id: number;
+      date: string;
+      description: string;
+      amount: number;
+      [key: string]: unknown;
+    }
+
+    let transaction: Transaction = {
+      category_id: NaN,
+      date: "",
+      description: "",
+      amount: NaN,
+    };
+
+    for (let [key, val] of formDataTransaction.entries()) {
+      transaction[`${key}`] = `${val}`;
+      JSON.stringify(transaction);
+    }
+    return { user: user.addTransaction(category, transaction) };
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>
 
 <template>
@@ -13,28 +80,60 @@ const showModal = ref(false);
       <ModalFormItem>
         <template #modalRadio>
           <div>
-            <input type="radio" id="income" name="transation-type" />
+            <input
+              v-model.lazy="type"
+              type="radio"
+              id="income"
+              name="transation-type"
+              value="revenu"
+              required
+              checked
+            />
             <label for="income" name="income">Revenu</label>
           </div>
           <div>
-            <input type="radio" id="expense" name="transation-type" />
+            <input
+              v-model.lazy="type"
+              type="radio"
+              id="expense"
+              name="transation-type"
+              value="dépense"
+            />
             <label for="expense" name="expense">Dépense</label>
           </div>
         </template>
 
         <template #categorySelection>
-          <select name="category" id="transaction-category">
+          <select
+            v-model.lazy="category_id"
+            name="category"
+            :disabled="tag !== ''"
+            id="transaction-category"
+          >
             <option value="">--- Choisir une categorie ---</option>
-            <option value=""></option>
+            <option
+              v-for="category of user.categories"
+              :key="category.id"
+              :value="category.id"
+            >
+              {{ category.tag }}
+            </option>
           </select>
         </template>
 
         <template #inputCategory>
-          <input type="text" placeholder="Ajouter une nouvelle catégorie" />
-        </template>
-
-        <template #addCategoryButton>
-          <button>Ajouter</button>
+          <label
+            class="add-category-label"
+            for="add-category-"
+            name="add-category"
+            >Si la catégorie n'existe pas, créez-là :</label
+          >
+          <input
+            v-model.lazy="tag"
+            type="text"
+            :disabled="category_id !== ''"
+            placeholder="Ajouter une nouvelle catégorie"
+          />
         </template>
 
         <template #transactionDate>
@@ -44,19 +143,38 @@ const showModal = ref(false);
             name="transaction-date"
             >Choisir une date :</label
           >
-          <input type="date" id="transaction-date" value="" />
+          <input
+            v-model.lazy="date"
+            type="date"
+            id="transaction-date"
+            required
+          />
+        </template>
+
+        <template #inputDescription>
+          <input
+            v-model.lazy="description"
+            type="text"
+            placeholder="Ajouter une description..."
+            required
+          />
         </template>
 
         <template #inputAmount>
-          <input type="number" placeholder="Indiquer le montant..." />
+          <input
+            v-model.lazy="amount"
+            type="number"
+            placeholder="Indiquer le montant..."
+            required
+          />
         </template>
 
         <template #cancelTransactionButton>
-          <button @click="showModal = !showModal">Annuler</button>
+          <button @click.prevent="showModal = !showModal">Fermer</button>
         </template>
 
         <template #addTransactionButton>
-          <button>Valider</button>
+          <button @click.prevent="addTransaction()">Valider</button>
         </template>
       </ModalFormItem>
     </div>
