@@ -10,6 +10,7 @@ export const loggedInUserStore = defineStore({
     email: "",
     categories: [{ id: 0, tag: "", type: "", user_id: 0 }],
     dates: [""],
+    currentMonth: "",
     transactions: [
       {
         id: 0,
@@ -109,7 +110,6 @@ export const loggedInUserStore = defineStore({
           await UserService.addCategories(this.id, userToken, category)
             .then((response) => {
               console.log(response.data);
-              // this.categories = response.data;
 
               const catId = response.data.id;
 

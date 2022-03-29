@@ -1,19 +1,29 @@
 <script setup lang="ts">
 import { loggedInUserStore } from "@/stores/loggedInUser";
+// import DeleteItem from "@/components/images/DeleteItem.vue";
 
 const user = loggedInUserStore();
 </script>
 
 <template>
   <div class="daily_transaction" v-for="date of user.dates" :key="date">
-    <div class="daily_transaction_header">
+    <div
+      class="daily_transaction_header"
+      v-if="date.includes(user.currentMonth)"
+    >
       <p>{{ user.showTransactionDate(date) }}</p>
       <!-- <p>20 €</p>
       <p>2200 €</p> -->
     </div>
 
     <div v-for="transaction of user.transactions" :key="transaction.id">
-      <div class="daily_transaction_content" v-if="transaction.date === date">
+      <div
+        class="daily_transaction_content"
+        v-if="
+          transaction.date === date &&
+          transaction.date.includes(user.currentMonth)
+        "
+      >
         <p class="transaction_icon">
           {{ transaction.description.charAt(0).toUpperCase() }}
         </p>
@@ -23,6 +33,7 @@ const user = loggedInUserStore();
           </p>
           <div class="daily_transaction_total">
             <p>{{ transaction.amount }} &euro;</p>
+            <!-- <button @click.prevent=""><DeleteItem /></button> -->
             <input type="checkbox" />
           </div>
         </div>
@@ -52,12 +63,44 @@ const user = loggedInUserStore();
 
 .daily_transaction_total {
   align-items: center;
-  gap: 0.7rem;
+  width: 40%;
+}
+
+.daily_transaction_total button {
+  background-color: transparent;
+  border: none;
+  width: 25%;
+  height: auto;
+}
+
+.daily_transaction_total p {
+  margin-left: 0.5rem;
 }
 
 .daily_transaction_total input[type="checkbox"] {
   transform: scale(1.5);
-  margin-right: 0.5rem;
+  appearance: none;
+  width: 0.81rem;
+  height: 0.81rem;
+  color: var(--accent-color);
+  border: 0.15rem solid currentColor;
+  border-radius: 0.1rem;
+  display: inline-grid;
+  place-content: center;
+}
+
+.daily_transaction_total input[type="checkbox"]::before {
+  content: "";
+  width: 0.41rem;
+  height: 0.41rem;
+  border-radius: 0.1rem;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  background-color: var(--accent-color);
+}
+
+.daily_transaction_total input[type="checkbox"]:checked::before {
+  transform: scale(1);
 }
 
 .transaction_details {
@@ -72,6 +115,6 @@ const user = loggedInUserStore();
   padding: 0.5rem 0.6rem;
   margin: auto;
   border-radius: 50%;
-  border: 2px solid var(--grey-color);
+  border: 0.15rem solid var(--grey-color);
 }
 </style>

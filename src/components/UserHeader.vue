@@ -5,12 +5,32 @@ import router from "@/router";
 import LogOut from "@/components/images/LogOut.vue";
 // import UserCalendar from "@/components/UserCalendar.vue";
 import UserAccountSummary from "@/components/UserAccountSummary.vue";
+import { ref } from "vue";
 
 defineProps<{
   mainTitle: string;
 }>();
 
 const user = loggedInUserStore();
+
+let getCurrentMonth = "";
+
+const now = Date.now();
+if (new Date(now).getMonth() + 1 < 10) {
+  getCurrentMonth = `${new Date(now).getFullYear()}-0${
+    new Date(now).getMonth() + 1
+  }`;
+} else {
+  getCurrentMonth = `${new Date(now).getFullYear()}-${
+    new Date(now).getMonth() + 1
+  }`;
+}
+
+let month = ref(getCurrentMonth);
+
+const refreshTransactions = () => {
+  user.currentMonth = month.value;
+};
 
 const logout = () => {
   user.$reset;
@@ -34,6 +54,13 @@ const logout = () => {
     </div>
     <div class="welcome-user">
       <!-- <p>{{ user.showCurrentMonth(user.dates[0]) }}</p> -->
+      <input
+        v-model.lazy="month"
+        type="month"
+        id="currentMonth"
+        name="currentMonth"
+        @change="refreshTransactions()"
+      />
     </div>
   </div>
   <!-- <UserCalendar /> -->
@@ -52,7 +79,7 @@ const logout = () => {
 }
 
 .logout {
-  width: 8%;
+  width: 10%;
   background-color: transparent;
   border: none;
 }
@@ -68,5 +95,13 @@ const logout = () => {
 
 .welcome-user p {
   margin: 0;
+}
+
+input[type="month"] {
+  appearance: none;
+  color: var(--accent-color);
+  border: 0.15rem solid var(--accent-color);
+  border-radius: 0.15rem;
+  background-color: transparent;
 }
 </style>

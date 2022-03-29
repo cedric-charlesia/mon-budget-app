@@ -61,7 +61,7 @@
   width: 1.75rem;
   height: 1.75rem;
   color: var(--accent-color);
-  border: 0.15em solid currentColor;
+  border: 0.15rem solid currentColor;
   border-radius: 50%;
   display: inline-grid;
   place-content: center;
