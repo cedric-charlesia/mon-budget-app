@@ -6,6 +6,7 @@
 
     <slot name="inputPassword">
       <input type="password" />
+      <input type="password" />
     </slot>
 
     <slot name="formButton">

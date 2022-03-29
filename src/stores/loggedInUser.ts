@@ -23,6 +23,27 @@ export const loggedInUserStore = defineStore({
   }),
   getters: {},
   actions: {
+    async registerUser(newUser: object) {
+      try {
+        await UserService.register(newUser)
+          .then((response) => {
+            this.id = parseInt(response.data.id, 10);
+            this.username = response.data.username;
+            this.email = response.data.email;
+
+            console.log("New user is:", response.data);
+            router.push({
+              name: "login",
+              // params: response.data,
+            });
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async loginUser(user: object) {
       try {
         await UserService.login(user)
