@@ -13,6 +13,5 @@ import Footer from "@/components/Footer.vue";
 
   <RouterView />
 
-  <!-- <Footer legalMentions="Mentions Légales" copyright="Cédric CHARLESIA ©2022" /> -->
-  <Footer copyright="Cédric CHARLESIA ©2022" />
+  <Footer legalMentions="Mon Budget" copyright="Cédric CHARLESIA ©2022" />
 </template>

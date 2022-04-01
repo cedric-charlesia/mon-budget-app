@@ -1,13 +1,13 @@
 <script setup lang="ts">
 defineProps<{
-  // legalMentions: string;
+  legalMentions: string;
   copyright: string;
 }>();
 </script>
 
 <template>
   <div class="footer">
-    <!-- <p>{{ legalMentions }}</p> -->
+    <p>{{ legalMentions }}</p>
     <p>{{ copyright }}</p>
   </div>
 </template>
@@ -15,7 +15,6 @@ defineProps<{
 <style scoped>
 .footer {
   position: absolute;
-  left: 25%;
   bottom: 0;
   display: flex;
   justify-content: space-around;

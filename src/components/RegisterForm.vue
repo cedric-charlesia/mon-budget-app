@@ -1,20 +1,79 @@
 <script setup lang="ts">
 import FormItem from "./FormItem.vue";
-import { ref } from "vue";
 import { loggedInUserStore } from "@/stores/loggedInUser";
 
-const username = ref("");
-const email = ref("");
-const password = ref("");
-const confirmPassword = ref("");
+import useValidate from "@vuelidate/core";
+import {
+  required,
+  email,
+  minLength,
+  sameAs,
+  helpers,
+} from "@vuelidate/validators";
+import { reactive, computed } from "vue";
+
+const state = reactive({
+  username: "",
+  email: "",
+  password: {
+    password: "",
+    confirmPassword: "",
+  },
+});
+
+const rules = computed(() => {
+  return {
+    username: {
+      required: helpers.withMessage("Veuillez entrer votre prénom", required),
+    },
+    email: {
+      required: helpers.withMessage(
+        "Veuillez entrer votre adresse email",
+        required
+      ),
+      email: helpers.withMessage(
+        "L'adresse email saisie n'est pas valide",
+        email
+      ),
+    },
+    password: {
+      password: {
+        required: helpers.withMessage(
+          "Veuillez entrer un mot de passe",
+          required
+        ),
+        minLength: helpers.withMessage(
+          "Le mot de passe doit avoir un minimum de 8 caractères",
+          minLength(8)
+        ),
+      },
+      confirmPassword: {
+        required: helpers.withMessage(
+          "Veuillez confirmer votre mot de passe",
+          required
+        ),
+        sameAs: helpers.withMessage(
+          "Les mots de passe ne sont pas identiques",
+          sameAs(state.password.password)
+        ),
+      },
+    },
+  };
+});
+
+const v$ = useValidate(rules, state);
 
 const register = async () => {
+  v$.value.$validate();
+
+  if (v$.value.$error) return;
+
   const formData = new FormData();
 
-  formData.append("username", username.value);
-  formData.append("email", email.value);
-  if (password.value === confirmPassword.value) {
-    formData.append("password", password.value);
+  formData.append("username", state.username);
+  formData.append("email", state.email);
+  if (state.password.password === state.password.confirmPassword) {
+    formData.append("password", state.password.password);
   }
 
   try {
@@ -46,20 +105,30 @@ const register = async () => {
 <template>
   <FormItem>
     <template #inputText>
-      <input v-model.lazy="username" type="text" placeholder="Prénom" />
-      <input v-model.lazy="email" type="text" placeholder="Email" />
+      <input v-model.lazy="state.username" type="text" placeholder="Prénom" />
+      <span v-if="v$.username.$error">{{
+        v$.username.$errors[0].$message
+      }}</span>
+      <input v-model.lazy="state.email" type="text" placeholder="Email" />
+      <span v-if="v$.email.$error">{{ v$.email.$errors[0].$message }}</span>
     </template>
     <template #inputPassword>
       <input
-        v-model.lazy="password"
+        v-model.lazy="state.password.password"
         type="password"
         placeholder="Mot de passe"
       />
+      <span v-if="v$.password.password.$error">{{
+        v$.password.password.$errors[0].$message
+      }}</span>
       <input
-        v-model.lazy="confirmPassword"
+        v-model.lazy="state.password.confirmPassword"
         type="password"
         placeholder="Confirmer le mot de passe"
       />
+      <span v-if="v$.password.confirmPassword.$error">{{
+        v$.password.confirmPassword.$errors[0].$message
+      }}</span>
     </template>
     <template #formButton>
       <button @click.prevent="register()">S'inscrire</button>
