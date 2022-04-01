@@ -14,8 +14,14 @@ const state = reactive({
 const rules = computed(() => {
   return {
     email: {
-      required: helpers.withMessage("Veuillez entrer votre prénom", required),
-      email: helpers.withMessage("L'email saisi n'est pas valide", email),
+      required: helpers.withMessage(
+        "Veuillez entrer votre adresse email",
+        required
+      ),
+      email: helpers.withMessage(
+        "L'adresse email saisie n'est pas valide",
+        email
+      ),
     },
     password: {
       required: helpers.withMessage(
