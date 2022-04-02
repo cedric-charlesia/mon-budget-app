@@ -3,7 +3,6 @@ import { loggedInUserStore } from "@/stores/loggedInUser";
 import { RouterLink } from "vue-router";
 import router from "@/router";
 import LogOut from "@/components/images/LogOut.vue";
-// import UserCalendar from "@/components/UserCalendar.vue";
 import UserAccountSummary from "@/components/UserAccountSummary.vue";
 import { ref } from "vue";
 
@@ -53,7 +52,6 @@ const logout = () => {
       <button @click.prevent="logout()" class="logout"><LogOut /></button>
     </div>
     <div class="welcome-user">
-      <!-- <p>{{ user.showCurrentMonth(user.dates[0]) }}</p> -->
       <input
         v-model.lazy="month"
         type="month"
@@ -63,7 +61,6 @@ const logout = () => {
       />
     </div>
   </div>
-  <!-- <UserCalendar /> -->
   <UserAccountSummary />
 </template>
 

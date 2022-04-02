@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// import UserCalendar from "@/components/UserCalendar.vue";
-// import UserAccountSummary from "@/components/UserAccountSummary.vue";
 import UserDailyTransaction from "@/components/UserDailyTransaction.vue";
 import UserTransactionModal from "@/components/UserTransactionModal.vue";
 </script>
@@ -8,8 +6,6 @@ import UserTransactionModal from "@/components/UserTransactionModal.vue";
 <template>
   <main>
     <div class="main_content">
-      <!-- <UserCalendar /> -->
-      <!-- <UserAccountSummary /> -->
       <div class="transactions">
         <UserDailyTransaction />
       </div>

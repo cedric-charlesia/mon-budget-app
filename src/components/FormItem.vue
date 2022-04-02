@@ -28,12 +28,13 @@
   padding: 1rem;
   border: none;
   border-radius: 0.15em;
+  background-color: var(--grey-color);
 }
 
 .user-form button {
   border: none;
-  background-color: var(--accent-color);
-  color: var(--grey-color);
+  background-color: var(--main-color);
+  color: var(--accent-color);
   padding: 1.5rem;
   border-radius: 0.15em;
 }

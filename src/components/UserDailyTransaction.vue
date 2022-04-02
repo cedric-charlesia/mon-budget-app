@@ -54,7 +54,7 @@ const user = loggedInUserStore();
 .daily_transaction_content {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
-  border-bottom: 2px solid var(--grey-color);
+  border-bottom: 2px solid var(--main-color);
 }
 
 .daily_transaction_total {
@@ -78,7 +78,7 @@ const user = loggedInUserStore();
   appearance: none;
   width: 0.81rem;
   height: 0.81rem;
-  color: var(--accent-color);
+  color: var(--main-color);
   border: 0.15rem solid currentColor;
   border-radius: 0.1rem;
   display: inline-grid;
@@ -92,13 +92,12 @@ const user = loggedInUserStore();
   border-radius: 0.1rem;
   transform: scale(0);
   transition: 120ms transform ease-in-out;
-  background-color: var(--accent-color);
+  background-color: var(--main-color);
 }
 
 .daily_transaction_total input[type="checkbox"]:checked::before {
   transform: scale(1);
 }
-
 .transaction_details {
   display: flex;
   justify-content: space-between;
@@ -111,6 +110,6 @@ const user = loggedInUserStore();
   padding: 0.5rem 0.6rem;
   margin: auto;
   border-radius: 50%;
-  border: 0.15rem solid var(--grey-color);
+  border: 0.15rem solid var(--main-color);
 }
 </style>

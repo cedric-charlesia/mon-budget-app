@@ -183,7 +183,6 @@ const addTransaction = async () => {
 
 <style scoped>
 .transaction_button {
-  /* height: 25%; */
   align-self: center;
 }
 
@@ -192,8 +191,8 @@ const addTransaction = async () => {
   padding: 1rem;
   margin-top: 0.7rem;
   border: none;
-  background-color: var(--accent-color);
-  color: var(--text-white-color);
+  background-color: var(--main-color);
+  color: var(--accent-color);
   border-radius: 0.15em;
 }
 .modal {
@@ -204,6 +203,6 @@ const addTransaction = async () => {
   width: 80%;
   height: auto;
   text-align: center;
-  background-color: var(--text-white-color);
+  background-color: var(--main-color);
 }
 </style>
