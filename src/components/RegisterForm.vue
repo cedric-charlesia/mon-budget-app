@@ -12,6 +12,8 @@ import {
 } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
 
+const userStore = loggedInUserStore();
+
 const state = reactive({
   username: "",
   email: "",
@@ -94,7 +96,7 @@ const register = async () => {
       newUser[`${key}`] = `${val}`;
       JSON.stringify(newUser);
     }
-    const userStore = loggedInUserStore();
+
     return { login: userStore.registerUser(newUser) };
   } catch (error) {
     console.error(error);
@@ -111,6 +113,9 @@ const register = async () => {
       }}</span>
       <input v-model.lazy="state.email" type="text" placeholder="Email" />
       <span v-if="v$.email.$error">{{ v$.email.$errors[0].$message }}</span>
+      <span v-if="userStore.emailError"
+        >Cette adresse email est déjà utilisée</span
+      >
     </template>
     <template #inputPassword>
       <input

@@ -15,6 +15,7 @@ defineProps<{
 <style scoped>
 .footer {
   position: absolute;
+  left: 25%;
   bottom: 0;
   display: flex;
   justify-content: space-around;

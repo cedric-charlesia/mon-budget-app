@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { loggedInUserStore } from "@/stores/loggedInUser";
-// import DeleteItem from "@/components/images/DeleteItem.vue";
 
 const user = loggedInUserStore();
 </script>
@@ -12,8 +11,6 @@ const user = loggedInUserStore();
       v-if="date.includes(user.currentMonth)"
     >
       <p>{{ user.showTransactionDate(date) }}</p>
-      <!-- <p>20 €</p>
-      <p>2200 €</p> -->
     </div>
 
     <div v-for="transaction of user.transactions" :key="transaction.id">
@@ -33,7 +30,6 @@ const user = loggedInUserStore();
           </p>
           <div class="daily_transaction_total">
             <p>{{ transaction.amount }} &euro;</p>
-            <!-- <button @click.prevent=""><DeleteItem /></button> -->
             <input type="checkbox" />
           </div>
         </div>

@@ -20,6 +20,7 @@ export const loggedInUserStore = defineStore({
         category_id: 0,
       },
     ],
+    emailError: false,
   }),
   getters: {},
   actions: {
@@ -31,14 +32,15 @@ export const loggedInUserStore = defineStore({
             this.username = response.data.username;
             this.email = response.data.email;
 
-            console.log("New user is:", response.data);
             router.push({
               name: "login",
-              // params: response.data,
             });
           })
           .catch((error) => {
-            console.error(error);
+            if (error) {
+              console.error(error);
+              this.emailError = true;
+            }
           });
       } catch (error) {
         console.error(error);
@@ -62,7 +64,6 @@ export const loggedInUserStore = defineStore({
             if (!isNaN(userId) && isFinite(userId)) {
               UserService.user(userId, token)
                 .then((response) => {
-                  console.log("User is:", response.data);
                   router.push({
                     name: "user",
                     params: response.data,
@@ -112,8 +113,6 @@ export const loggedInUserStore = defineStore({
             const filteredDates = dates.filter(
               (date, index) => dates.indexOf(date) === index
             );
-            // console.log("Transactions dates are:", dates);
-            // console.log("Filtered dates are:", filteredDates);
             this.dates = filteredDates;
             this.transactions = response.data;
           }
@@ -130,16 +129,13 @@ export const loggedInUserStore = defineStore({
         if (category.tag !== "") {
           await UserService.addCategories(this.id, userToken, category)
             .then((response) => {
-              console.log(response.data);
-
               const catId = response.data.id;
 
               transaction.amount = parseInt(transaction.amount, 10);
               transaction.category_id = catId;
 
               UserService.addTransaction(transaction, this.id, catId, userToken)
-                .then((response) => {
-                  console.log(response.data);
+                .then(() => {
                   this.getUserCategories();
                   this.getUserTransactions();
                 })
@@ -160,8 +156,7 @@ export const loggedInUserStore = defineStore({
             transaction.category_id,
             userToken
           )
-            .then((response) => {
-              console.log(response.data);
+            .then(() => {
               this.getUserCategories();
               this.getUserTransactions();
             })
@@ -180,7 +175,8 @@ export const loggedInUserStore = defineStore({
         for (const category of this.categories) {
           if (
             category.type === `${categoryType}` &&
-            category.id === transaction.category_id
+            category.id === transaction.category_id &&
+            transaction.date.includes(this.currentMonth)
           ) {
             totalIncomeOrExpense += +transaction.amount;
           }
@@ -188,16 +184,6 @@ export const loggedInUserStore = defineStore({
       }
       return totalIncomeOrExpense;
     },
-    // showCurrentMonth(date: string) {
-    //   // const now = Date.now();
-    //   const currentMonth = new Date(date).toLocaleDateString("fr-FR", {
-    //     // weekday: "short",
-    //     year: "numeric",
-    //     month: "long",
-    //     // day: "numeric",
-    //   });
-    //   return currentMonth;
-    // },
     showTransactionDate(date: string) {
       const transactionDate = new Date(date).toLocaleDateString("fr-FR", {
         // weekday: "short",
