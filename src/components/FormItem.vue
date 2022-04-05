@@ -37,5 +37,6 @@
   color: var(--accent-color);
   padding: 1.5rem;
   border-radius: 0.15em;
+  cursor: pointer;
 }
 </style>

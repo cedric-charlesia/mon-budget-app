@@ -17,15 +17,47 @@ const user = loggedInUserStore();
           transaction.date.includes(user.currentMonth)
         "
         class="transaction_details"
+        :class="transaction.check === 'true' ? 'transaction-checked' : 'normal'"
       >
         <p class="transaction_icon">
           {{ transaction.description.charAt(0).toUpperCase() }}
         </p>
-        <p class="transaction_description">
+        <p
+          class="transaction_description"
+          @click="
+            user.showTransactionDetails(transaction.category_id, transaction.id)
+          "
+        >
           {{ transaction.description }}
         </p>
         <p>{{ transaction.amount }} &euro;</p>
-        <input type="checkbox" />
+        <input
+          v-if="transaction.check === 'true'"
+          checked
+          type="checkbox"
+          @click="
+            user.updateTransaction(
+              transaction.date,
+              transaction.description,
+              transaction.amount,
+              transaction.category_id,
+              transaction.id
+            )
+          "
+        />
+        <input
+          v-else
+          type="checkbox"
+          @click="
+            user.updateTransaction(
+              transaction.date,
+              transaction.description,
+              transaction.amount,
+              transaction.category_id,
+              transaction.id
+            )
+          "
+        />
       </div>
     </div>
   </div>
@@ -37,13 +69,19 @@ const user = loggedInUserStore();
   margin-bottom: 0;
 }
 
-.transaction_details {
+.transaction_details,
+.normal {
   display: grid;
   grid-template-columns: 1fr 7fr 2.5fr 1fr;
   gap: 1rem;
   align-items: center;
   border-bottom: 0.15rem solid var(--main-color);
   cursor: pointer;
+}
+
+.transaction-checked {
+  background-color: var(--grey-color);
+  text-decoration: line-through;
 }
 
 .transaction_icon {

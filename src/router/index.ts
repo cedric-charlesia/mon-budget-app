@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import RegisterView from "../views/RegisterView.vue";
 import LoginView from "../views/LoginView.vue";
 import UserView from "../views/UserView.vue";
+import TransactionView from "../views/TransactionView.vue";
 import notFoundView from "../views/notFoundView.vue";
 import { loggedInUserStore } from "@/stores/loggedInUser";
 
@@ -22,6 +23,17 @@ const router = createRouter({
       path: "/user/:id",
       name: "user",
       component: UserView,
+      beforeEnter() {
+        const user = loggedInUserStore();
+        if (!user.id) {
+          return { name: "login" };
+        }
+      },
+    },
+    {
+      path: "/user/:id/category/:catId/transaction/:transactionId",
+      name: "transaction",
+      component: TransactionView,
       beforeEnter() {
         const user = loggedInUserStore();
         if (!user.id) {

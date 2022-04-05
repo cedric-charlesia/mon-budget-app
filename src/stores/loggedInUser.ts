@@ -18,9 +18,19 @@ export const loggedInUserStore = defineStore({
         description: "",
         amount: 0,
         category_id: 0,
+        check: "",
       },
     ],
+    transaction: {
+      id: 0,
+      date: "",
+      description: "",
+      amount: 0,
+      category_id: 0,
+      check: "",
+    },
     emailError: false,
+    checked: false,
   }),
   getters: {},
   actions: {
@@ -121,6 +131,33 @@ export const loggedInUserStore = defineStore({
         console.error(error);
       }
     },
+    async showTransactionDetails(catId: number, transacId: number) {
+      const userToken = localStorage.getItem("token");
+
+      const categoryId = Number(catId);
+      const transactionId = Number(transacId);
+
+      try {
+        await UserService.getOneTransaction(
+          this.id,
+          categoryId,
+          transactionId,
+          userToken
+        ).then((response) => {
+          this.transaction = response.data;
+
+          router.push({
+            name: "transaction",
+            params: {
+              catId: response.data.category_id,
+              transactionId: response.data.id,
+            },
+          });
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async addTransaction(category: any, transaction: any) {
       const userToken = localStorage.getItem("token");
@@ -168,6 +205,83 @@ export const loggedInUserStore = defineStore({
         console.error(error);
       }
     },
+    async updateTransaction(
+      date: string,
+      description: string,
+      amount: number,
+      catId: number,
+      transacId: number
+    ) {
+      this.checked = !this.checked;
+
+      let checkTransaction;
+
+      let month;
+      let day;
+      let year;
+
+      const newDate = new Date(date);
+
+      (month = "" + (newDate.getMonth() + 1)),
+        (day = "" + newDate.getDate()),
+        (year = newDate.getFullYear());
+
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+
+      const dateTransaction = `${year}-${month}-${day}`;
+      const descriptionTransaction = description;
+      const amountTransaction = Number(amount);
+
+      if (this.checked === true) {
+        checkTransaction = "true";
+      } else {
+        checkTransaction = "false";
+      }
+
+      const categoryId = Number(catId);
+      const transactionId = Number(transacId);
+
+      interface Transaction {
+        date: string;
+        description: string;
+        amount: number;
+        category_id: number;
+        check: string;
+        [key: string]: unknown;
+      }
+
+      const transaction: Transaction = {
+        date: dateTransaction,
+        description: descriptionTransaction,
+        amount: amountTransaction,
+        category_id: categoryId,
+        check: checkTransaction,
+      };
+
+      const userToken = localStorage.getItem("token");
+
+      try {
+        console.log("transaction:", transaction);
+        await UserService.updateTransaction(
+          transaction,
+          this.id,
+          categoryId,
+          transactionId,
+          userToken
+        )
+          .then((response) => {
+            this.transaction = response.data;
+            this.getUserCategories();
+            this.getUserTransactions();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    },
     getTotalIncomeOrExpense(categoryType: string) {
       let totalIncomeOrExpense = 0;
 
@@ -182,7 +296,7 @@ export const loggedInUserStore = defineStore({
           }
         }
       }
-      return totalIncomeOrExpense;
+      return totalIncomeOrExpense.toFixed(2);
     },
     showTransactionDate(date: string) {
       const transactionDate = new Date(date).toLocaleDateString("fr-FR", {

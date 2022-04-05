@@ -6,7 +6,7 @@ import Footer from "@/components/Footer.vue";
 
 <template>
   <Header
-    v-if="$route.name !== 'user'"
+    v-if="$route.name === 'home' || $route.name === 'login'"
     mainTitle="Mon Budget"
     subTitle="L'application qui personnalise et gère mon budget en toute simplicité !"
   />

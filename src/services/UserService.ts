@@ -35,6 +35,19 @@ export default {
       headers: { authorization: `${userToken}` },
     });
   },
+  getOneTransaction(
+    id: number,
+    catId: number,
+    transactionId: number,
+    userToken: unknown
+  ) {
+    return apiClient.get(
+      `/user/${id}/categories/${catId}/transactions/${transactionId}`,
+      {
+        headers: { authorization: `${userToken}` },
+      }
+    );
+  },
   addTransaction(
     formdata: object,
     id: number,
@@ -44,6 +57,21 @@ export default {
     return apiClient.post(
       `/user/${id}/categories/${catId}/transactions`,
       formdata,
+      {
+        headers: { authorization: `${userToken}` },
+      }
+    );
+  },
+  updateTransaction(
+    transaction: object,
+    id: number,
+    catId: number,
+    transactionId: number,
+    userToken: unknown
+  ) {
+    return apiClient.patch(
+      `/user/${id}/categories/${catId}/transactions/${transactionId}`,
+      transaction,
       {
         headers: { authorization: `${userToken}` },
       }

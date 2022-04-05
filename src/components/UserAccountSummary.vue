@@ -20,8 +20,8 @@ const user = loggedInUserStore();
       <p>Solde</p>
       <p class="transaction_total">
         {{
-          user.getTotalIncomeOrExpense("revenu") -
-          user.getTotalIncomeOrExpense("dépense")
+          Number(user.getTotalIncomeOrExpense("revenu")) -
+          Number(user.getTotalIncomeOrExpense("dépense"))
         }}
         &euro;
       </p>
