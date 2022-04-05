@@ -60,7 +60,7 @@
   appearance: none;
   width: 1.75rem;
   height: 1.75rem;
-  color: var(--accent-color);
+  color: var(--main-color);
   border: 0.15rem solid currentColor;
   border-radius: 50%;
   display: inline-grid;
@@ -74,7 +74,7 @@
   border-radius: 50%;
   transform: scale(0);
   transition: 120ms transform ease-in-out;
-  background-color: var(--accent-color);
+  background-color: var(--main-color);
 }
 
 .modal-form .transaction-type input[type="radio"]:checked::before {
@@ -87,7 +87,7 @@
 
 .modal-form select {
   padding: 0.5rem;
-  background-color: var(--grey-color);
+  background-color: var(--white-color);
   border: 1px solid var(--text-white-color);
   text-align: center;
 }
@@ -98,7 +98,7 @@
   height: 1rem;
   padding: 0.75rem;
   border: none;
-  background-color: var(--grey-color);
+  background-color: var(--white-color);
   border-radius: 0.15em;
 }
 
@@ -116,8 +116,8 @@
 
 .modal-form button {
   border: none;
-  background-color: var(--accent-color);
-  color: var(--grey-color);
+  background-color: var(--main-color);
+  color: var(--accent-color);
   padding: 0.75rem;
   border-radius: 0.15em;
 }

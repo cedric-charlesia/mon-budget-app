@@ -72,9 +72,9 @@ const addTransaction = async () => {
 </script>
 
 <template>
-  <div class="transaction_button">
-    <button @click="showModal = !showModal">Ajouter un montant</button>
-  </div>
+  <button class="transaction_button" @click="showModal = !showModal">
+    Ajouter un montant
+  </button>
   <teleport to="#modals">
     <div class="modal" v-if="showModal">
       <ModalFormItem>
@@ -183,17 +183,13 @@ const addTransaction = async () => {
 
 <style scoped>
 .transaction_button {
-  align-self: center;
-}
-
-.transaction_button button {
-  cursor: pointer;
-  padding: 1rem;
-  margin-top: 0.7rem;
-  border: none;
   background-color: var(--main-color);
   color: var(--accent-color);
-  border-radius: 0.15em;
+  cursor: pointer;
+  padding: 1rem;
+  border: none;
+  align-self: center;
+  width: 50%;
 }
 .modal {
   position: absolute;
@@ -203,6 +199,6 @@ const addTransaction = async () => {
   width: 80%;
   height: auto;
   text-align: center;
-  background-color: var(--main-color);
+  background-color: var(--grey-color);
 }
 </style>

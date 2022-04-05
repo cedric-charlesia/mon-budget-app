@@ -4,7 +4,7 @@ import { RouterLink } from "vue-router";
 </script>
 
 <template>
-  <main>
+  <main class="main">
     <RegisterForm />
     <div class="login-register">
       <p>J'ai déjà un compte ?</p>
@@ -14,6 +14,10 @@ import { RouterLink } from "vue-router";
 </template>
 
 <style>
+.main {
+  display: flex;
+  flex-direction: column;
+}
 .login-register {
   display: flex;
   flex-direction: column;

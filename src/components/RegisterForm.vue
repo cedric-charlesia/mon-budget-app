@@ -108,12 +108,14 @@ const register = async () => {
   <FormItem>
     <template #inputText>
       <input v-model.lazy="state.username" type="text" placeholder="Prénom" />
-      <span v-if="v$.username.$error">{{
+      <span v-if="v$.username.$error" class="error">{{
         v$.username.$errors[0].$message
       }}</span>
       <input v-model.lazy="state.email" type="text" placeholder="Email" />
-      <span v-if="v$.email.$error">{{ v$.email.$errors[0].$message }}</span>
-      <span v-if="userStore.emailError"
+      <span v-if="v$.email.$error" class="error">{{
+        v$.email.$errors[0].$message
+      }}</span>
+      <span v-if="userStore.emailError" class="error"
         >Cette adresse email est déjà utilisée</span
       >
     </template>
@@ -123,7 +125,7 @@ const register = async () => {
         type="password"
         placeholder="Mot de passe"
       />
-      <span v-if="v$.password.password.$error">{{
+      <span v-if="v$.password.password.$error" class="error">{{
         v$.password.password.$errors[0].$message
       }}</span>
       <input
@@ -131,7 +133,7 @@ const register = async () => {
         type="password"
         placeholder="Confirmer le mot de passe"
       />
-      <span v-if="v$.password.confirmPassword.$error">{{
+      <span v-if="v$.password.confirmPassword.$error" class="error">{{
         v$.password.confirmPassword.$errors[0].$message
       }}</span>
     </template>

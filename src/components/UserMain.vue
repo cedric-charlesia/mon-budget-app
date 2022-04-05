@@ -4,27 +4,21 @@ import UserTransactionModal from "@/components/UserTransactionModal.vue";
 </script>
 
 <template>
-  <main>
+  <main class="user-main">
     <div class="main_content">
-      <div class="transactions">
-        <UserDailyTransaction />
-      </div>
-      <UserTransactionModal />
+      <UserDailyTransaction />
     </div>
+    <UserTransactionModal />
   </main>
 </template>
 
 <style scoped>
-.main_content {
+.user-main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 65vh;
 }
-
-.transactions {
+.main_content {
+  height: 90%;
   overflow-y: auto;
-  padding: 0.25rem;
-  padding-top: 0.25rem;
 }
 </style>

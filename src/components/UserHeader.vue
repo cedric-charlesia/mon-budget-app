@@ -43,15 +43,15 @@ const logout = () => {
 </script>
 
 <template>
-  <div class="account-container">
-    <div class="top-nav">
-      <h1 class="main-title user-title">
+  <header class="user-container">
+    <nav class="top-nav">
+      <h1 class="main-title">
         <RouterLink to="/">{{ mainTitle }}</RouterLink>
       </h1>
-      <p class="greetings">Bonjour, {{ user.username }} !</p>
+      <p>Bonjour, {{ user.username }} !</p>
       <button @click.prevent="logout()" class="logout"><LogOut /></button>
-    </div>
-    <div class="welcome-user">
+    </nav>
+    <p class="calendar">
       <input
         v-model.lazy="month"
         type="month"
@@ -59,46 +59,40 @@ const logout = () => {
         name="currentMonth"
         @change="refreshTransactions()"
       />
-    </div>
-  </div>
-  <UserAccountSummary />
+    </p>
+    <UserAccountSummary />
+  </header>
 </template>
 
 <style scoped>
+.user-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
 .top-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.greetings {
-  margin-bottom: 0;
+.calendar {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+input[type="month"] {
+  width: 42%;
+  appearance: none;
+  color: var(--accent-color);
+  border: 0.15rem solid var(--accent-color);
+  border-radius: 0.15rem;
+  background-color: transparent;
 }
 
 .logout {
   width: 10%;
   background-color: transparent;
   border: none;
-}
-
-.user-title {
-  margin-bottom: 0;
-}
-.welcome-user {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
-.welcome-user p {
-  margin: 0;
-}
-
-input[type="month"] {
-  appearance: none;
-  color: var(--accent-color);
-  border: 0.15rem solid var(--accent-color);
-  border-radius: 0.15rem;
-  background-color: transparent;
 }
 </style>

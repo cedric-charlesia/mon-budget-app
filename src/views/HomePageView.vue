@@ -13,5 +13,5 @@ import Footer from "@/components/Footer.vue";
 
   <RouterView />
 
-  <Footer legalMentions="Mon Budget" copyright="©2022" />
+  <Footer copyright="Mon Budget ©2022" />
 </template>

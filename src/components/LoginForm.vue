@@ -78,7 +78,9 @@ const login = async () => {
   <FormItem>
     <template #inputText>
       <input v-model.lazy="state.email" type="text" placeholder="Email" />
-      <span v-if="v$.email.$error">{{ v$.email.$errors[0].$message }}</span>
+      <span v-if="v$.email.$error" class="error">{{
+        v$.email.$errors[0].$message
+      }}</span>
     </template>
     <template #inputPassword>
       <input
@@ -86,7 +88,7 @@ const login = async () => {
         type="password"
         placeholder="Mot de passe"
       />
-      <span v-if="v$.password.$error">{{
+      <span v-if="v$.password.$error" class="error">{{
         v$.password.$errors[0].$message
       }}</span>
     </template>
@@ -95,3 +97,9 @@ const login = async () => {
     </template>
   </FormItem>
 </template>
+
+<style>
+.error {
+  color: #da1212;
+}
+</style>
