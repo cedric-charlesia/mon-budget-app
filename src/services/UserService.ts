@@ -1,7 +1,8 @@
-import axios, { type AxiosRequestConfig } from "axios";
+import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: "https://mon-budget-api.herokuapp.com/",
+  // baseURL: "http://localhost:3001",
   withCredentials: false,
   headers: {
     Accept: "application/json",
@@ -10,13 +11,83 @@ const apiClient = axios.create({
 });
 
 export default {
-  register(formdata: unknown) {
+  register(formdata: object) {
     return apiClient.post("/signup", formdata);
   },
-  login(formdata: unknown) {
+  login(formdata: object) {
     return apiClient.post("/login", formdata);
   },
-  user(id: unknown, auth: AxiosRequestConfig<unknown> | undefined) {
-    return apiClient.get(`/user/${id}`, auth);
+  user(id: number, token: object) {
+    return apiClient.get(`/user/${id}`, token);
+  },
+  getUserCategories(id: number, userToken: unknown) {
+    return apiClient.get(`/user/${id}/categories`, {
+      headers: { authorization: `${userToken}` },
+    });
+  },
+  addCategories(id: number, userToken: unknown, category: object) {
+    return apiClient.post(`/user/${id}/categories`, category, {
+      headers: { authorization: `${userToken}` },
+    });
+  },
+  getUserTransactions(id: number, userToken: unknown) {
+    return apiClient.get(`/user/${id}/transactions`, {
+      headers: { authorization: `${userToken}` },
+    });
+  },
+  getOneTransaction(
+    id: number,
+    catId: number,
+    transactionId: number,
+    userToken: unknown
+  ) {
+    return apiClient.get(
+      `/user/${id}/categories/${catId}/transactions/${transactionId}`,
+      {
+        headers: { authorization: `${userToken}` },
+      }
+    );
+  },
+  addTransaction(
+    formdata: object,
+    id: number,
+    catId: number,
+    userToken: unknown
+  ) {
+    return apiClient.post(
+      `/user/${id}/categories/${catId}/transactions`,
+      formdata,
+      {
+        headers: { authorization: `${userToken}` },
+      }
+    );
+  },
+  updateTransaction(
+    transaction: object,
+    id: number,
+    catId: number,
+    transactionId: number,
+    userToken: unknown
+  ) {
+    return apiClient.patch(
+      `/user/${id}/categories/${catId}/transactions/${transactionId}`,
+      transaction,
+      {
+        headers: { authorization: `${userToken}` },
+      }
+    );
+  },
+  deleteteTransaction(
+    id: number,
+    catId: number,
+    transactionId: number,
+    userToken: unknown
+  ) {
+    return apiClient.delete(
+      `/user/${id}/categories/${catId}/transactions/${transactionId}`,
+      {
+        headers: { authorization: `${userToken}` },
+      }
+    );
   },
 };

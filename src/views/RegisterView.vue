@@ -4,16 +4,20 @@ import { RouterLink } from "vue-router";
 </script>
 
 <template>
-  <main>
+  <main class="main">
     <RegisterForm />
     <div class="login-register">
-      <p>J'ai déjà un compte ?"</p>
+      <p>J'ai déjà un compte ?</p>
       <RouterLink to="/login">Se connecter</RouterLink>
     </div>
   </main>
 </template>
 
 <style>
+.main {
+  display: flex;
+  flex-direction: column;
+}
 .login-register {
   display: flex;
   flex-direction: column;

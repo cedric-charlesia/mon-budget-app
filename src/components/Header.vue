@@ -7,13 +7,20 @@ defineProps<{
 </script>
 
 <template>
-  <h1 class="main-title">
-    <RouterLink to="/">{{ mainTitle }}</RouterLink>
-  </h1>
-  <h2 class="subtitle">{{ subTitle }}</h2>
+  <header class="header">
+    <h1 class="main-title">
+      <RouterLink to="/">{{ mainTitle }}</RouterLink>
+    </h1>
+    <h2 class="subtitle">{{ subTitle }}</h2>
+  </header>
 </template>
 
-<style scoped>
+<style>
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
 .main-title {
   font-size: var(--main-title-size);
 }
@@ -25,7 +32,6 @@ defineProps<{
   color: var(--accent-color);
 }
 .subtitle {
-  margin-bottom: 4rem;
   text-align: center;
   font-weight: normal;
 }

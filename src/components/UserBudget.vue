@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { loggedInUserStore } from "@/stores/loggedInUser";
-
-const user = loggedInUserStore();
+import UserHeader from "@/components/UserHeader.vue";
+import UserMain from "@/components/UserMain.vue";
 </script>
 
 <template>
-  <h1>Hello!</h1>
-  <p>Hello, my name is {{ user.username }}</p>
+  <UserHeader mainTitle="Mon Budget" />
+  <UserMain />
 </template>

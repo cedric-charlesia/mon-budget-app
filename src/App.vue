@@ -1,18 +1,9 @@
 <script setup lang="ts">
-import { RouterView } from "vue-router";
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
+import HomePageView from "@/views/HomePageView.vue";
 </script>
 
 <template>
-  <Header
-    mainTitle="Mon Budget"
-    subTitle="L'application qui personnalise et gère mon budget en toute simplicité !"
-  />
-
-  <RouterView />
-
-  <Footer legalMentions="Mentions Légales" copyright="Cédric CHARLESIA ©2022" />
+  <HomePageView />
 </template>
 
 <style>
@@ -20,8 +11,14 @@ import Footer from "@/components/Footer.vue";
 @import "@/assets/base.css";
 
 #app {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 24vh 71vh 5vh;
+}
+
+@media screen and (min-width: 768px) {
+  #app {
+    width: 20vw;
+    margin: auto;
+  }
 }
 </style>
