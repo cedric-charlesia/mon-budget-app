@@ -2,11 +2,15 @@
 import TransactionModalFormItem from "./TransactionModalFormItem.vue";
 import { loggedInUserStore } from "@/stores/loggedInUser";
 
+import { useToast } from "vue-toastification";
+
 import useValidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
 
 const user = loggedInUserStore();
+
+const toast = useToast();
 
 const state = reactive({
   description: user.transaction.description,
@@ -43,6 +47,8 @@ const updateTransaction = async () => {
   if (v$.value.$error) return;
 
   try {
+    toast.success("Transaction mise à jour !");
+
     return {
       transaction: user.updateTransaction(
         state.date,
@@ -147,6 +153,6 @@ const updateTransaction = async () => {
   width: 80%;
   height: auto;
   text-align: center;
-  background-color: var(--modal-bg-color);
+  background-color: var(--grey-color);
 }
 </style>

@@ -19,7 +19,12 @@ const user = loggedInUserStore();
         class="transaction_details"
         :class="transaction.check === 'true' ? 'transaction-checked' : 'normal'"
       >
-        <p class="transaction_icon">
+        <p
+          class="transaction_icon"
+          @click="
+            user.showTransactionDetails(transaction.category_id, transaction.id)
+          "
+        >
           {{ transaction.description.charAt(0).toUpperCase() }}
         </p>
         <p
@@ -30,7 +35,13 @@ const user = loggedInUserStore();
         >
           {{ transaction.description }}
         </p>
-        <p>{{ transaction.amount }} &euro;</p>
+        <p
+          @click="
+            user.showTransactionDetails(transaction.category_id, transaction.id)
+          "
+        >
+          {{ transaction.amount }} &euro;
+        </p>
         <input
           v-if="transaction.check === 'true'"
           checked

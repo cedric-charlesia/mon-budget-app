@@ -7,6 +7,7 @@
       </slot>
     </div>
     <slot name="categorySelection">
+      <label for="" name="" class="select-category-label"></label>
       <select name="" id="">
         <option value=""></option>
       </select>
@@ -46,6 +47,7 @@
   padding: 1rem;
 }
 
+.select-category-label,
 .add-category-label,
 .date-label {
   text-align: left;

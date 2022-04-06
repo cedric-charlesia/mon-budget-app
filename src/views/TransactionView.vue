@@ -17,7 +17,7 @@ const back = () => {
   <div class="transaction-modal">
     <ul>
       <li>
-        Date :
+        <span class="transaction-list">Date :</span>
         {{
           new Date(user.transaction.date).toLocaleDateString("fr-FR", {
             year: "numeric",
@@ -26,8 +26,14 @@ const back = () => {
           })
         }}
       </li>
-      <li>Description : {{ user.transaction.description }}</li>
-      <li>Montant : {{ user.transaction.amount }} &euro;</li>
+      <li>
+        <span class="transaction-list">Description :</span>
+        {{ user.transaction.description }}
+      </li>
+      <li>
+        <span class="transaction-list">Montant :</span>
+        {{ user.transaction.amount }} &euro;
+      </li>
     </ul>
 
     <div class="transaction-btn">
@@ -57,10 +63,10 @@ const back = () => {
 <style>
 .transaction-modal ul {
   padding: 0;
+  border: 0.15rem solid #000;
 }
 .transaction-modal li {
   padding: 0.5rem;
-  border: 0.15rem solid #000;
   list-style: none;
   text-transform: capitalize;
 }
@@ -69,6 +75,10 @@ const back = () => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.transaction-list {
+  font-weight: bold;
 }
 
 .btn {

@@ -2,14 +2,19 @@
 import DeleteTransactionModalFormItem from "./DeleteTransactionModalFormItem.vue";
 import { ref } from "vue";
 import { loggedInUserStore } from "@/stores/loggedInUser";
+import { useToast } from "vue-toastification";
 
 const user = loggedInUserStore();
+
+const toast = useToast();
 
 const categoryId = ref(user.transaction.category_id);
 const transactionId = ref(user.transaction.id);
 
 const deleteTransaction = async () => {
   try {
+    toast.error("Transaction supprimée !");
+
     return {
       user: user.deleteTransaction(categoryId.value, transactionId.value),
     };
@@ -49,6 +54,6 @@ const deleteTransaction = async () => {
   width: 80%;
   height: auto;
   text-align: center;
-  background-color: var(--modal-bg-color);
+  background-color: var(--grey-color);
 }
 </style>

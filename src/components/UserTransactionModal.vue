@@ -2,11 +2,15 @@
 import ModalFormItem from "./ModalFormItem.vue";
 import { loggedInUserStore } from "@/stores/loggedInUser";
 
+import { useToast } from "vue-toastification";
+
 import useValidate from "@vuelidate/core";
-import { required, helpers } from "@vuelidate/validators";
+import { required, requiredUnless, helpers } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
 
 const user = loggedInUserStore();
+
+const toast = useToast();
 
 const state = reactive({
   type: "",
@@ -17,15 +21,21 @@ const state = reactive({
   amount: "",
 });
 
+const optionalInputTag = () => state.tag != "";
+const optionalInputCategory = () => state.category_id != "";
+
 const rules = computed(() => {
   return {
     category_id: {
-      required: helpers.withMessage("Veuillez choisir une catégorie", required),
+      requiredUnless: helpers.withMessage(
+        "Veuillez choisir une catégorie",
+        requiredUnless(optionalInputTag)
+      ),
     },
     tag: {
-      required: helpers.withMessage(
+      requiredUnless: helpers.withMessage(
         "Veuillez indiquer une catégorie",
-        required
+        requiredUnless(optionalInputCategory)
       ),
     },
     date: {
@@ -101,6 +111,9 @@ const addTransaction = async () => {
       transaction[`${key}`] = `${val}`;
       JSON.stringify(transaction);
     }
+
+    toast.success("Transaction ajoutée !");
+
     return { user: user.addTransaction(category, transaction) };
   } catch (error) {
     console.error(error);
@@ -141,6 +154,12 @@ const addTransaction = async () => {
         </template>
 
         <template #categorySelection>
+          <label
+            class="select-category-label"
+            for="select-category"
+            name="select-category"
+            >Créez vos catégories et retrouvez-les ci-dessous :</label
+          >
           <select
             v-model.lazy="state.category_id"
             name="category"
@@ -167,7 +186,7 @@ const addTransaction = async () => {
         <template #inputCategory>
           <label
             class="add-category-label"
-            for="add-category-"
+            for="add-category"
             name="add-category"
             >Si la catégorie n'existe pas, créez-là :</label
           >

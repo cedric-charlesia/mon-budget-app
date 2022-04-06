@@ -170,15 +170,17 @@ export const loggedInUserStore = defineStore({
         if (category.tag !== "") {
           await UserService.addCategories(this.id, userToken, category)
             .then((response) => {
-              const catId = response.data.id;
+              const catId = Number(response.data.id);
 
-              transaction.amount = parseInt(transaction.amount, 10);
+              transaction.amount = Number(transaction.amount);
               transaction.category_id = catId;
 
               UserService.addTransaction(transaction, this.id, catId, userToken)
                 .then(() => {
                   this.getUserCategories();
                   this.getUserTransactions();
+
+                  this.showModal = false;
                 })
                 .catch((error) => {
                   console.error(error);

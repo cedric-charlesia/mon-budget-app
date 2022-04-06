@@ -2,6 +2,8 @@
 import FormItem from "./FormItem.vue";
 import { loggedInUserStore } from "@/stores/loggedInUser";
 
+import { useToast } from "vue-toastification";
+
 import useValidate from "@vuelidate/core";
 import {
   required,
@@ -13,6 +15,8 @@ import {
 import { reactive, computed } from "vue";
 
 const userStore = loggedInUserStore();
+
+const toast = useToast();
 
 const state = reactive({
   username: "",
@@ -96,6 +100,8 @@ const register = async () => {
       newUser[`${key}`] = `${val}`;
       JSON.stringify(newUser);
     }
+
+    toast.success("Compté créé, vous pouvez vous connecter !");
 
     return { login: userStore.registerUser(newUser) };
   } catch (error) {

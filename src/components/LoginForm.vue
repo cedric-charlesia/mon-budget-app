@@ -2,11 +2,15 @@
 import FormItem from "./FormItem.vue";
 import { loggedInUserStore } from "@/stores/loggedInUser";
 
+import { useToast } from "vue-toastification";
+
 import useValidate from "@vuelidate/core";
 import { required, email, minLength, helpers } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
 
 const userStore = loggedInUserStore();
+
+const toast = useToast();
 
 const state = reactive({
   email: "",
@@ -66,6 +70,8 @@ const login = async () => {
       user[`${key}`] = `${val}`;
       JSON.stringify(user);
     }
+
+    toast.success("Connecté !");
 
     return { login: userStore.loginUser(user) };
   } catch (error) {
