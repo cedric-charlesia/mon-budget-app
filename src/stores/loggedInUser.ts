@@ -33,6 +33,8 @@ export const loggedInUserStore = defineStore({
     checked: false,
     showModal: false,
     showUpdateModal: false,
+    showDeleteModal: false,
+    goToTransactionPage: "",
   }),
   getters: {},
   actions: {
@@ -218,6 +220,8 @@ export const loggedInUserStore = defineStore({
     ) {
       this.checked = !this.checked;
 
+      this.goToTransactionPage = "false";
+
       this.updateTransaction(date, description, amount, catId, transacId);
     },
     async updateTransaction(
@@ -275,7 +279,6 @@ export const loggedInUserStore = defineStore({
       const userToken = localStorage.getItem("token");
 
       try {
-        console.log("transaction:", transaction);
         await UserService.updateTransaction(
           transaction,
           this.id,
@@ -290,17 +293,41 @@ export const loggedInUserStore = defineStore({
 
             this.showUpdateModal = false;
 
-            router.push({
-              name: "transaction",
-              params: {
-                catId: response.data.category_id,
-                transactionId: response.data.id,
-              },
-            });
+            if (this.goToTransactionPage !== "false") {
+              router.push({
+                name: "transaction",
+                params: {
+                  catId: response.data.category_id,
+                  transactionId: response.data.id,
+                },
+              });
+            }
           })
           .catch((error) => {
             console.error(error);
           });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async deleteTransaction(catId: number, transacId: number) {
+      const categoryId = Number(catId);
+      const transactionId = Number(transacId);
+      const userToken = localStorage.getItem("token");
+
+      try {
+        await UserService.deleteteTransaction(
+          this.id,
+          categoryId,
+          transactionId,
+          userToken
+        ).then(() => {
+          this.getUserCategories();
+          this.getUserTransactions();
+          router.push({
+            name: "user",
+          });
+        });
       } catch (error) {
         console.error(error);
       }

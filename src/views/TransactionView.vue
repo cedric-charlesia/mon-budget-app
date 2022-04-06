@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import UserTransactionHeader from "@/components/UserTransactionHeader.vue";
 import UpdateTransactionModal from "@/components/UpdateTransactionModal.vue";
+import DeleteTransactionModal from "@/components/DeleteTransactionModal.vue";
 import { loggedInUserStore } from "@/stores/loggedInUser";
 import router from "@/router";
 
@@ -38,7 +39,13 @@ const back = () => {
       </button>
       <UpdateTransactionModal />
 
-      <button class="btn delete">Supprimer</button>
+      <button
+        class="btn delete"
+        @click.prevent="user.showDeleteModal = !user.showDeleteModal"
+      >
+        Supprimer
+      </button>
+      <DeleteTransactionModal />
 
       <button class="btn back" @click="back()">
         Retour à la page précédente
@@ -53,7 +60,7 @@ const back = () => {
 }
 .transaction-modal li {
   padding: 0.5rem;
-  background-color: var(--grey-color);
+  border: 0.15rem solid #000;
   list-style: none;
   text-transform: capitalize;
 }

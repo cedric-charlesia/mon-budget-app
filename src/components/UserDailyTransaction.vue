@@ -102,8 +102,8 @@ const user = loggedInUserStore();
 input[type="checkbox"] {
   transform: scale(1.5);
   appearance: none;
-  width: 0.81rem;
-  height: 0.81rem;
+  width: 1rem;
+  height: 1rem;
   color: var(--main-color);
   border: 0.15rem solid currentColor;
   border-radius: 0.1rem;
@@ -114,8 +114,8 @@ input[type="checkbox"] {
 
 input[type="checkbox"]::before {
   content: "";
-  width: 0.41rem;
-  height: 0.41rem;
+  width: 0.61rem;
+  height: 0.61rem;
   border-radius: 0.1rem;
   transform: scale(0);
   transition: 120ms transform ease-in-out;

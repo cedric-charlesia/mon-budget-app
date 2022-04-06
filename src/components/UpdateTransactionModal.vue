@@ -147,6 +147,6 @@ const updateTransaction = async () => {
   width: 80%;
   height: auto;
   text-align: center;
-  background-color: var(--grey-color);
+  background-color: var(--modal-bg-color);
 }
 </style>

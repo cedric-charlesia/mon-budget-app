@@ -77,4 +77,17 @@ export default {
       }
     );
   },
+  deleteteTransaction(
+    id: number,
+    catId: number,
+    transactionId: number,
+    userToken: unknown
+  ) {
+    return apiClient.delete(
+      `/user/${id}/categories/${catId}/transactions/${transactionId}`,
+      {
+        headers: { authorization: `${userToken}` },
+      }
+    );
+  },
 };
