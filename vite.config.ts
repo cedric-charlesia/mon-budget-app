@@ -10,7 +10,13 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
+      workbox: {
+        cleanupOutdatedCaches: true,
+      },
+      srcDir: "src",
+      filename: "sw.ts",
       includeAssets: [
+        "favicon.png",
         "favicon.svg",
         "favicon.ico",
         "robots.txt",
@@ -19,6 +25,7 @@ export default defineConfig({
       manifest: {
         name: "Mon Budget",
         short_name: "Mon Budget",
+        display: "standalone",
         description:
           "L'application qui personnalise et gère mon budget en toute simplicité !",
         theme_color: "#F1D00A",
