@@ -1,30 +1,65 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import ModalFormItem from "./ModalFormItem.vue";
 import { loggedInUserStore } from "@/stores/loggedInUser";
 
+import useValidate from "@vuelidate/core";
+import { required, helpers } from "@vuelidate/validators";
+import { reactive, computed } from "vue";
+
 const user = loggedInUserStore();
 
-const showModal = ref(false);
+const state = reactive({
+  type: "",
+  category_id: "",
+  tag: "",
+  date: "",
+  description: "",
+  amount: "",
+});
 
-const type = ref("");
-const category_id = ref("");
-const tag = ref("");
-const date = ref("");
-const description = ref("");
-const amount = ref("");
+const rules = computed(() => {
+  return {
+    category_id: {
+      required: helpers.withMessage("Veuillez choisir une catégorie", required),
+    },
+    tag: {
+      required: helpers.withMessage(
+        "Veuillez indiquer une catégorie",
+        required
+      ),
+    },
+    date: {
+      required: helpers.withMessage("Veuillez indiquer une date", required),
+    },
+    description: {
+      required: helpers.withMessage(
+        "Veuillez indiquer une description",
+        required
+      ),
+    },
+    amount: {
+      required: helpers.withMessage("Veuillez indiquer un montant", required),
+    },
+  };
+});
+
+const v$ = useValidate(rules, state);
 
 const addTransaction = async () => {
+  v$.value.$validate();
+
+  if (v$.value.$error) return;
+
   const formDataCategory = new FormData();
   const formDataTransaction = new FormData();
 
-  formDataCategory.append("type", type.value);
-  formDataCategory.append("tag", tag.value);
+  formDataCategory.append("type", state.type);
+  formDataCategory.append("tag", state.tag);
 
-  formDataTransaction.append("category_id", category_id.value);
-  formDataTransaction.append("date", date.value);
-  formDataTransaction.append("description", description.value);
-  formDataTransaction.append("amount", amount.value);
+  formDataTransaction.append("category_id", state.category_id);
+  formDataTransaction.append("date", state.date);
+  formDataTransaction.append("description", state.description);
+  formDataTransaction.append("amount", state.amount);
 
   try {
     interface Category {
@@ -50,6 +85,7 @@ const addTransaction = async () => {
       date: string;
       description: string;
       amount: number;
+      check: string;
       [key: string]: unknown;
     }
 
@@ -58,6 +94,7 @@ const addTransaction = async () => {
       date: "",
       description: "",
       amount: NaN,
+      check: "false",
     };
 
     for (let [key, val] of formDataTransaction.entries()) {
@@ -72,16 +109,16 @@ const addTransaction = async () => {
 </script>
 
 <template>
-  <button class="transaction_button" @click="showModal = !showModal">
+  <button class="transaction_button" @click="user.showModal = !user.showModal">
     Ajouter un montant
   </button>
   <teleport to="#modals">
-    <div class="modal" v-if="showModal">
+    <div class="modal" v-if="user.showModal">
       <ModalFormItem>
         <template #modalRadio>
           <div>
             <input
-              v-model.lazy="type"
+              v-model.lazy="state.type"
               type="radio"
               id="income"
               name="transation-type"
@@ -93,7 +130,7 @@ const addTransaction = async () => {
           </div>
           <div>
             <input
-              v-model.lazy="type"
+              v-model.lazy="state.type"
               type="radio"
               id="expense"
               name="transation-type"
@@ -105,9 +142,9 @@ const addTransaction = async () => {
 
         <template #categorySelection>
           <select
-            v-model.lazy="category_id"
+            v-model.lazy="state.category_id"
             name="category"
-            :disabled="tag !== ''"
+            :disabled="state.tag !== ''"
             id="transaction-category"
           >
             <option value="">--- Choisir une categorie ---</option>
@@ -119,6 +156,12 @@ const addTransaction = async () => {
               {{ category.tag }}
             </option>
           </select>
+          <span
+            :class="state.tag !== '' ? 'hide' : 'show'"
+            v-if="v$.category_id.$error"
+            class="error"
+            >{{ v$.category_id.$errors[0].$message }}</span
+          >
         </template>
 
         <template #inputCategory>
@@ -129,11 +172,17 @@ const addTransaction = async () => {
             >Si la catégorie n'existe pas, créez-là :</label
           >
           <input
-            v-model.lazy="tag"
+            v-model.lazy="state.tag"
             type="text"
-            :disabled="category_id !== ''"
+            :disabled="state.category_id !== ''"
             placeholder="Ajouter une nouvelle catégorie"
           />
+          <span
+            :class="state.category_id !== '' ? 'hide' : 'show'"
+            v-if="v$.tag.$error"
+            class="error"
+            >{{ v$.tag.$errors[0].$message }}</span
+          >
         </template>
 
         <template #transactionDate>
@@ -144,33 +193,44 @@ const addTransaction = async () => {
             >Choisir une date :</label
           >
           <input
-            v-model.lazy="date"
+            v-model.lazy="state.date"
             type="date"
             id="transaction-date"
             required
           />
+          <span v-if="v$.date.$error" class="error">{{
+            v$.date.$errors[0].$message
+          }}</span>
         </template>
 
         <template #inputDescription>
           <input
-            v-model.lazy="description"
+            v-model.lazy="state.description"
             type="text"
             placeholder="Ajouter une description..."
             required
           />
+          <span v-if="v$.description.$error" class="error">{{
+            v$.description.$errors[0].$message
+          }}</span>
         </template>
 
         <template #inputAmount>
           <input
-            v-model.lazy="amount"
+            v-model.lazy="state.amount"
             type="number"
             placeholder="Indiquer le montant..."
             required
           />
+          <span v-if="v$.amount.$error" class="error">{{
+            v$.amount.$errors[0].$message
+          }}</span>
         </template>
 
         <template #cancelTransactionButton>
-          <button @click.prevent="showModal = !showModal">Fermer</button>
+          <button @click.prevent="user.showModal = !user.showModal">
+            Fermer
+          </button>
         </template>
 
         <template #addTransactionButton>
@@ -200,5 +260,13 @@ const addTransaction = async () => {
   height: auto;
   text-align: center;
   background-color: var(--grey-color);
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: inline;
 }
 </style>

@@ -31,6 +31,8 @@ export const loggedInUserStore = defineStore({
     },
     emailError: false,
     checked: false,
+    showModal: false,
+    showUpdateModal: false,
   }),
   getters: {},
   actions: {
@@ -184,8 +186,8 @@ export const loggedInUserStore = defineStore({
               console.error(error);
             });
         } else if (category.tag === "") {
-          transaction.amount = parseInt(transaction.amount, 10);
-          transaction.category_id = parseInt(transaction.category_id, 10);
+          transaction.amount = Number(transaction.amount);
+          transaction.category_id = Number(transaction.category_id);
 
           await UserService.addTransaction(
             transaction,
@@ -196,6 +198,8 @@ export const loggedInUserStore = defineStore({
             .then(() => {
               this.getUserCategories();
               this.getUserTransactions();
+
+              this.showModal = false;
             })
             .catch((error) => {
               console.error(error);
@@ -205,7 +209,7 @@ export const loggedInUserStore = defineStore({
         console.error(error);
       }
     },
-    async updateTransaction(
+    async updateCheckedTransaction(
       date: string,
       description: string,
       amount: number,
@@ -214,6 +218,15 @@ export const loggedInUserStore = defineStore({
     ) {
       this.checked = !this.checked;
 
+      this.updateTransaction(date, description, amount, catId, transacId);
+    },
+    async updateTransaction(
+      date: string,
+      description: string,
+      amount: number,
+      catId: number,
+      transacId: number
+    ) {
       let checkTransaction;
 
       let month;
@@ -271,9 +284,19 @@ export const loggedInUserStore = defineStore({
           userToken
         )
           .then((response) => {
-            this.transaction = response.data;
             this.getUserCategories();
             this.getUserTransactions();
+            this.transaction = response.data;
+
+            this.showUpdateModal = false;
+
+            router.push({
+              name: "transaction",
+              params: {
+                catId: response.data.category_id,
+                transactionId: response.data.id,
+              },
+            });
           })
           .catch((error) => {
             console.error(error);

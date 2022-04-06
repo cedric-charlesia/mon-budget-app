@@ -36,7 +36,7 @@ const user = loggedInUserStore();
           checked
           type="checkbox"
           @click="
-            user.updateTransaction(
+            user.updateCheckedTransaction(
               transaction.date,
               transaction.description,
               transaction.amount,
@@ -49,7 +49,7 @@ const user = loggedInUserStore();
           v-else
           type="checkbox"
           @click="
-            user.updateTransaction(
+            user.updateCheckedTransaction(
               transaction.date,
               transaction.description,
               transaction.amount,

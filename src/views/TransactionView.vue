@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import UserTransactionHeader from "@/components/UserTransactionHeader.vue";
+import UpdateTransactionModal from "@/components/UpdateTransactionModal.vue";
 import { loggedInUserStore } from "@/stores/loggedInUser";
 import router from "@/router";
 
@@ -27,9 +28,18 @@ const back = () => {
       <li>Description : {{ user.transaction.description }}</li>
       <li>Montant : {{ user.transaction.amount }} &euro;</li>
     </ul>
+
     <div class="transaction-btn">
-      <button class="btn update">Modifier</button>
+      <button
+        class="btn update"
+        @click="user.showUpdateModal = !user.showUpdateModal"
+      >
+        Modifier
+      </button>
+      <UpdateTransactionModal />
+
       <button class="btn delete">Supprimer</button>
+
       <button class="btn back" @click="back()">
         Retour à la page précédente
       </button>
@@ -45,6 +55,7 @@ const back = () => {
   padding: 0.5rem;
   background-color: var(--grey-color);
   list-style: none;
+  text-transform: capitalize;
 }
 
 .transaction-btn {
