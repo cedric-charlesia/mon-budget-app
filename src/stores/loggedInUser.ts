@@ -162,8 +162,16 @@ export const loggedInUserStore = defineStore({
         console.error(error);
       }
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async addTransaction(category: any, transaction: any) {
+    async addTransaction(
+      category: { type: string; tag: string; user_id: number },
+      transaction: {
+        category_id: number;
+        date: string;
+        description: string;
+        amount: number;
+        check: string;
+      }
+    ) {
       const userToken = localStorage.getItem("token");
 
       try {

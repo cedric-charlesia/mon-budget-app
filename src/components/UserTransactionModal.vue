@@ -13,7 +13,7 @@ const user = loggedInUserStore();
 const toast = useToast();
 
 const state = reactive({
-  type: "",
+  type: "revenu",
   category_id: "",
   tag: "",
   date: "",
@@ -76,7 +76,7 @@ const addTransaction = async () => {
       type: string;
       tag: string;
       user_id: number;
-      [key: string]: unknown;
+      [key: string]: number | string;
     }
 
     let category: Category = {
@@ -96,7 +96,7 @@ const addTransaction = async () => {
       description: string;
       amount: number;
       check: string;
-      [key: string]: unknown;
+      [key: string]: number | string;
     }
 
     let transaction: Transaction = {
