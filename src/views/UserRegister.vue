@@ -1,22 +1,13 @@
 <script setup lang="ts">
-import { IonList, IonItem, IonLabel, IonInput, IonButton } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import FormLoginRegister from "../components/FormLoginRegister.vue";
+import { RouterLink } from "vue-router";
 
-defineComponent({
-  name: 'RegisterForm',
-  components: {
-    IonList,
-    IonItem,
-    IonLabel,
-    IonInput,
-    IonButton
-  }
-});
 </script>
 
 <template>
-  <form class="ion-padding">
-    <ion-list>
+  <!-- Register form -->
+  <form-login-register>
+    <template #inputTextOrEmail>
       <ion-item>
         <ion-label position="floating">Prénom</ion-label>
         <ion-input type="text" required />
@@ -26,7 +17,9 @@ defineComponent({
         <ion-label position="floating">Email</ion-label>
         <ion-input type="email" required />
       </ion-item>
+    </template>
 
+    <template #inputPassword>
       <ion-item>
         <ion-label position="floating">Mot de passe</ion-label>
         <ion-input type="password" required />
@@ -36,37 +29,20 @@ defineComponent({
         <ion-label position="floating">Confirmer le mot de passe</ion-label>
         <ion-input type="password" required />
       </ion-item>
-    </ion-list>
+    </template>
+
+    <template #formButton>
       <ion-button expand="full">S'inscrire</ion-button>
-  </form>
+    </template>
+  </form-login-register>
+
+  <div class="ion-text-center">
+    <p>J'ai déjà un compte ?</p>
+    <RouterLink to="/login">
+      <ion-text color="secondary">Se connecter</ion-text>
+    </RouterLink>
+  </div>
 </template>
 
 <style scoped>
-#container {
-  text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
-}
 </style>
