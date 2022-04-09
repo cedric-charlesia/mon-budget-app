@@ -65,14 +65,14 @@ const login = async () => {
         <template #inputTextOrEmail>
             <ion-item>
                 <ion-label position="floating">Email</ion-label>
-                <ion-input v-model.lazy="state.email" type="text" required />
+                <ion-input @keyup.enter="login()" v-model.lazy="state.email" type="text" required />
             </ion-item>
         </template>
 
         <template #inputPassword>
             <ion-item>
                 <ion-label position="floating">Mot de passe</ion-label>
-                <ion-input v-model.lazy="state.password" type="password" required />
+                <ion-input @keyup.enter="login()" v-model.lazy="state.password" type="password" required />
             </ion-item>
         </template>
 

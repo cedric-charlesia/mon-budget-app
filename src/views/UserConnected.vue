@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { IonContent, IonPage } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import { defineComponent} from 'vue';
 
 import UserHeader from "../components/UserHeader.vue";
 import HomeFooter from "../components/HomeFooter.vue";
 
+import UserMonthPicker from "../components/UserMonthPicker.vue";
+import UserAccountSummary from "../components/UserAccountSummary.vue";
 
 defineComponent({
   name: 'UserConnected',
@@ -13,6 +15,7 @@ defineComponent({
     IonPage
   }
 });
+
 </script>
 
 <template>
@@ -21,9 +24,11 @@ defineComponent({
     <ion-content :fullscreen="true">
       <user-header></user-header>
 
-    <!-- Content area -->
-      
-      
+      <!-- Content area -->
+      <user-month-picker></user-month-picker>
+      <user-account-summary></user-account-summary>
+
+
     </ion-content>
 
     <!-- Footer area -->

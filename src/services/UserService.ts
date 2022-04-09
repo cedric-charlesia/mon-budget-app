@@ -19,4 +19,14 @@ const apiClient = axios.create({
       user(id: number, token: object) {
         return apiClient.get(`/user/${id}`, token);
       },
+      getUserCategories(id: number, userToken: unknown) {
+        return apiClient.get(`/user/${id}/categories`, {
+          headers: { authorization: `${userToken}` },
+        });
+      },
+      getUserTransactions(id: number, userToken: unknown) {
+        return apiClient.get(`/user/${id}/transactions`, {
+          headers: { authorization: `${userToken}` },
+        });
+      },
   };

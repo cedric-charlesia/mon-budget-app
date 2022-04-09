@@ -2,6 +2,70 @@
 import FormLoginRegister from "../components/FormLoginRegister.vue";
 import { RouterLink } from "vue-router";
 
+import { userStore } from "@/stores/userStore";
+
+import { reactive } from "vue";
+
+import { IonItem, IonLabel, IonInput, IonButton, IonText } from '@ionic/vue';
+import { defineComponent } from 'vue';
+
+defineComponent({
+  name: 'RegisterForm',
+  components: {
+    IonItem,
+    IonLabel,
+    IonInput,
+    IonButton,
+    IonText
+  }
+});
+
+const store = userStore();
+
+const state = reactive({
+  username: "",
+  email: "",
+  password: {
+    password: "",
+    confirmPassword: "",
+  },
+});
+
+const register = async () => {
+  const formData = new FormData();
+
+  formData.append("username", state.username);
+  formData.append("email", state.email);
+  if (state.password.password === state.password.confirmPassword) {
+    formData.append("password", state.password.password);
+  }
+
+  try {
+    interface User {
+      username: string;
+      email: string;
+      password: string;
+      [key: string]: string;
+    }
+
+    let newUser: User = {
+      username: "",
+      email: "",
+      password: "",
+    };
+
+    for (let [key, val] of formData.entries()) {
+      newUser[`${key}`] = `${val}`;
+      JSON.stringify(newUser);
+    }
+
+    return { login: store.registerUser(newUser) };
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 </script>
 
 <template>
@@ -10,29 +74,39 @@ import { RouterLink } from "vue-router";
     <template #inputTextOrEmail>
       <ion-item>
         <ion-label position="floating">Prénom</ion-label>
-        <ion-input type="text" required />
+        <ion-input @keyup.enter="register()" v-model.lazy="state.username" type="text" required />
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" required />
+        <ion-input @keyup.enter="register()" v-model.lazy="state.email" type="email" required />
       </ion-item>
     </template>
 
     <template #inputPassword>
       <ion-item>
         <ion-label position="floating">Mot de passe</ion-label>
-        <ion-input type="password" required />
+        <ion-input
+          @keyup.enter="register()"
+          v-model.lazy="state.password.password"
+          type="password"
+          required
+        />
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">Confirmer le mot de passe</ion-label>
-        <ion-input type="password" required />
+        <ion-input
+          @keyup.enter="register()"
+          v-model.lazy="state.password.confirmPassword"
+          type="password"
+          required
+        />
       </ion-item>
     </template>
 
     <template #formButton>
-      <ion-button expand="full">S'inscrire</ion-button>
+      <ion-button expand="full" @click.prevent="register()">S'inscrire</ion-button>
     </template>
   </form-login-register>
 
