@@ -4,10 +4,8 @@ import { RouterLink } from "vue-router";
 
 import { userStore } from "@/stores/userStore";
 
-import { reactive } from "vue";
-
 import { IonItem, IonLabel, IonInput, IonButton, IonText } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import { defineComponent, reactive } from 'vue';
 
 defineComponent({
     name: 'LoginForm',

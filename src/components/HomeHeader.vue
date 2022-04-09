@@ -31,4 +31,8 @@ defineComponent({
   max-width: 85vw;
   margin: 5vh auto;
 }
+ion-toolbar{
+--background: #ffffff;
+--border-color: #c1c4cd;
+}
 </style>

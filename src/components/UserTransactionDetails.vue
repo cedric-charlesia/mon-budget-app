@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {  } from '@ionic/vue';
+import { IonCard } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 import { userStore } from "@/stores/userStore";
@@ -7,7 +7,7 @@ import { userStore } from "@/stores/userStore";
 defineComponent({
   name: 'UserTransactionDetails',
   components: {
-    
+    IonCard
   }
 });
 
@@ -15,10 +15,16 @@ const store = userStore();
 </script>
 
 <template>
-  <div class="daily_transaction ion-padding" v-for="date of store.dates" :key="date">
-    <p class="transaction_header" v-if="date.includes(store.currentMonth)">
-      {{ store.showTransactionDate(date) }}
-    </p>
+  <ion-card v-if="store.transactions.length === 0" class="no-transaction">
+    <h2>Rien à afficher pour le moment</h2>
+    <p>Cliquez sur le bouton pour commencer</p>
+  </ion-card>
+
+  <ion-card v-else class="daily_transaction ion-padding" v-for="date of store.dates" :key="date">
+    <p
+      class="transaction_header"
+      v-if="date.includes(store.currentMonth)"
+    >{{ store.showTransactionDate(date) }}</p>
 
     <div v-for="transaction of store.transactions" :key="transaction.id">
       <div
@@ -34,24 +40,18 @@ const store = userStore();
           @click="
             store.showTransactionDetails(transaction.category_id, transaction.id)
           "
-        >
-          {{ transaction.description.charAt(0).toUpperCase() }}
-        </p>
+        >{{ transaction.description.charAt(0).toUpperCase() }}</p>
         <p
           class="transaction_description"
           @click="
             store.showTransactionDetails(transaction.category_id, transaction.id)
           "
-        >
-          {{ transaction.description }}
-        </p>
+        >{{ transaction.description }}</p>
         <p
           @click="
             store.showTransactionDetails(transaction.category_id, transaction.id)
           "
-        >
-          {{ transaction.amount }} &euro;
-        </p>
+        >{{ transaction.amount }} &euro;</p>
         <input
           v-if="transaction.check === 'true'"
           checked
@@ -81,7 +81,7 @@ const store = userStore();
         />
       </div>
     </div>
-  </div>
+  </ion-card>
 </template>
 
 <style scoped>
@@ -145,5 +145,20 @@ input[type="checkbox"]::before {
 
 input[type="checkbox"]:checked::before {
   transform: scale(1);
+}
+
+ion-card {
+  height: 45vh;
+  overflow-y: auto;
+  border: 0.15rem solid var(--ion-color-secondary);
+  color: var(--ion-color-secondary);
+  margin-bottom: 2vh;
+}
+
+.no-transaction {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  align-items: center;
 }
 </style>

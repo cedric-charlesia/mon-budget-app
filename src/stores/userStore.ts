@@ -31,7 +31,6 @@ export const userStore = defineStore({
         },
         emailError: false,
         checked: false,
-        showModal: false,
         showUpdateModal: false,
         showDeleteModal: false,
         goToTransactionPage: "",
@@ -162,6 +161,63 @@ export const userStore = defineStore({
                 console.error(error);
             }
         },
+        async addTransaction(
+            category: { type: string; tag: string; user_id: number },
+            transaction: {
+              category_id: number;
+              date: string;
+              description: string;
+              amount: number;
+              check: string;
+            }
+          ) {
+            const userToken = localStorage.getItem("token");
+      
+            try {
+              if (category.tag !== "") {
+                await UserService.addCategories(this.id, userToken, category)
+                  .then((response) => {
+                    const catId = Number(response.data.id);
+      
+                    transaction.amount = Number(transaction.amount);
+                    transaction.category_id = catId;
+      
+                    UserService.addTransaction(transaction, this.id, catId, userToken)
+                      .then(() => {
+                        this.getUserCategories();
+                        this.getUserTransactions();
+      
+                      })
+                      .catch((error) => {
+                        console.error(error);
+                      });
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              } else if (category.tag === "") {
+                transaction.amount = Number(transaction.amount);
+                transaction.category_id = Number(transaction.category_id);
+      
+                await UserService.addTransaction(
+                  transaction,
+                  this.id,
+                  transaction.category_id,
+                  userToken
+                )
+                  .then(() => {
+                    this.getUserCategories();
+                    this.getUserTransactions();
+      
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              }
+            } catch (error) {
+              console.error(error);
+            }
+          },
         async updateCheckedTransaction(
             date: string,
             description: string,

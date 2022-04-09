@@ -21,4 +21,7 @@ defineComponent({
 </template>
 
 <style scoped>
+ion-toolbar{
+--background: #ffffff;
+}
 </style>
