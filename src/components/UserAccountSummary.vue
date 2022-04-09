@@ -5,7 +5,7 @@ import { defineComponent } from 'vue';
 import { userStore } from "@/stores/userStore";
 
 defineComponent({
-  name: 'UserHeader',
+  name: 'UserAccountSummary',
   components: {
     IonList,
     IonListHeader,
@@ -18,7 +18,7 @@ const store = userStore();
 </script>
 
 <template>
-  <div class="transaction-summary-container">
+  <div class="transaction-summary-container ion-padding">
     <ion-list>
       <ion-list-header>Revenus</ion-list-header>
       <ion-text class="summary-container income">{{ store.getTotalIncomeOrExpense("revenu") }} &euro;</ion-text>
@@ -40,7 +40,6 @@ const store = userStore();
 .transaction-summary-container {
   display: flex;
   justify-content: space-between;
-  width: 85vw;
   margin: auto;
 }
 

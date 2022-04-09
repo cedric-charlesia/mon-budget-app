@@ -29,4 +29,32 @@ const apiClient = axios.create({
           headers: { authorization: `${userToken}` },
         });
       },
+      getOneTransaction(
+        id: number,
+        catId: number,
+        transactionId: number,
+        userToken: unknown
+      ) {
+        return apiClient.get(
+          `/user/${id}/categories/${catId}/transactions/${transactionId}`,
+          {
+            headers: { authorization: `${userToken}` },
+          }
+        );
+      },
+      updateTransaction(
+        transaction: object,
+        id: number,
+        catId: number,
+        transactionId: number,
+        userToken: unknown
+      ) {
+        return apiClient.patch(
+          `/user/${id}/categories/${catId}/transactions/${transactionId}`,
+          transaction,
+          {
+            headers: { authorization: `${userToken}` },
+          }
+        );
+      },
   };

@@ -7,6 +7,7 @@ import HomeFooter from "../components/HomeFooter.vue";
 
 import UserMonthPicker from "../components/UserMonthPicker.vue";
 import UserAccountSummary from "../components/UserAccountSummary.vue";
+import UserTransactionDetails from "../components/UserTransactionDetails.vue";
 
 defineComponent({
   name: 'UserConnected',
@@ -27,6 +28,7 @@ defineComponent({
       <!-- Content area -->
       <user-month-picker></user-month-picker>
       <user-account-summary></user-account-summary>
+      <user-transaction-details></user-transaction-details>
 
 
     </ion-content>

@@ -5,7 +5,7 @@ import { defineComponent, ref } from 'vue';
 import { userStore } from "@/stores/userStore";
 
 defineComponent({
-  name: 'UserHeader',
+  name: 'UserMonthPicker',
   components: {
     IonItem,
     IonInput
@@ -55,7 +55,6 @@ ion-item {
   border: 0.15rem solid var(--ion-color-secondary);
   border-radius: 0.15rem;
   margin-top: 2vh;
-  margin-bottom: 2vh;
-  margin-left: 20px;
+  margin-left: 1rem;
 }
 </style>

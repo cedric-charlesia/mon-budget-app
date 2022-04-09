@@ -29,6 +29,12 @@ export const userStore = defineStore({
             category_id: 0,
             check: "",
         },
+        emailError: false,
+        checked: false,
+        showModal: false,
+        showUpdateModal: false,
+        showDeleteModal: false,
+        goToTransactionPage: "",
     }),
     getters: {},
     actions: {
@@ -47,7 +53,7 @@ export const userStore = defineStore({
                     .catch((error) => {
                         if (error) {
                             console.error(error);
-                            // this.emailError = true;
+                            this.emailError = true;
                         }
                     });
             } catch (error) {
@@ -129,6 +135,132 @@ export const userStore = defineStore({
                 console.error(error);
             }
         },
+        async showTransactionDetails(catId: number, transacId: number) {
+            const userToken = localStorage.getItem("token");
+
+            const categoryId = Number(catId);
+            const transactionId = Number(transacId);
+
+            try {
+                await UserService.getOneTransaction(
+                    this.id,
+                    categoryId,
+                    transactionId,
+                    userToken
+                ).then((response) => {
+                    this.transaction = response.data;
+
+                    router.push({
+                        name: "transaction",
+                        params: {
+                            catId: response.data.category_id,
+                            transactionId: response.data.id,
+                        },
+                    });
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async updateCheckedTransaction(
+            date: string,
+            description: string,
+            amount: number,
+            catId: number,
+            transacId: number
+        ) {
+            this.checked = !this.checked;
+
+            this.goToTransactionPage = "false";
+
+            this.updateTransaction(date, description, amount, catId, transacId);
+        },
+        async updateTransaction(
+            date: string,
+            description: string,
+            amount: number,
+            catId: number,
+            transacId: number
+        ) {
+            let checkTransaction;
+
+            let month;
+            let day;
+            let year;
+
+            const newDate = new Date(date);
+
+            (month = "" + (newDate.getMonth() + 1)),
+                (day = "" + newDate.getDate()),
+                (year = newDate.getFullYear());
+
+            if (month.length < 2) month = "0" + month;
+            if (day.length < 2) day = "0" + day;
+
+            const dateTransaction = `${year}-${month}-${day}`;
+            const descriptionTransaction = description;
+            const amountTransaction = Number(amount);
+
+            if (this.checked === true) {
+                checkTransaction = "true";
+            } else {
+                checkTransaction = "false";
+            }
+
+            const categoryId = Number(catId);
+            const transactionId = Number(transacId);
+
+            interface Transaction {
+                date: string;
+                description: string;
+                amount: number;
+                category_id: number;
+                check: string;
+                [key: string]: unknown;
+            }
+
+            const transaction: Transaction = {
+                date: dateTransaction,
+                description: descriptionTransaction,
+                amount: amountTransaction,
+                category_id: categoryId,
+                check: checkTransaction,
+            };
+
+            const userToken = localStorage.getItem("token");
+
+            try {
+                await UserService.updateTransaction(
+                    transaction,
+                    this.id,
+                    categoryId,
+                    transactionId,
+                    userToken
+                )
+                    .then((response) => {
+                        this.getUserCategories();
+                        this.getUserTransactions();
+                        this.transaction = response.data;
+
+                        this.showUpdateModal = false;
+
+                        if (this.goToTransactionPage !== "false") {
+                            router.push({
+                                name: "transaction",
+                                params: {
+                                    catId: response.data.category_id,
+                                    transactionId: response.data.id,
+                                },
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } catch (error) {
+                console.error(error);
+            }
+        },
         getTotalIncomeOrExpense(categoryType: string) {
             let totalIncomeOrExpense = 0;
 
@@ -145,5 +277,12 @@ export const userStore = defineStore({
             }
             return totalIncomeOrExpense.toFixed(2);
         },
+        showTransactionDate(date: string) {
+            const transactionDate = new Date(date).toLocaleDateString("fr-FR", {
+              month: "short",
+              day: "numeric",
+            });
+            return transactionDate;
+          },
     }
 });

@@ -10,7 +10,7 @@ import { IonItem, IonLabel, IonInput, IonButton, IonText } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 defineComponent({
-    name: 'RegisterForm',
+    name: 'LoginForm',
     components: {
         IonItem,
         IonLabel,

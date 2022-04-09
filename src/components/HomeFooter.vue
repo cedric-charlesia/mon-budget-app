@@ -3,7 +3,7 @@ import { IonFooter, IonText, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 defineComponent({
-  name: 'HeaderMain',
+  name: 'HomeFooter',
   components: {
     IonText,
     IonToolbar,
