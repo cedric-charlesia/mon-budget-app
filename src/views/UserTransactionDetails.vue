@@ -2,11 +2,13 @@
 import { IonContent, IonPage, IonCard } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
-import UserHeader from "../components/UserHeader.vue";
+import UserTransactionHeader from "../components/UserTransactionHeader.vue";
 import HomeFooter from "../components/HomeFooter.vue";
 
 import UserShowOneTransaction from "../components/UserShowOneTransaction.vue";
 
+import UserUpdateTransaction from "../components/UserUpdateTransaction.vue";
+import UserDeleteTransaction from "../components/UserDeleteTransaction.vue";
 
 defineComponent({
   name: 'UserTransactionDetails',
@@ -23,12 +25,16 @@ defineComponent({
   <ion-page>
     <!-- Header area -->
     <ion-content :fullscreen="true">
-      <user-header></user-header>
+      <user-transaction-header></user-transaction-header>
 
       <!-- Content area -->
       <ion-card>
         <user-show-one-transaction></user-show-one-transaction>
       </ion-card>
+
+      <user-update-transaction></user-update-transaction>
+
+      <user-delete-transaction></user-delete-transaction>
       
 </ion-content>
     <!-- Footer area -->

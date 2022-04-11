@@ -3,7 +3,7 @@ import { IonList, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonBu
 import { defineComponent } from 'vue';
 
 defineComponent({
-  name: 'AddTransactionForm',
+  name: 'UpdateTransactionForm',
   components: {
     IonList,
     IonItem,
@@ -19,15 +19,12 @@ defineComponent({
 <template>
   <form class="ion-padding">
     <ion-list>
-      <slot name="transactionType">
+      <slot name="inputDescription">
         <ion-item>
           <ion-label position="floating"></ion-label>
-          <ion-select>
-            <ion-select-option></ion-select-option>
-          </ion-select>
+          <ion-input required />
         </ion-item>
       </slot>
-
       <slot name="categorySelection">
         <ion-item>
           <ion-label position="floating"></ion-label>
@@ -37,21 +34,7 @@ defineComponent({
         </ion-item>
       </slot>
 
-      <slot name="inputCategory">
-        <ion-item>
-          <ion-label position="floating"></ion-label>
-          <ion-input required />
-        </ion-item>
-      </slot>
-
       <slot name="transactionDate">
-        <ion-item>
-          <ion-label position="floating"></ion-label>
-          <ion-input required />
-        </ion-item>
-      </slot>
-
-      <slot name="inputDescription">
         <ion-item>
           <ion-label position="floating"></ion-label>
           <ion-input required />

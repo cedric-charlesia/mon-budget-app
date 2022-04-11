@@ -24,6 +24,18 @@ const apiClient = axios.create({
           headers: { authorization: `${userToken}` },
         });
       },
+      getOneCategory(
+        id: number,
+        catId: number,
+        userToken: unknown
+      ) {
+        return apiClient.get(
+          `/user/${id}/categories/${catId}`,
+          {
+            headers: { authorization: `${userToken}` },
+          }
+        );
+      },
       addCategories(id: number, userToken: unknown, category: object) {
         return apiClient.post(`/user/${id}/categories`, category, {
           headers: { authorization: `${userToken}` },
@@ -71,6 +83,19 @@ const apiClient = axios.create({
         return apiClient.patch(
           `/user/${id}/categories/${catId}/transactions/${transactionId}`,
           transaction,
+          {
+            headers: { authorization: `${userToken}` },
+          }
+        );
+      },
+      deleteteTransaction(
+        id: number,
+        catId: number,
+        transactionId: number,
+        userToken: unknown
+      ) {
+        return apiClient.delete(
+          `/user/${id}/categories/${catId}/transactions/${transactionId}`,
           {
             headers: { authorization: `${userToken}` },
           }
