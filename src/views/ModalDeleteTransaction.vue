@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IonTitle, IonButton } from '@ionic/vue';
+import { IonTitle, IonButton, toastController } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 
 import { userStore } from "@/stores/userStore";
@@ -17,6 +17,17 @@ defineComponent({
     }
 });
 
+const openToast = async () => {
+    const toast = await toastController
+        .create({
+            message: "Transaction supprimée ",
+            position: "top",
+            color: "danger",
+            duration: 1500
+        })
+    return toast.present();
+}
+
 const categoryId = ref(store.transaction.category_id);
 const transactionId = ref(store.transaction.id);
 
@@ -26,6 +37,7 @@ const closeModal = async () => {
 
 const deleteTransaction = async () => {
     try {
+        openToast();
 
         await popoverController.dismiss();
         return {
@@ -48,11 +60,7 @@ const deleteTransaction = async () => {
         </template>
 
         <template #addTransactionButton>
-            <ion-button
-                class="form-button"
-                expand="full"
-                @click.prevent="deleteTransaction()"
-            >Valider</ion-button>
+            <ion-button class="form-button" expand="full" @click.prevent="deleteTransaction()">Supprimer</ion-button>
         </template>
     </form-delete-transaction>
 </template>
@@ -62,9 +70,11 @@ const deleteTransaction = async () => {
 .form-button {
     margin-bottom: 3.5vh;
 }
+
 .capitalize {
     text-transform: capitalize;
 }
+
 ion-title {
     font-weight: bold;
     text-align: center;

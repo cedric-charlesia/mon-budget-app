@@ -4,7 +4,7 @@ import { RouterLink } from "vue-router";
 
 import { userStore } from "@/stores/userStore";
 
-import { IonItem, IonLabel, IonInput, IonButton, IonText } from '@ionic/vue';
+import { IonItem, IonLabel, IonInput, IonButton, IonText, toastController } from '@ionic/vue';
 import { defineComponent, reactive } from 'vue';
 
 defineComponent({
@@ -17,6 +17,17 @@ defineComponent({
         IonText
     }
 });
+
+const openToast = async () => {
+    const toast = await toastController
+        .create({
+            message: "Connecté !",
+            position: "top",
+            color: "secondary",
+            duration: 1500
+        })
+    return toast.present();
+}
 
 const store = userStore();
 
@@ -47,6 +58,8 @@ const login = async () => {
             user[`${key}`] = `${val}`;
             JSON.stringify(user);
         }
+
+        openToast();
 
         return { login: store.loginUser(user) };
 
@@ -85,6 +98,8 @@ const login = async () => {
             <ion-text color="secondary">S'inscrire</ion-text>
         </RouterLink>
     </div>
+
+    <!-- Ionic Toast (notification) -->
 </template>
 
 <style scoped>

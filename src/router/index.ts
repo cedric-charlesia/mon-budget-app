@@ -44,6 +44,11 @@ const routes: Array<RouteRecordRaw> = [
       }
     },
   },
+  // 404 error redirection to login page
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: "/login",
+  },
 ]
 
 const router = createRouter({

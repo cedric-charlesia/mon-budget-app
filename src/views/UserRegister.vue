@@ -4,7 +4,7 @@ import { RouterLink } from "vue-router";
 
 import { userStore } from "@/stores/userStore";
 
-import { IonItem, IonLabel, IonInput, IonButton, IonText } from '@ionic/vue';
+import { IonItem, IonLabel, IonInput, IonButton, IonText, toastController } from '@ionic/vue';
 import { defineComponent, reactive } from 'vue';
 
 defineComponent({
@@ -17,6 +17,17 @@ defineComponent({
     IonText
   }
 });
+
+const openToast = async () => {
+    const toast = await toastController
+        .create({
+            message: "Compté créé, vous pouvez vous connecter !",
+            position: "top",
+            color: "secondary",
+            duration: 1500
+        })
+    return toast.present();
+}
 
 const store = userStore();
 
@@ -56,6 +67,8 @@ const register = async () => {
       newUser[`${key}`] = `${val}`;
       JSON.stringify(newUser);
     }
+
+    openToast();
 
     return { login: store.registerUser(newUser) };
 
