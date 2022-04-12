@@ -21,7 +21,7 @@ const openModal = (state: boolean) => {
 </script>
 
 <template>
-  <ion-button expand="full ion-padding" id="update-transaction" @click="openModal(true)">Modifier</ion-button>
+  <ion-button expand="full ion-padding" id="update-transaction" @click="openModal(true)" size="large" class="call-to-action-btn">Modifier</ion-button>
 
   <ion-modal trigger="update-transaction" :is-open="showUpdateModal">
     <ion-content>
@@ -31,7 +31,4 @@ const openModal = (state: boolean) => {
 </template>
 
 <style scoped>
-ion-button {
-  height: 7vh;
-}
 </style>

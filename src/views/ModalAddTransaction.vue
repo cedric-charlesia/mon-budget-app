@@ -22,7 +22,7 @@ defineComponent({
         IonSelectOption,
         IonButton,
         IonText
-    }
+    },
 });
 
 const state = reactive({
@@ -234,25 +234,32 @@ const addTransaction = async () => {
             </ion-item>
         </template>
 
-        <template #cancelTransactionButton>
-            <ion-button class="form-button" expand="full" @click.prevent="closeModal()">Annuler</ion-button>
+        <template #addTransactionButton>
+            <ion-button expand="full" @click.prevent="addTransaction()" size="large"
+                class="call-to-action-btn space-between">Valider
+            </ion-button>
         </template>
 
-        <template #addTransactionButton>
-            <ion-button class="form-button" expand="full" @click.prevent="addTransaction()">Valider</ion-button>
+        <template #cancelTransactionButton>
+            <ion-button expand="full" @click.prevent="closeModal()" size="large" class="call-to-action-btn" color="secondary">Annuler
+            </ion-button>
         </template>
+
     </form-add-transaction>
 </template>
 
 <style scoped>
+
 .form-item,
-.form-button {
+.space-between {
     margin-bottom: 3.5vh;
 }
+
 .hide {
-  display: none;
+    display: none;
 }
+
 .show {
-  display: inline;
+    display: inline;
 }
 </style>

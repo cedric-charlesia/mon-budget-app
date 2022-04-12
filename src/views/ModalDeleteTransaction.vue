@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IonTitle, IonButton, toastController } from '@ionic/vue';
+import { IonTitle, IonButton } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 
 import { userStore } from "@/stores/userStore";
@@ -17,17 +17,6 @@ defineComponent({
     }
 });
 
-const openToast = async () => {
-    const toast = await toastController
-        .create({
-            message: "Transaction supprimée ",
-            position: "top",
-            color: "danger",
-            duration: 1500
-        })
-    return toast.present();
-}
-
 const categoryId = ref(store.transaction.category_id);
 const transactionId = ref(store.transaction.id);
 
@@ -37,8 +26,6 @@ const closeModal = async () => {
 
 const deleteTransaction = async () => {
     try {
-        openToast();
-
         await popoverController.dismiss();
         return {
             user: store.deleteTransaction(categoryId.value, transactionId.value),
@@ -56,18 +43,18 @@ const deleteTransaction = async () => {
             <ion-title>Supprimer cette transaction ?</ion-title>
         </template>
         <template #cancelTransactionButton>
-            <ion-button class="form-button" expand="full" @click.prevent="closeModal()">Annuler</ion-button>
+            <ion-button expand="full" @click.prevent="closeModal()" size="large" class="call-to-action-btn space-between">Annuler</ion-button>
         </template>
 
         <template #addTransactionButton>
-            <ion-button class="form-button" expand="full" @click.prevent="deleteTransaction()">Supprimer</ion-button>
+            <ion-button expand="full" @click.prevent="deleteTransaction()" size="large" class="call-to-action-btn" color="secondary">Supprimer</ion-button>
         </template>
     </form-delete-transaction>
 </template>
 
 <style scoped>
 .form-item,
-.form-button {
+.space-between {
     margin-bottom: 3.5vh;
 }
 

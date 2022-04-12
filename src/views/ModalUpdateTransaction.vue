@@ -176,19 +176,22 @@ const updateTransaction = async () => {
             </ion-item>
         </template>
 
-        <template #cancelTransactionButton>
-            <ion-button class="form-button" expand="full" @click.prevent="closeModal()">Annuler</ion-button>
+        <template #addTransactionButton>
+            <ion-button expand="full" @click.prevent="updateTransaction()" size="large"
+                class="call-to-action-btn space-between">Valider</ion-button>
         </template>
 
-        <template #addTransactionButton>
-            <ion-button class="form-button" expand="full" @click.prevent="updateTransaction()">Valider</ion-button>
+        <template #cancelTransactionButton>
+            <ion-button expand="full" @click.prevent="closeModal()" size="large" class="call-to-action-btn" color="secondary">Annuler
+            </ion-button>
         </template>
+
     </form-update-transaction>
 </template>
 
 <style scoped>
 .form-item,
-.form-button {
+.space-between {
     margin-bottom: 3.5vh;
 }
 

@@ -117,11 +117,11 @@ const login = async () => {
         </template>
 
         <template #formButton>
-            <ion-button expand="full" @click.prevent="login()">Se connecter</ion-button>
+            <ion-button expand="full" @click.prevent="login()" size="large" class="call-to-action-btn">Se connecter</ion-button>
         </template>
     </form-login-register>
 
-    <div class="ion-text-center">
+    <div class="ion-text-center call-to-action-link">
         <p>Pas encore inscrit ?</p>
         <RouterLink to="/">
             <ion-text color="secondary">S'inscrire</ion-text>
@@ -132,4 +132,8 @@ const login = async () => {
 </template>
 
 <style scoped>
+ion-item {
+  padding-left: 0.2vh;
+  padding-right: 0.2vh;
+}
 </style>

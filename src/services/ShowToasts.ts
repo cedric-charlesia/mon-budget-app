@@ -41,4 +41,14 @@ export default {
             })
         return toast.present();
     },
+    async deleteTransactionToast () {
+        const toast = await toastController
+            .create({
+                message: "Transaction supprimée",
+                position: "top",
+                color: "danger",
+                duration: 1500
+            })
+        return toast.present();
+    },
 }

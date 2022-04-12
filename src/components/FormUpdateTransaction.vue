@@ -58,13 +58,14 @@ defineComponent({
         </ion-item>
       </slot>
 
+      <slot name="addTransactionButton">
+        <ion-button expand="full"></ion-button>
+      </slot>
+
       <slot name="cancelTransactionButton">
         <ion-button expand="full"></ion-button>
       </slot>
 
-      <slot name="addTransactionButton">
-        <ion-button expand="full"></ion-button>
-      </slot>
     </ion-list>
   </form>
 </template>

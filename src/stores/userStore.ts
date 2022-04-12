@@ -323,7 +323,9 @@ export const userStore = defineStore({
                         this.transaction = response.data;
 
                         if (this.goToTransactionPage !== "false") {
+
                             ShowToasts.updateTransactionToast();
+
                             router.push({
                                 name: "transaction",
                                 params: {
@@ -396,6 +398,9 @@ export const userStore = defineStore({
               ).then(() => {
                 this.getUserCategories();
                 this.getUserTransactions();
+
+                ShowToasts.deleteTransactionToast();
+
                 router.push({
                   name: "user",
                 });

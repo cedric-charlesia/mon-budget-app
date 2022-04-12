@@ -163,17 +163,21 @@ const register = async () => {
     </template>
 
     <template #formButton>
-      <ion-button expand="full" @click.prevent="register()">S'inscrire</ion-button>
+      <ion-button expand="full" @click.prevent="register()" size="large" class="call-to-action-btn">S'inscrire</ion-button>
     </template>
   </form-login-register>
 
-  <div class="ion-text-center">
+  <div class="ion-text-center call-to-action-link">
     <p>J'ai déjà un compte ?</p>
-    <RouterLink to="/login">
+    <RouterLink to="/login"> 
       <ion-text color="secondary">Se connecter</ion-text>
     </RouterLink>
   </div>
 </template>
 
 <style scoped>
+ion-item {
+  padding-left: 0.2vh;
+  padding-right: 0.2vh;
+}
 </style>

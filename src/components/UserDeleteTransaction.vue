@@ -21,7 +21,7 @@ const openModal = (state: boolean) => {
 </script>
 
 <template>
-  <ion-button expand="full ion-padding" id="delete-transaction" @click="openModal(true)">Supprimer</ion-button>
+  <ion-button expand="full ion-padding" id="delete-transaction" @click="openModal(true)" size="large" class="call-to-action-btn" color="secondary">Supprimer</ion-button>
 
   <ion-popover size="cover" trigger="delete-transaction" :is-open="showDeleteModal">
     <ion-content>
@@ -31,7 +31,4 @@ const openModal = (state: boolean) => {
 </template>
 
 <style scoped>
-ion-button {
-  height: 7vh;
-}
 </style>
