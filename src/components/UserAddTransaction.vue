@@ -21,7 +21,7 @@ return { showModal, openModal, ModalAddTransaction };
 </script>
 
 <template>
-  <ion-button expand="full ion-padding" id="add-transaction" @click="openModal(true)">Ajouter un montant</ion-button>
+  <ion-button expand="full ion-padding" id="add-transaction" @click="openModal(true)">Ajouter une transaction</ion-button>
 
   <ion-modal trigger="add-transaction" :is-open="showModal">
   <ion-content><modal-add-transaction></modal-add-transaction></ion-content>

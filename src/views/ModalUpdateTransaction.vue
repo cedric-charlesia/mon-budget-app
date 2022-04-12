@@ -4,6 +4,8 @@ import { defineComponent, reactive } from 'vue';
 
 import { userStore } from "@/stores/userStore";
 
+import FormatDate from "@/services/FormatDate";
+
 import FormUpdateTransaction from "../components/FormUpdateTransaction.vue";
 import { modalController } from '@ionic/core';
 
@@ -34,9 +36,10 @@ const openToast = async () => {
 
 const state = reactive({
     description: store.transaction.description,
-    category_id: "",
+    type: store.category.type,
+    category_id: store.category.id,
     amount: store.transaction.amount,
-    date: "",
+    date: FormatDate.showDate(store.transaction.date),
 });
 
 const closeModal = async () => {
@@ -50,6 +53,11 @@ const updateTransaction = async () => {
 
         await modalController.dismiss();
         return {
+            category: store.updateCategory(
+                store.category.tag,
+                state.type,
+                Number(store.category.id)
+            ),
             transaction: store.updateTransaction(
                 state.date,
                 state.description,
@@ -71,8 +79,19 @@ const updateTransaction = async () => {
             <ion-item class="form-item">
                 <ion-label for="transaction-description" name="transaction-description" position="floating">Ajouter une
                     description</ion-label>
-                <ion-input v-model.lazy="state.description" class="capitalize" id="transaction-description" type="text"
+                <ion-input @keyup.enter="updateTransaction()" v-model.lazy="state.description" class="capitalize" id="transaction-description" type="text"
                     required />
+            </ion-item>
+        </template>
+
+        <template #transactionType>
+            <ion-item class="form-item">
+                <ion-label for="select-type" name="select-type" position="floating">Choisissez le type de transaction
+                </ion-label>
+                <ion-select v-model.lazy="state.type" name="select-type" id="select-type">
+                    <ion-select-option value="revenu">Revenu</ion-select-option>
+                    <ion-select-option value="dépense">Dépense</ion-select-option>
+                </ion-select>
             </ion-item>
         </template>
 
@@ -92,7 +111,7 @@ const updateTransaction = async () => {
             <ion-item class="form-item">
                 <ion-label for="transaction-date" name="transaction-date" position="floating">Choisir la date
                 </ion-label>
-                <ion-input v-model.lazy="state.date" type="date" id="transaction-date" required slot="end" />
+                <ion-input @keyup.enter="updateTransaction()" v-model.lazy="state.date" type="date" id="transaction-date" required slot="end" />
             </ion-item>
         </template>
 
@@ -100,7 +119,7 @@ const updateTransaction = async () => {
             <ion-item class="form-item">
                 <ion-label for="transaction-amount" name="transaction-amount" position="floating">Indiquer le montant
                 </ion-label>
-                <ion-input v-model.lazy="state.amount" id="transaction-amount" type="number" required />
+                <ion-input @keyup.enter="updateTransaction()" v-model.lazy="state.amount" id="transaction-amount" type="number" required />
             </ion-item>
         </template>
 

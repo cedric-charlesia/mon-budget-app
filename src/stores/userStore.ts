@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import UserService from "@/services/UserService";
+import FormatDate from "@/services/FormatDate";
 import router from "@/router";
 
 export const userStore = defineStore({
@@ -261,20 +262,7 @@ export const userStore = defineStore({
         ) {
             let checkTransaction;
 
-            let month;
-            let day;
-            let year;
-
-            const newDate = new Date(date);
-
-            (month = "" + (newDate.getMonth() + 1)),
-                (day = "" + newDate.getDate()),
-                (year = newDate.getFullYear());
-
-            if (month.length < 2) month = "0" + month;
-            if (day.length < 2) day = "0" + day;
-
-            const dateTransaction = `${year}-${month}-${day}`;
+            const dateTransaction = FormatDate.showDate(date);
             const descriptionTransaction = description;
             const amountTransaction = Number(amount);
 
@@ -293,7 +281,7 @@ export const userStore = defineStore({
                 amount: number;
                 category_id: number;
                 check: string;
-                [key: string]: unknown;
+                [key: string]: string | number;
             }
 
             const transaction: Transaction = {
@@ -328,6 +316,48 @@ export const userStore = defineStore({
                                 },
                             });
                         }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async updateCategory(
+            tag: string,
+            type: string,
+            catId: number,
+        ) {
+            const categoryId = Number(catId);
+
+            const categoryTag = tag;
+            const categoryType = type;
+
+            interface Category {
+                tag: string;
+                type: string;
+                user_id: number;
+                [key: string]: string | number;
+            }
+
+            const category: Category = {
+                tag: categoryTag,
+                type: categoryType,
+                user_id: Number(this.id),
+            };
+
+            const userToken = localStorage.getItem("token");
+
+            try {
+                await UserService.updateCategory(
+                    category,
+                    this.id,
+                    categoryId,
+                    userToken
+                )
+                    .then((response) => {
+                        this.category = response.data;                        
                     })
                     .catch((error) => {
                         console.error(error);

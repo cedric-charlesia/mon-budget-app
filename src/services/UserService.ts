@@ -41,6 +41,20 @@ const apiClient = axios.create({
           headers: { authorization: `${userToken}` },
         });
       },
+      updateCategory(
+        category: object,
+        id: number,
+        catId: number,
+        userToken: unknown
+      ) {
+        return apiClient.patch(
+          `/user/${id}/categories/${catId}`,
+          category,
+          {
+            headers: { authorization: `${userToken}` },
+          }
+        );
+      },
       getUserTransactions(id: number, userToken: unknown) {
         return apiClient.get(`/user/${id}/transactions`, {
           headers: { authorization: `${userToken}` },

@@ -25,6 +25,16 @@ defineComponent({
           <ion-input required />
         </ion-item>
       </slot>
+
+      <slot name="transactionType">
+        <ion-item>
+          <ion-label position="floating"></ion-label>
+          <ion-select>
+            <ion-select-option></ion-select-option>
+          </ion-select>
+        </ion-item>
+      </slot>
+
       <slot name="categorySelection">
         <ion-item>
           <ion-label position="floating"></ion-label>
