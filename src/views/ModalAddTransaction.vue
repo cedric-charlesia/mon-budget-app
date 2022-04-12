@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, toastController } from '@ionic/vue';
-import { defineComponent, reactive } from 'vue';
+import { IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, IonText } from '@ionic/vue';
+import { defineComponent, reactive, computed } from 'vue';
 
 import { userStore } from "@/stores/userStore";
 
 import FormAddTransaction from "../components/FormAddTransaction.vue";
 import { modalController } from '@ionic/core';
+
+import useValidate from "@vuelidate/core";
+import { required, requiredUnless, helpers } from "@vuelidate/validators";
 
 const store = userStore();
 
@@ -17,20 +20,10 @@ defineComponent({
         IonInput,
         IonSelect,
         IonSelectOption,
-        IonButton
+        IonButton,
+        IonText
     }
 });
-
-const openToast = async () => {
-    const toast = await toastController
-        .create({
-            message: "Transaction ajoutée !",
-            position: "top",
-            color: "success",
-            duration: 1500
-        })
-    return toast.present();
-}
 
 const state = reactive({
     type: "",
@@ -45,8 +38,50 @@ const closeModal = async () => {
     await modalController.dismiss();
 };
 
-const addTransaction = async () => {
+const optionalInputTag = () => state.tag != "";
+const optionalInputCategory = () => state.category_id != "";
 
+const rules = computed(() => {
+    return {
+        type: {
+            required: helpers.withMessage(
+                "Veuillez choisir un type de transaction",
+                required
+            ),
+        },
+        category_id: {
+            requiredUnless: helpers.withMessage(
+                "Veuillez choisir une catégorie",
+                requiredUnless(optionalInputTag)
+            ),
+        },
+        tag: {
+            requiredUnless: helpers.withMessage(
+                "Veuillez indiquer une catégorie",
+                requiredUnless(optionalInputCategory)
+            ),
+        },
+        date: {
+            required: helpers.withMessage("Veuillez indiquer une date", required),
+        },
+        description: {
+            required: helpers.withMessage(
+                "Veuillez indiquer une description",
+                required
+            ),
+        },
+        amount: {
+            required: helpers.withMessage("Veuillez indiquer un montant", required),
+        },
+    };
+});
+
+const v$ = useValidate(rules, state);
+
+const addTransaction = async () => {
+    v$.value.$validate();
+
+    if (v$.value.$error) return;
 
     const formDataCategory = new FormData();
     const formDataTransaction = new FormData();
@@ -100,8 +135,6 @@ const addTransaction = async () => {
             JSON.stringify(transaction);
         }
 
-        openToast();
-
         await modalController.dismiss();
 
         return { user: store.addTransaction(category, transaction) };
@@ -118,10 +151,15 @@ const addTransaction = async () => {
             <ion-item class="form-item">
                 <ion-label for="select-type" name="select-type" position="floating">Choisissez le type de transaction
                 </ion-label>
+
                 <ion-select v-model.lazy="state.type" name="select-type" id="select-type">
                     <ion-select-option value="revenu">Revenu</ion-select-option>
                     <ion-select-option value="dépense">Dépense</ion-select-option>
                 </ion-select>
+
+                <ion-text v-if="v$.type.$error" color="danger">{{
+                    v$.type.$errors[0].$message
+                }}</ion-text>
             </ion-item>
         </template>
 
@@ -129,12 +167,17 @@ const addTransaction = async () => {
             <ion-item class="form-item">
                 <ion-label for="select-category" name="select-category" position="floating">Retrouvez vos catégories ici
                 </ion-label>
+
                 <ion-select v-model.lazy="state.category_id" name="select-category" :disabled="state.tag !== ''"
                     id="select-category">
                     <ion-select-option v-for="category of store.categories" :key="category.id" :value="category.id">{{
                         category.tag.charAt(0).toUpperCase() + category.tag.slice(1)
                     }}</ion-select-option>
                 </ion-select>
+
+                <ion-text :class="state.tag !== '' ? 'hide' : 'show'" v-if="v$.category_id.$error" color="danger">{{
+                    v$.category_id.$errors[0].$message
+                }}</ion-text>
             </ion-item>
         </template>
 
@@ -142,16 +185,26 @@ const addTransaction = async () => {
             <ion-item class="form-item">
                 <ion-label for="add-category" name="add-category" position="floating">Si la catégorie n'existe pas,
                     créez-là</ion-label>
+
                 <ion-input v-model.lazy="state.tag" type="text" :disabled="state.category_id !== ''" id="add-category"
                     required />
+
+                <ion-text :class="state.category_id !== '' ? 'hide' : 'show'" v-if="v$.tag.$error" color="danger">{{
+                    v$.tag.$errors[0].$message
+                }}</ion-text>
             </ion-item>
         </template>
 
         <template #transactionDate>
             <ion-item class="form-item">
-                <ion-label for="transaction-date" name="transaction-date" position="floating">Choisir la date
+                <ion-label for="transaction-date" name="transaction-date" position="floating">Date
                 </ion-label>
+
                 <ion-input v-model.lazy="state.date" type="date" id="transaction-date" required slot="end" />
+
+                <ion-text class="block" v-if="v$.date.$error" color="danger">{{
+                    v$.date.$errors[0].$message
+                }}</ion-text>
             </ion-item>
         </template>
 
@@ -159,7 +212,12 @@ const addTransaction = async () => {
             <ion-item class="form-item">
                 <ion-label for="transaction-description" name="transaction-description" position="floating">Ajouter une
                     description</ion-label>
+
                 <ion-input v-model.lazy="state.description" id="transaction-description" type="text" required />
+
+                <ion-text v-if="v$.description.$error" color="danger">{{
+                    v$.description.$errors[0].$message
+                }}</ion-text>
             </ion-item>
         </template>
 
@@ -167,7 +225,12 @@ const addTransaction = async () => {
             <ion-item class="form-item">
                 <ion-label for="transaction-amount" name="transaction-amount" position="floating">Indiquer le montant
                 </ion-label>
+
                 <ion-input v-model.lazy="state.amount" id="transaction-amount" type="number" required />
+
+                <ion-text v-if="v$.amount.$error" color="danger">{{
+                    v$.amount.$errors[0].$message
+                }}</ion-text>
             </ion-item>
         </template>
 
@@ -185,5 +248,11 @@ const addTransaction = async () => {
 .form-item,
 .form-button {
     margin-bottom: 3.5vh;
+}
+.hide {
+  display: none;
+}
+.show {
+  display: inline;
 }
 </style>

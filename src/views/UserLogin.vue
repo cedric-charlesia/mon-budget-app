@@ -4,8 +4,11 @@ import { RouterLink } from "vue-router";
 
 import { userStore } from "@/stores/userStore";
 
-import { IonItem, IonLabel, IonInput, IonButton, IonText, toastController } from '@ionic/vue';
-import { defineComponent, reactive } from 'vue';
+import { IonItem, IonLabel, IonInput, IonButton, IonText } from '@ionic/vue';
+
+import useValidate from "@vuelidate/core";
+import { required, email, minLength, helpers } from "@vuelidate/validators";
+import { defineComponent, reactive, computed } from 'vue';
 
 defineComponent({
     name: 'LoginForm',
@@ -18,17 +21,6 @@ defineComponent({
     }
 });
 
-const openToast = async () => {
-    const toast = await toastController
-        .create({
-            message: "Connecté !",
-            position: "top",
-            color: "secondary",
-            duration: 1500
-        })
-    return toast.present();
-}
-
 const store = userStore();
 
 const state = reactive({
@@ -36,7 +28,38 @@ const state = reactive({
     password: "",
 });
 
+const rules = computed(() => {
+    return {
+        email: {
+            required: helpers.withMessage(
+                "Veuillez entrer votre adresse email",
+                required
+            ),
+            email: helpers.withMessage(
+                "L'adresse email saisie n'est pas valide",
+                email
+            ),
+        },
+        password: {
+            required: helpers.withMessage(
+                "Veuillez entrer votre mot de passe",
+                required
+            ),
+            minLength: helpers.withMessage(
+                "Le mot de passe doit avoir un minimum de 8 caractères",
+                minLength(8)
+            ),
+        },
+    };
+});
+
+const v$ = useValidate(rules, state);
+
 const login = async () => {
+    v$.value.$validate();
+
+    if (v$.value.$error) return;
+
     const formData = new FormData();
 
     formData.append("email", state.email);
@@ -59,8 +82,6 @@ const login = async () => {
             JSON.stringify(user);
         }
 
-        openToast();
-
         return { login: store.loginUser(user) };
 
     } catch (error) {
@@ -77,6 +98,10 @@ const login = async () => {
             <ion-item>
                 <ion-label position="floating">Email</ion-label>
                 <ion-input @keyup.enter="login()" v-model.lazy="state.email" type="text" required />
+                <ion-text v-if="v$.email.$error" color="danger">{{
+                    v$.email.$errors[0].$message
+                }}</ion-text>
+                <ion-text v-else-if="store.inputError === true" color="danger">Erreur, vérifiez votre adresse email</ion-text>
             </ion-item>
         </template>
 
@@ -84,6 +109,10 @@ const login = async () => {
             <ion-item>
                 <ion-label position="floating">Mot de passe</ion-label>
                 <ion-input @keyup.enter="login()" v-model.lazy="state.password" type="password" required />
+                <ion-text v-if="v$.password.$error" color="danger">{{
+                    v$.password.$errors[0].$message
+                }}</ion-text>
+                <ion-text v-else-if="store.inputError === true" color="danger">Erreur, vérifiez votre mot de passe</ion-text>
             </ion-item>
         </template>
 

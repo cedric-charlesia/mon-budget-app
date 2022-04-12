@@ -1,6 +1,9 @@
 import { defineStore } from "pinia";
+
 import UserService from "@/services/UserService";
 import FormatDate from "@/services/FormatDate";
+import ShowToasts from "@/services/ShowToasts";
+
 import router from "@/router";
 
 export const userStore = defineStore({
@@ -36,6 +39,7 @@ export const userStore = defineStore({
             category_id: 0,
             check: "",
         },
+        inputError: false,
         emailError: false,
         checked: false,
         goToTransactionPage: "",
@@ -49,6 +53,8 @@ export const userStore = defineStore({
                         this.id = parseInt(response.data.id, 10);
                         this.username = response.data.username;
                         this.email = response.data.email;
+
+                        ShowToasts.registerToast();
 
                         router.push({
                             name: "login",
@@ -79,9 +85,16 @@ export const userStore = defineStore({
                             headers: { Authorization: `${response.headers.authorization}` },
                         };
 
+                        if (response.status === 204) {
+                            this.inputError = true;                            
+                        }
+
                         if (!isNaN(userId) && isFinite(userId)) {
                             UserService.user(userId, token)
-                                .then((response) => {
+                                .then((response) => {  
+
+                                    ShowToasts.loginToast();
+
                                     router.push({
                                         name: "user",
                                         params: response.data,
@@ -206,6 +219,7 @@ export const userStore = defineStore({
 
                             UserService.addTransaction(transaction, this.id, catId, userToken)
                                 .then(() => {
+                                    ShowToasts.addTransactionToast();
                                     this.getUserCategories();
                                     this.getUserTransactions();
 
@@ -228,6 +242,7 @@ export const userStore = defineStore({
                         userToken
                     )
                         .then(() => {
+                            ShowToasts.addTransactionToast();
                             this.getUserCategories();
                             this.getUserTransactions();
 
@@ -308,6 +323,7 @@ export const userStore = defineStore({
                         this.transaction = response.data;
 
                         if (this.goToTransactionPage !== "false") {
+                            ShowToasts.updateTransactionToast();
                             router.push({
                                 name: "transaction",
                                 params: {

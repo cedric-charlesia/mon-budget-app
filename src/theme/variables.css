@@ -90,3 +90,8 @@ http://ionicframework.com/docs/theming/ */
   --expense-color: #da1212;
   --total-color: #000000;
 }
+
+.block {
+  display: block;
+  margin-top: 2.5vh;
+}

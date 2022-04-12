@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, toastController } from '@ionic/vue';
-import { defineComponent, reactive } from 'vue';
+import { IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, IonText } from '@ionic/vue';
+import { defineComponent, reactive, computed } from 'vue';
 
 import { userStore } from "@/stores/userStore";
 
@@ -8,6 +8,9 @@ import FormatDate from "@/services/FormatDate";
 
 import FormUpdateTransaction from "../components/FormUpdateTransaction.vue";
 import { modalController } from '@ionic/core';
+
+import useValidate from "@vuelidate/core";
+import { required, helpers } from "@vuelidate/validators";
 
 const store = userStore();
 
@@ -19,20 +22,10 @@ defineComponent({
         IonInput,
         IonSelect,
         IonSelectOption,
-        IonButton
+        IonButton,
+        IonText
     }
 });
-
-const openToast = async () => {
-    const toast = await toastController
-        .create({
-            message: "Transaction mise à jour !",
-            position: "top",
-            color: "success",
-            duration: 1500
-        })
-    return toast.present();
-}
 
 const state = reactive({
     description: store.transaction.description,
@@ -46,11 +39,40 @@ const closeModal = async () => {
     await modalController.dismiss();
 };
 
+const rules = computed(() => {
+    return {
+        description: {
+            required: helpers.withMessage(
+                "Veuillez indiquer une description",
+                required
+            ),
+        },
+        type: {
+            required: helpers.withMessage(
+                "Veuillez choisir un type de transaction",
+                required
+            ),
+        },
+        category_id: {
+            required: helpers.withMessage("Veuillez choisir une catégorie", required),
+        },
+        amount: {
+            required: helpers.withMessage("Veuillez indiquer un montant", required),
+        },
+        date: {
+            required: helpers.withMessage("Veuillez choisir une date", required),
+        },
+    };
+});
+
+const v$ = useValidate(rules, state);
+
 const updateTransaction = async () => {
+    v$.value.$validate();
+
+    if (v$.value.$error) return;
 
     try {
-        openToast();
-
         await modalController.dismiss();
         return {
             category: store.updateCategory(
@@ -79,8 +101,13 @@ const updateTransaction = async () => {
             <ion-item class="form-item">
                 <ion-label for="transaction-description" name="transaction-description" position="floating">Ajouter une
                     description</ion-label>
-                <ion-input @keyup.enter="updateTransaction()" v-model.lazy="state.description" class="capitalize" id="transaction-description" type="text"
-                    required />
+
+                <ion-input @keyup.enter="updateTransaction()" v-model.lazy="state.description" class="capitalize"
+                    id="transaction-description" type="text" required />
+
+                <ion-text v-if="v$.description.$error" color="danger">{{
+                    v$.description.$errors[0].$message
+                }}</ion-text>
             </ion-item>
         </template>
 
@@ -88,10 +115,16 @@ const updateTransaction = async () => {
             <ion-item class="form-item">
                 <ion-label for="select-type" name="select-type" position="floating">Choisissez le type de transaction
                 </ion-label>
+
                 <ion-select v-model.lazy="state.type" name="select-type" id="select-type">
                     <ion-select-option value="revenu">Revenu</ion-select-option>
                     <ion-select-option value="dépense">Dépense</ion-select-option>
                 </ion-select>
+
+                <ion-text v-if="v$.type.$error" color="danger">{{
+                    v$.type.$errors[0].$message
+                }}</ion-text>
+
             </ion-item>
         </template>
 
@@ -99,19 +132,32 @@ const updateTransaction = async () => {
             <ion-item class="form-item">
                 <ion-label for="select-category" name="select-category" position="floating">-- Choisir une categorie ---
                 </ion-label>
+
                 <ion-select v-model.lazy="state.category_id" name="select-category" id="select-category">
                     <ion-select-option v-for="category of store.categories" :key="category.id" :value="category.id">{{
                         category.tag.charAt(0).toUpperCase() + category.tag.slice(1)
                     }}</ion-select-option>
                 </ion-select>
+
+                <ion-text v-if="v$.category_id.$error" color="danger">{{
+                    v$.category_id.$errors[0].$message
+                }}</ion-text>
+
             </ion-item>
         </template>
 
         <template #transactionDate>
             <ion-item class="form-item">
-                <ion-label for="transaction-date" name="transaction-date" position="floating">Choisir la date
+                <ion-label for="transaction-date" name="transaction-date" position="floating">Date
                 </ion-label>
-                <ion-input @keyup.enter="updateTransaction()" v-model.lazy="state.date" type="date" id="transaction-date" required slot="end" />
+
+                <ion-input @keyup.enter="updateTransaction()" v-model.lazy="state.date" type="date"
+                    id="transaction-date" required slot="end" />
+
+                <ion-text class="block" v-if="v$.date.$error" color="danger">{{
+                    v$.date.$errors[0].$message
+                }}</ion-text>
+
             </ion-item>
         </template>
 
@@ -119,7 +165,14 @@ const updateTransaction = async () => {
             <ion-item class="form-item">
                 <ion-label for="transaction-amount" name="transaction-amount" position="floating">Indiquer le montant
                 </ion-label>
-                <ion-input @keyup.enter="updateTransaction()" v-model.lazy="state.amount" id="transaction-amount" type="number" required />
+
+                <ion-input @keyup.enter="updateTransaction()" v-model.lazy="state.amount" id="transaction-amount"
+                    type="number" required />
+
+                <ion-text v-if="v$.amount.$error" color="danger">{{
+                    v$.amount.$errors[0].$message
+                }}</ion-text>
+
             </ion-item>
         </template>
 
