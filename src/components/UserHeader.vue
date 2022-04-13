@@ -30,7 +30,3 @@ const store = userStore();
       </ion-toolbar>
     </ion-header>
 </template>
-
-<style scoped>
-
-</style>

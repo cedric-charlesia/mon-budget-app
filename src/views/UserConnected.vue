@@ -37,8 +37,8 @@ defineComponent({
       <user-account-summary></user-account-summary>
 
       <ion-card v-if="store.transactions.length === 0" class="no-transaction">
-        <h2>Rien à afficher pour le moment</h2>
-        <p>Cliquez sur le bouton pour commencer</p>
+        <h2 class="ion-text-center">Rien à afficher pour le moment</h2>
+        <p class="ion-text-center">Cliquez sur le bouton plus bas pour commencer</p>
       </ion-card>
 
       <ion-card v-else>
@@ -55,11 +55,11 @@ defineComponent({
 
 <style scoped>
 ion-card {
-  height: 45vh;
+  height: 50%;
   overflow-y: auto;
   border: 0.15rem solid var(--ion-color-secondary);
   color: var(--ion-color-secondary);
-  margin-bottom: 2vh;
+  margin-bottom: 0;
 }
 
 .no-transaction {

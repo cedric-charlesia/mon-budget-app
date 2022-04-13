@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IonItem, IonInput } from '@ionic/vue';
+import { IonItem } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 
 import { userStore } from "@/stores/userStore";
@@ -8,7 +8,6 @@ defineComponent({
   name: 'UserMonthPicker',
   components: {
     IonItem,
-    IonInput
   }
 });
 
@@ -35,11 +34,12 @@ const refreshTransactions = () => {
 
 <template>
   <ion-item lines="none" class="calendar">
-    <ion-input
+    <input
       v-model.lazy="month"
       type="month"
       id="currentMonth"
       name="currentMonth"
+      class="input-calendar"
       @change="refreshTransactions()"
     />
   </ion-item>
@@ -54,7 +54,10 @@ const refreshTransactions = () => {
 ion-item {
   border: 0.15rem solid var(--ion-color-secondary);
   border-radius: 0.15rem;
-  margin-top: 2vh;
+  margin-top: 2%;
   margin-left: 1rem;
+}
+.input-calendar {
+  border: none;
 }
 </style>

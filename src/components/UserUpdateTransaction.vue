@@ -29,6 +29,3 @@ const openModal = (state: boolean) => {
     </ion-content>
   </ion-modal>
 </template>
-
-<style scoped>
-</style>

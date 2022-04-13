@@ -76,6 +76,3 @@ defineComponent({
     </ion-list>
   </form>
 </template>
-
-<style scoped>
-</style>

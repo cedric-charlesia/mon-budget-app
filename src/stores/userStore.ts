@@ -220,9 +220,7 @@ export const userStore = defineStore({
                             UserService.addTransaction(transaction, this.id, catId, userToken)
                                 .then(() => {
                                     ShowToasts.addTransactionToast();
-                                    this.getUserCategories();
                                     this.getUserTransactions();
-
                                 })
                                 .catch((error) => {
                                     console.error(error);
@@ -318,7 +316,6 @@ export const userStore = defineStore({
                     userToken
                 )
                     .then((response) => {
-                        this.getUserCategories();
                         this.getUserTransactions();
                         this.transaction = response.data;
 
@@ -396,7 +393,6 @@ export const userStore = defineStore({
                 transactionId,
                 userToken
               ).then(() => {
-                this.getUserCategories();
                 this.getUserTransactions();
 
                 ShowToasts.deleteTransactionToast();

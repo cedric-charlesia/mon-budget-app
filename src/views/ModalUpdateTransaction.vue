@@ -27,6 +27,13 @@ defineComponent({
     }
 });
 
+const customTransactionType: any = {
+    header: "Sélectionner un type de transaction",
+};
+const customCategoryType: any = {
+    header: "Selectionner une catégorie",
+};
+
 const state = reactive({
     description: store.transaction.description,
     type: store.category.type,
@@ -116,7 +123,8 @@ const updateTransaction = async () => {
                 <ion-label for="select-type" name="select-type" position="floating">Choisissez le type de transaction
                 </ion-label>
 
-                <ion-select v-model.lazy="state.type" name="select-type" id="select-type">
+                <ion-select :interface-options="customTransactionType" interface="action-sheet" cancel-text="Annuler"
+                    v-model.lazy="state.type" name="select-type" id="select-type">
                     <ion-select-option value="revenu">Revenu</ion-select-option>
                     <ion-select-option value="dépense">Dépense</ion-select-option>
                 </ion-select>
@@ -133,7 +141,8 @@ const updateTransaction = async () => {
                 <ion-label for="select-category" name="select-category" position="floating">-- Choisir une categorie ---
                 </ion-label>
 
-                <ion-select v-model.lazy="state.category_id" name="select-category" id="select-category">
+                <ion-select :interface-options="customCategoryType" interface="action-sheet" cancel-text="Annuler"
+                    v-model.lazy="state.category_id" name="select-category" id="select-category">
                     <ion-select-option v-for="category of store.categories" :key="category.id" :value="category.id">{{
                         category.tag.charAt(0).toUpperCase() + category.tag.slice(1)
                     }}</ion-select-option>
@@ -182,7 +191,8 @@ const updateTransaction = async () => {
         </template>
 
         <template #cancelTransactionButton>
-            <ion-button expand="full" @click.prevent="closeModal()" size="large" class="call-to-action-btn" color="secondary">Annuler
+            <ion-button expand="full" @click.prevent="closeModal()" size="large" class="call-to-action-btn"
+                color="secondary">Annuler
             </ion-button>
         </template>
 
@@ -192,9 +202,8 @@ const updateTransaction = async () => {
 <style scoped>
 .form-item,
 .space-between {
-    margin-bottom: 3.5vh;
+    margin-bottom: 7%;
 }
-
 .capitalize {
     text-transform: capitalize;
 }

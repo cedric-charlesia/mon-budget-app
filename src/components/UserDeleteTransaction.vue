@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IonButton, IonPopover, IonContent } from '@ionic/vue';
+import { IonButton, IonModal, IonContent } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 
 import ModalDeleteTransaction from "../views/ModalDeleteTransaction.vue";
@@ -8,7 +8,7 @@ defineComponent({
   name: 'UserDeleteTransaction',
   components: {
     IonButton,
-    IonPopover,
+    IonModal,
     IonContent
   }
 });
@@ -23,12 +23,9 @@ const openModal = (state: boolean) => {
 <template>
   <ion-button expand="full ion-padding" id="delete-transaction" @click="openModal(true)" size="large" class="call-to-action-btn" color="secondary">Supprimer</ion-button>
 
-  <ion-popover size="cover" trigger="delete-transaction" :is-open="showDeleteModal">
+  <ion-modal trigger="delete-transaction" :is-open="showDeleteModal" :initialBreakpoint="0.75">
     <ion-content>
       <modal-delete-transaction></modal-delete-transaction>
     </ion-content>
-  </ion-popover>
+  </ion-modal>
 </template>
-
-<style scoped>
-</style>

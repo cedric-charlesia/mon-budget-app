@@ -28,8 +28,8 @@ defineComponent({
 
 <style scoped>
 .subtitle {
-  max-width: 85vw;
-  margin: 5vh auto;
+  max-width: 85%;
+  margin: 8% auto 0 auto;
 }
 ion-toolbar{
 --background: #ffffff;

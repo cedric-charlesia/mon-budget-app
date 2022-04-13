@@ -57,6 +57,3 @@ const logout = () => {
   </ion-menu>
   <ion-router-outlet id="main-content"></ion-router-outlet>
 </template>
-
-<style scoped>
-</style>

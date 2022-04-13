@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { IonList, IonTitle, IonButton } from '@ionic/vue';
+import { IonList, IonButton } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 defineComponent({
   name: 'DeleteTransactionForm',
   components: {
     IonList,
-    IonTitle,
     IonButton
   }
 });
@@ -17,7 +16,7 @@ defineComponent({
     <ion-list>
 
       <slot name="deleteTransaction">
-        <ion-title></ion-title>
+        <p></p>
       </slot>
       <slot name="cancelTransactionButton">
         <ion-button expand="full"></ion-button>
@@ -29,6 +28,3 @@ defineComponent({
     </ion-list>
   </form>
 </template>
-
-<style scoped>
-</style>

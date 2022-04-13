@@ -27,6 +27,3 @@ return { showModal, openModal, ModalAddTransaction };
   <ion-content><modal-add-transaction></modal-add-transaction></ion-content>
 </ion-modal>
 </template>
-
-<style scoped>
-</style>

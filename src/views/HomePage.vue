@@ -33,6 +33,3 @@ defineComponent({
     <home-footer></home-footer>
   </ion-page>
 </template>
-
-<style scoped>
-</style>

@@ -133,7 +133,7 @@ const login = async () => {
 
 <style scoped>
 ion-item {
-  padding-left: 0.2vh;
-  padding-right: 0.2vh;
+  padding-left: 0.3%;
+  padding-right: 0.3%;
 }
 </style>
