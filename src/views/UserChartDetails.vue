@@ -2,13 +2,12 @@
 import { IonContent, IonPage, IonCard } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
-import UserHeader from "../components/UserHeader.vue";
+import UserChartHeader from "../components/UserChartHeader.vue";
 import HomeFooter from "../components/HomeFooter.vue";
 
-import UserMonthPicker from "../components/UserMonthPicker.vue";
-import UserAccountSummary from "../components/UserAccountSummary.vue";
-import UserShowTransactions from "../components/UserShowTransactions.vue";
-import UserAddTransaction from "../components/UserAddTransaction.vue";
+import UserMonthPickerChart from "../components/UserMonthPickerChart.vue";
+import UserShowChartDetails from "../components/UserShowChartDetails.vue";
+import UserDownloadChart from "../components/UserDownloadChart.vue";
 
 import { userStore } from "@/stores/userStore";
 
@@ -29,23 +28,20 @@ defineComponent({
   <ion-page>
     <!-- Header area -->
     <ion-content :fullscreen="true">
-      <user-header></user-header>
+      <user-chart-header></user-chart-header>
 
       <!-- Content area -->
-      <user-month-picker></user-month-picker>
-
-      <user-account-summary></user-account-summary>
+      <user-month-picker-chart></user-month-picker-chart>
 
       <ion-card v-if="store.transactions.length === 0" class="no-transaction">
         <h2 class="ion-text-center">Rien à afficher pour le moment</h2>
-        <p class="ion-text-center">Cliquez sur le bouton plus bas pour commencer</p>
       </ion-card>
 
       <ion-card v-else>
-        <user-show-transactions></user-show-transactions>
+        <user-show-chart-details></user-show-chart-details>
       </ion-card>
 
-      <user-add-transaction></user-add-transaction>
+      <!-- <user-download-chart></user-download-chart> -->
     </ion-content>
 
     <!-- Footer area -->
@@ -55,11 +51,8 @@ defineComponent({
 
 <style scoped>
 ion-card {
-  height: 45%;
-  overflow-y: auto;
-  border: 0.15rem solid var(--ion-color-secondary);
-  color: var(--ion-color-secondary);
-  margin-bottom: 0;
+  margin-bottom: 12%;
+  box-shadow: none;
 }
 
 .no-transaction {

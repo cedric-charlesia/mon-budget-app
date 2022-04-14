@@ -32,11 +32,28 @@ const customCategoryType: any = {
     header: "Selectionner une catégorie",
 };
 
+const getTodayDate = () => {
+
+    const now = new Date();
+    let month = "";
+    if (new Date(now).getMonth() + 1 < 10) {
+        month = `0${new Date(now).getMonth() + 1
+            }`;
+    } else {
+        month = `${new Date(now).getMonth() + 1
+            }`;
+    }
+
+    const today = now.getFullYear() + '-' + month + '-' + now.getDate();
+    
+    return today;
+}
+
 const state = reactive({
     type: "",
     category_id: "",
     tag: "",
-    date: "",
+    date: getTodayDate(),
     description: "",
     amount: "",
 });
@@ -206,10 +223,11 @@ const addTransaction = async () => {
 
         <template #transactionDate>
             <ion-item class="form-item">
-                <ion-label for="transaction-date" name="transaction-date" position="floating">Date
+                <ion-label for="transaction-date" name="transaction-date" position="fixed">Date
                 </ion-label>
 
-                <ion-input v-model.lazy="state.date" type="date" id="transaction-date" required slot="end" />
+                <ion-input @keyup.enter="addTransaction()" v-model.lazy="state.date" type="date" id="transaction-date"
+                    required slot="end" />
 
                 <ion-text class="block" v-if="v$.date.$error" color="danger">{{
                     v$.date.$errors[0].$message
@@ -222,7 +240,8 @@ const addTransaction = async () => {
                 <ion-label for="transaction-description" name="transaction-description" position="floating">Ajouter une
                     description</ion-label>
 
-                <ion-input v-model.lazy="state.description" id="transaction-description" type="text" required />
+                <ion-input @keyup.enter="addTransaction()" v-model.lazy="state.description" id="transaction-description"
+                    type="text" required />
 
                 <ion-text v-if="v$.description.$error" color="danger">{{
                     v$.description.$errors[0].$message
@@ -235,7 +254,8 @@ const addTransaction = async () => {
                 <ion-label for="transaction-amount" name="transaction-amount" position="floating">Indiquer le montant
                 </ion-label>
 
-                <ion-input v-model.lazy="state.amount" id="transaction-amount" type="number" required />
+                <ion-input @keyup.enter="addTransaction()" v-model.lazy="state.amount" id="transaction-amount"
+                    type="number" required />
 
                 <ion-text v-if="v$.amount.$error" color="danger">{{
                     v$.amount.$errors[0].$message

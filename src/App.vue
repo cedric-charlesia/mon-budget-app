@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { IonMenu, IonRouterOutlet, IonContent, IonItem, IonIcon, IonHeader, IonToolbar, IonTitle, IonButton, IonMenuToggle } from '@ionic/vue';
 
-import { logOutOutline, logOutSharp } from 'ionicons/icons';
+import { logOutOutline, logOutSharp, linkOutline, linkSharp } from 'ionicons/icons';
 
 import { userStore } from "@/stores/userStore";
 import router from "@/router";
@@ -36,6 +36,12 @@ const logout = () => {
   });
 };
 
+const goToChart = () => {
+  router.push({
+    name: "chart",
+  });
+};
+
 </script>
 
 <template>
@@ -51,6 +57,12 @@ const logout = () => {
         <ion-icon slot="start" :ios="logOutOutline" :md="logOutSharp"></ion-icon>
         <ion-menu-toggle>
         <ion-button fill="clear" color="secondary" @click.prevent="logout()" menuClose>Se déconnecter</ion-button>
+        </ion-menu-toggle>
+      </ion-item>
+            <ion-item lines="none">
+        <ion-icon slot="start" :ios="linkOutline" :md="linkSharp"></ion-icon>
+        <ion-menu-toggle>
+        <ion-button fill="clear" color="secondary" @click.prevent="goToChart()" menuClose>Voir mes stats</ion-button>
         </ion-menu-toggle>
       </ion-item>
     </ion-content>

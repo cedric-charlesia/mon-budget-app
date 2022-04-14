@@ -6,7 +6,7 @@ import { defineComponent } from 'vue';
 import { userStore } from "@/stores/userStore";
 
 defineComponent({
-  name: 'UserTransactionHeader',
+  name: 'UserChartHeader',
   components: {
     IonHeader,
     IonTitle,

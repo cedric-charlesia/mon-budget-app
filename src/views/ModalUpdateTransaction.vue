@@ -157,7 +157,7 @@ const updateTransaction = async () => {
 
         <template #transactionDate>
             <ion-item class="form-item">
-                <ion-label for="transaction-date" name="transaction-date" position="floating">Date
+                <ion-label for="transaction-date" name="transaction-date" position="fixed">Date
                 </ion-label>
 
                 <ion-input @keyup.enter="updateTransaction()" v-model.lazy="state.date" type="date"

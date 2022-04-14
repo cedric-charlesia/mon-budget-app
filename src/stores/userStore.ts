@@ -21,6 +21,7 @@ export const userStore = defineStore({
         },
         dates: [""],
         currentMonth: "",
+        currentMonthChart: "",
         transactions: [
             {
                 id: 0,
@@ -43,6 +44,9 @@ export const userStore = defineStore({
         emailError: false,
         checked: false,
         goToTransactionPage: "",
+        dataValues: [0],
+        dataLabels: [""],
+        isChartVisible: false,
     }),
     getters: {},
     actions: {
@@ -86,12 +90,12 @@ export const userStore = defineStore({
                         };
 
                         if (response.status === 204) {
-                            this.inputError = true;                            
+                            this.inputError = true;
                         }
 
                         if (!isNaN(userId) && isFinite(userId)) {
                             UserService.user(userId, token)
-                                .then((response) => {  
+                                .then((response) => {
 
                                     ShowToasts.loginToast();
 
@@ -372,7 +376,7 @@ export const userStore = defineStore({
                     userToken
                 )
                     .then((response) => {
-                        this.category = response.data;                        
+                        this.category = response.data;
                     })
                     .catch((error) => {
                         console.error(error);
@@ -385,26 +389,26 @@ export const userStore = defineStore({
             const categoryId = Number(catId);
             const transactionId = Number(transacId);
             const userToken = localStorage.getItem("token");
-      
+
             try {
-              await UserService.deleteteTransaction(
-                this.id,
-                categoryId,
-                transactionId,
-                userToken
-              ).then(() => {
-                this.getUserTransactions();
+                await UserService.deleteteTransaction(
+                    this.id,
+                    categoryId,
+                    transactionId,
+                    userToken
+                ).then(() => {
+                    this.getUserTransactions();
 
-                ShowToasts.deleteTransactionToast();
+                    ShowToasts.deleteTransactionToast();
 
-                router.push({
-                  name: "user",
+                    router.push({
+                        name: "user",
+                    });
                 });
-              });
             } catch (error) {
-              console.error(error);
+                console.error(error);
             }
-          },
+        },
         getTotalIncomeOrExpense(categoryType: string) {
             let totalIncomeOrExpense = 0;
 
@@ -427,6 +431,44 @@ export const userStore = defineStore({
                 day: "numeric",
             });
             return transactionDate;
+        },
+        async showChartData() {
+            this.isChartVisible = true
+            this.dataValues.length = 0
+            this.dataLabels.length = 0
+
+            const userToken = localStorage.getItem("token");
+
+            const categoryId = [];
+
+            for (const transaction of this.transactions) {
+                if (transaction.date.includes(this.currentMonthChart)) {
+
+                    this.dataValues.push(Number(transaction.amount));
+                    categoryId.push(transaction.category_id);
+
+                    const categoryLabels: string[] = [];
+
+                    for (const category of categoryId) {
+                        try {
+                            await UserService.getOneCategory(Number(this.id), category, userToken)
+                                .then((response) => {
+                                    categoryLabels.push(response.data.tag);
+
+                                    const filteredCategoryLabels = categoryLabels.filter(
+                                        (label, index) => categoryLabels.indexOf(label) === index
+                                    );
+                                    this.dataLabels = filteredCategoryLabels;
+                                })
+                                .catch((error) => {
+                                    console.error(error);
+                                });
+                        } catch (error) {
+                            console.error(error)
+                        }
+                    }
+                }
+            }
         },
     }
 });

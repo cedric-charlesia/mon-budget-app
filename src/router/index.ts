@@ -4,6 +4,7 @@ import HomePage from '../views/HomePage.vue';
 
 import UserConnected from '../views/UserConnected.vue';
 import UserTransactionDetails from '../views/UserTransactionDetails.vue';
+import UserChartDetails from '../views/UserChartDetails.vue';
 
 import { userStore } from "@/stores/userStore";
 
@@ -37,6 +38,17 @@ const routes: Array<RouteRecordRaw> = [
     path: "/user/:id/category/:catId/transaction/:transactionId",
     name: "transaction",
     component: UserTransactionDetails,
+    beforeEnter() {
+      const user = userStore();
+      if (!user.id) {
+        return { name: "login" };
+      }
+    },
+  },
+  {
+    path: "/user/:id/chart",
+    name: "chart",
+    component: UserChartDetails,
     beforeEnter() {
       const user = userStore();
       if (!user.id) {

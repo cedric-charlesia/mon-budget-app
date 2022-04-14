@@ -20,14 +20,17 @@
     "@vuelidate/core": "^2.0.0-alpha.40",
     "@vuelidate/validators": "^2.0.0-alpha.28",
     "axios": "^0.26.1",
+    "chart.js": "^3.7.1",
     "core-js": "^3.6.5",
     "pinia": "^2.0.13",
     "vue": "^3.2.21",
+    "vue-chart-3": "^3.1.8",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
     "@capacitor/cli": "3.4.3",
     "@types/jest": "^27.0.2",
+    "@types/vue-chartkick": "^0.5.1",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "@vue/cli-plugin-babel": "~5.0.0-rc.1",
