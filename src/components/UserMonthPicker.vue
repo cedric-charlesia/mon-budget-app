@@ -47,7 +47,7 @@ const refreshTransactions = () => {
 
 <style scoped>
 .calendar {
-  width: 50vw;
+  width: 55vw;
   color: var(--ion-color-secondary);
   font-weight: bold;
 }

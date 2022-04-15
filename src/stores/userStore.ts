@@ -224,6 +224,7 @@ export const userStore = defineStore({
                             UserService.addTransaction(transaction, this.id, catId, userToken)
                                 .then(() => {
                                     ShowToasts.addTransactionToast();
+                                    this.getUserCategories();
                                     this.getUserTransactions();
                                 })
                                 .catch((error) => {
@@ -397,6 +398,7 @@ export const userStore = defineStore({
                     transactionId,
                     userToken
                 ).then(() => {
+                    this.getUserCategories();
                     this.getUserTransactions();
 
                     ShowToasts.deleteTransactionToast();
@@ -459,11 +461,13 @@ export const userStore = defineStore({
                                 await UserService.getOneCategory(Number(this.id), category, userToken)
                                     .then((response) => {
                                         categoryLabels.push(`${response.data.tag.charAt(0).toUpperCase() + response.data.tag.slice(1)} ${data.amount} €`);
-        
+
                                         const filteredCategoryLabels = categoryLabels.filter(
                                             (label, index) => categoryLabels.indexOf(label) === index
                                         );
                                         this.dataLabels = filteredCategoryLabels;
+                                        this.getUserCategories();
+                                        this.getUserTransactions();
                                     })
                                     .catch((error) => {
                                         console.error(error);

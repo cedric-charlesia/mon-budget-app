@@ -45,7 +45,7 @@ export default {
         const toast = await toastController
             .create({
                 message: "Transaction supprimée",
-                position: "top",
+                position: "bottom",
                 color: "danger",
                 duration: 1500
             })

@@ -38,7 +38,6 @@ const generateRandomColor = () => {
     }));
 
     const options = computed<ChartOptions<"pie">>(() => ({
-      maintainAspectRatio: false,
       scales: {
         myScale: {
           type: "logarithmic",

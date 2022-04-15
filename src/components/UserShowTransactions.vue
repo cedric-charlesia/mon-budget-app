@@ -6,7 +6,7 @@ const store = userStore();
 </script>
 
 <template>
-  <div class="daily_transaction ion-padding" v-for="date of store.dates" :key="date">
+  <div class="daily_transaction" v-for="date of store.dates" :key="date">
     <p
       class="transaction_header"
       v-if="date.includes(store.currentMonth)"
@@ -71,6 +71,12 @@ const store = userStore();
 </template>
 
 <style scoped>
+.daily_transaction {
+  padding-top: 1%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
 .transaction_header {
   font-weight: bold;
   margin-bottom: 0;
