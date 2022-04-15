@@ -439,32 +439,38 @@ export const userStore = defineStore({
 
             const userToken = localStorage.getItem("token");
 
-            const categoryId = [];
+            const categoryId: number[] = [];
+            const transactionData = [];
 
             for (const transaction of this.transactions) {
                 if (transaction.date.includes(this.currentMonthChart)) {
 
                     this.dataValues.push(Number(transaction.amount));
                     categoryId.push(transaction.category_id);
+                    transactionData.push(transaction);
+                }
 
-                    const categoryLabels: string[] = [];
+                const categoryLabels: string[] = [];
 
-                    for (const category of categoryId) {
-                        try {
-                            await UserService.getOneCategory(Number(this.id), category, userToken)
-                                .then((response) => {
-                                    categoryLabels.push(response.data.tag);
-
-                                    const filteredCategoryLabels = categoryLabels.filter(
-                                        (label, index) => categoryLabels.indexOf(label) === index
-                                    );
-                                    this.dataLabels = filteredCategoryLabels;
-                                })
-                                .catch((error) => {
-                                    console.error(error);
-                                });
-                        } catch (error) {
-                            console.error(error)
+                for (const category of categoryId) {
+                    for (const data of transactionData) {
+                        if (data.category_id === category) {
+                            try {
+                                await UserService.getOneCategory(Number(this.id), category, userToken)
+                                    .then((response) => {
+                                        categoryLabels.push(`${response.data.tag.charAt(0).toUpperCase() + response.data.tag.slice(1)} ${data.amount} €`);
+        
+                                        const filteredCategoryLabels = categoryLabels.filter(
+                                            (label, index) => categoryLabels.indexOf(label) === index
+                                        );
+                                        this.dataLabels = filteredCategoryLabels;
+                                    })
+                                    .catch((error) => {
+                                        console.error(error);
+                                    });
+                            } catch (error) {
+                                console.error(error)
+                            }
                         }
                     }
                 }

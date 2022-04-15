@@ -7,7 +7,7 @@ import HomeFooter from "../components/HomeFooter.vue";
 
 import UserMonthPickerChart from "../components/UserMonthPickerChart.vue";
 import UserShowChartDetails from "../components/UserShowChartDetails.vue";
-import UserDownloadChart from "../components/UserDownloadChart.vue";
+// import UserDownloadChart from "../components/UserDownloadChart.vue";
 
 import { userStore } from "@/stores/userStore";
 

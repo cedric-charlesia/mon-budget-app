@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, defineComponent } from "vue";
-import { DoughnutChart, useDoughnutChart } from "vue-chart-3";
+import { PieChart, usePieChart } from "vue-chart-3";
 import { Chart, ChartData, ChartOptions, registerables } from "chart.js";
 
 import { userStore } from "@/stores/userStore";
@@ -10,7 +10,7 @@ const store = userStore();
 Chart.register(...registerables);
 defineComponent({
   name: "UserChartDetails",
-  components: { DoughnutChart },
+  components: { PieChart },
 });
 
 /* Generate random colors */
@@ -21,7 +21,7 @@ const generateRandomColor = () => {
   return `#${randColor.toUpperCase()}`
 }
 
-    const testData = computed<ChartData<"doughnut">>(() => ({
+    const userData = computed<ChartData<"pie">>(() => ({
       labels: store.dataLabels,
       datasets: [
         {
@@ -37,16 +37,25 @@ const generateRandomColor = () => {
       ],
     }));
 
-    const options = computed<ChartOptions<"doughnut">>(() => ({
+    const options = computed<ChartOptions<"pie">>(() => ({
+      maintainAspectRatio: false,
       scales: {
         myScale: {
           type: "logarithmic",
-          display: false
+          display: false,
         },
       },
       plugins: {
         legend: {
           position: "bottom",
+          align: "start",
+          labels: {
+            font: {
+              size: 16,
+              family: "sans-serif",
+            },
+            color: "#000"
+          }
         },
         title: {
           display: false,
@@ -55,8 +64,8 @@ const generateRandomColor = () => {
       },
     }));
 
-     const { doughnutChartProps } = useDoughnutChart({
-      chartData: testData,
+     const { pieChartProps } = usePieChart({
+      chartData: userData,
       options,
     });
 </script>
@@ -66,7 +75,7 @@ const generateRandomColor = () => {
     <div v-if="store.isChartVisible === false" class="cart-calendar"><p>Sélectionner un mois dans le calendrier au-dessus</p></div>
     <div v-else class="cart-calendar">
     </div>
-    <DoughnutChart v-bind="doughnutChartProps" />
+    <PieChart v-bind="pieChartProps" />
   </div>
 </template>
 

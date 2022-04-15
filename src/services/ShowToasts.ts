@@ -5,9 +5,9 @@ export default {
         const toast = await toastController
             .create({
                 message: "Compté créé, vous pouvez vous connecter !",
-                position: "top",
+                position: "bottom",
                 color: "secondary",
-                duration: 1500
+                duration: 1250
             })
         return toast.present();
     },
@@ -15,9 +15,9 @@ export default {
         const toast = await toastController
             .create({
                 message: "Connecté !",
-                position: "top",
+                position: "bottom",
                 color: "secondary",
-                duration: 1500
+                duration: 1250
             })
         return toast.present();
     },
@@ -25,9 +25,9 @@ export default {
         const toast = await toastController
             .create({
                 message: "Transaction ajoutée !",
-                position: "top",
+                position: "bottom",
                 color: "success",
-                duration: 1500
+                duration: 1250
             })
         return toast.present();
     },
@@ -35,9 +35,9 @@ export default {
         const toast = await toastController
             .create({
                 message: "Transaction mise à jour !",
-                position: "top",
+                position: "bottom",
                 color: "success",
-                duration: 1500
+                duration: 1250
             })
         return toast.present();
     },
