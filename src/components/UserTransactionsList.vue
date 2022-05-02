@@ -19,13 +19,16 @@
 
                     <q-item-section side>
                         <div class="text-grey-8 q-gutter-xs">
-                            <q-btn flat dense round icon="edit" />
-                            <q-btn flat dense round icon="delete" />
+                            <q-btn flat dense round icon="edit" @click="user.editTransaction = true" />
+                            <q-btn flat dense round icon="delete" @click="user.deleteTransaction = true" />
                             <q-checkbox v-model="check1" />
                         </div>
                     </q-item-section>
                 </q-item>
             </q-card>
+
+            <EditTransactionModal />
+            <DeleteTransactionModal />
 
             <q-card square class="my-card q-my-sm q-mx-md">
                 <q-item class="q-my-sm">
@@ -106,6 +109,12 @@
 
 <script setup lang="ts">
 import { defineComponent, ref } from 'vue';
+import EditTransactionModal from 'components/modals/EditTransactionModal.vue';
+import DeleteTransactionModal from 'components/modals/DeleteTransactionModal.vue';
+
+import { userStore } from 'stores/userStore';
+
+const user = userStore();
 
 defineComponent({
     name: 'UserTransactionsList',
@@ -116,6 +125,7 @@ const check1 = ref(false);
 const check2 = ref(false);
 const check3 = ref(false);
 const check4 = ref(false);
+
 </script>
 
 <style scoped lang="scss">

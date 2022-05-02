@@ -7,19 +7,26 @@
 
     <UserTransactionsList />
 
-    <AddButton title="Ajouter une transaction" />
+    <AddButton title="Ajouter une transaction" @click="user.addTransaction = true" />
+
+    <AddTransactionModal />
 
   </q-page>
 </template>
 
 <script setup lang="ts">
+import { defineComponent } from 'vue';
+
 import UserDateInput from 'components/UserDateInput.vue';
 import UserTransactionsSumarry from 'components/UserTransactionsSumarry.vue';
 import UserTransactionsList from 'components/UserTransactionsList.vue';
 
 import AddButton from 'components/buttons/AddButton.vue';
 
-import { defineComponent } from 'vue';
+import AddTransactionModal from 'components/modals/AddTransactionModal.vue';
+
+import { userStore } from 'stores/userStore';
+const user = userStore();
 
 defineComponent({
   name: 'UserPage',
