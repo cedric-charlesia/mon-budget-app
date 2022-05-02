@@ -22,15 +22,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import LogInForm from 'components/forms/LogInForm.vue';
 import SignUpForm from 'components/forms/SignUpForm.vue';
-import { defineComponent } from 'vue';
+
+import { defineComponent, ref } from 'vue';
 
 defineComponent({
     name: 'HomePageForms',
 });
 
-const tab = ref('login')
+const tab = ref('login');
 
 </script>
