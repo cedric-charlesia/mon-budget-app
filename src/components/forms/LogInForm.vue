@@ -26,10 +26,14 @@
 </template>
 
 <script setup lang="ts">
+import { defineComponent, ref } from 'vue';
+
 import FormInpuModel from 'components/forms/FormInputModel.vue';
 import FormButton from 'components/buttons/FormButton.vue';
 
-import { defineComponent, ref } from 'vue';
+
+import { userStore } from 'stores/userStore';
+const user = userStore();
 
 defineComponent({
     name: 'LogInForm',
@@ -49,7 +53,7 @@ const login = async () => {
         userInput.email = email.value;
         userInput.password = password.value;
 
-        console.log(userInput);
+        user.loginUser(userInput)
     } catch (error) {
         console.error(error)
     }

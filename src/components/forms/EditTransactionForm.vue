@@ -8,7 +8,7 @@
 
         <div align="right">
             <q-btn flat label="Annuler" v-close-popup />
-            <q-btn label="Valider" color="positive" v-close-popup @click="updateTransaction" />
+            <q-btn label="Valider" color="positive" v-close-popup @click="editTransactionModal" />
         </div>
     </q-form>
 </template>
@@ -34,7 +34,7 @@ let transactionInput = {
     type: '',
 }
 
-const updateTransaction = async () => {
+const editTransactionModal = async () => {
 
     try {
         transactionInput.date = date.value;

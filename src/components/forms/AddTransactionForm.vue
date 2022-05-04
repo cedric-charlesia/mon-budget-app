@@ -10,7 +10,7 @@
 
         <div align="right">
             <q-btn flat label="Annuler" v-close-popup />
-            <q-btn label="Valider" color="positive" v-close-popup @click="addTransaction" />
+            <q-btn label="Valider" color="positive" v-close-popup @click="addTransactionModal" />
         </div>
     </q-form>
 </template>
@@ -43,7 +43,7 @@ let transactionInput = {
     amount: '',
 }
 
-const addTransaction = async () => {
+const addTransactionModal = async () => {
 
     try {
         transactionInput.type = type.value;

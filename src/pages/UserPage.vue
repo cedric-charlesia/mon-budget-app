@@ -7,7 +7,7 @@
 
     <UserTransactionsList />
 
-    <AddButton title="Ajouter une transaction" @click="user.addTransaction = true" />
+    <AddButton title="Ajouter une transaction" @click="user.addTransactionModal = true" />
 
     <AddTransactionModal />
 

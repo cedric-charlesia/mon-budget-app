@@ -1,27 +1,26 @@
 <template>
-    <q-input filled v-model="date" mask="date" class="q-my-md q-mx-md">
-        <template v-slot:append>
-            <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy ref="qDateProxy" cover transition-show="scale" transition-hide="scale">
-                    <q-date v-model="date">
-                        <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Close" color="primary" flat />
-                        </div>
-                    </q-date>
-                </q-popup-proxy>
-            </q-icon>
-        </template>
-    </q-input>
+    <q-input type="month" filled v-model="showToday" class="q-my-md q-mx-md" />
 </template>
 
 <script setup lang="ts">
 import { defineComponent, ref } from 'vue';
+import { date } from 'quasar';
 
 defineComponent({
     name: 'UserDateInput',
     components: {},
 });
 
-const date = ref('2022/01/02');
+const showToday = ref(date.formatDate(Date.now(), 'YYYY-MM'));
 
 </script>
+
+<style>
+input[type="month"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 0;
+    width: 10%;
+    height: 50%;
+    background-image: url('/icons/calendar_month_black_24dp.svg');
+}
+</style>

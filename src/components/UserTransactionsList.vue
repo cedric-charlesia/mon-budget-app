@@ -2,106 +2,66 @@
     <q-list>
 
         <div class="screen-size details">
-            <q-item-label header class="q-pb-none text-weight-bold">03 Mai 2022</q-item-label>
-            <q-card square class="my-card q-my-sm q-mx-md">
-                <q-item class="q-my-sm">
-                    <q-item-section avatar>
-                        <q-avatar color="primary" text-color="white">
-                            C
-                        </q-avatar>
-                    </q-item-section>
+            <div v-for="transactionDate of user.dates" :key="transactionDate">
+                <q-item-label header class="q-pb-none text-weight-bold">
+                    {{ date.formatDate(transactionDate, 'DD MMM YYYY', {
+                            days: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                            daysShort: ['Dim', 'Lu', 'Ma', 'Me', 'Jeu', 'Ven', 'Sa'],
+                            months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre',
+                                'Octobre', 'Novembre', 'Décembre'],
+                            monthsShort: ['Jan', 'Févr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.',
+                                'Nov.',
+                                'Déc.']
+                        })
+                    }}
+                </q-item-label>
+                <div v-for="transaction of user.transactions" :key="transaction.id">
+                    <div v-for="category of user.categories" :key="category.id">
+                        <q-card v-if="transaction.date === transactionDate && transaction.category_id === category.id"
+                            square class="my-card q-my-sm q-mx-md">
 
-                    <q-item-section>
-                        <q-item-label>Courses chez Carrefour</q-item-label>
-                        <q-item-label caption lines="1" class="text-weight-bold text-negative">34.90 &euro;
-                        </q-item-label>
-                    </q-item-section>
+                            <q-item class="q-my-sm">
 
-                    <q-item-section side>
-                        <div class="text-grey-8 q-gutter-xs">
-                            <q-btn flat dense round icon="edit" @click="user.editTransaction = true" />
-                            <q-btn flat dense round icon="delete" @click="user.deleteTransaction = true" />
-                            <q-checkbox v-model="check1" />
-                        </div>
-                    </q-item-section>
-                </q-item>
-            </q-card>
+                                <q-item-section avatar>
+                                    <q-avatar color="primary" text-color="white">
+                                        {{ transaction.description.charAt(0).toUpperCase() }}
+                                    </q-avatar>
+                                </q-item-section>
 
-            <EditTransactionModal />
-            <DeleteTransactionModal />
+                                <q-item-section>
 
-            <q-card square class="my-card q-my-sm q-mx-md">
-                <q-item class="q-my-sm">
-                    <q-item-section avatar>
-                        <q-avatar color="primary" text-color="white">
-                            R
-                        </q-avatar>
-                    </q-item-section>
+                                    <q-item-label class="text-capitalize">
+                                        {{ transaction.description }}
+                                    </q-item-label>
 
-                    <q-item-section>
-                        <q-item-label>Remboursement pr&ecirc;t</q-item-label>
-                        <q-item-label caption lines="1" class="text-weight-bold text-negative">
-                            1150 &euro;</q-item-label>
-                    </q-item-section>
+                                    <q-item-label v-if="category.type === 'dépense'" lines="1"
+                                        class=" text-body2 text-weight-bold text-negative">
+                                        {{ transaction.amount }} &euro;
+                                    </q-item-label>
 
-                    <q-item-section side>
-                        <div class="text-grey-8 q-gutter-xs">
-                            <q-btn flat dense round icon="edit" />
-                            <q-btn flat dense round icon="delete" />
-                            <q-checkbox v-model="check2" />
-                        </div>
-                    </q-item-section>
-                </q-item>
-            </q-card>
+                                    <q-item-label v-else lines="1" class=" text-body2 text-weight-bold text-positive">
+                                        {{ transaction.amount }} &euro;
+                                    </q-item-label>
 
-            <q-item-label header class="q-pb-none text-weight-bold">02 Mai 2022</q-item-label>
-            <q-card square class="my-card q-my-sm q-mx-md">
-                <q-item class="q-my-sm">
-                    <q-item-section avatar>
-                        <q-avatar color="primary" text-color="white">
-                            E
-                        </q-avatar>
-                    </q-item-section>
+                                </q-item-section>
 
-                    <q-item-section>
-                        <q-item-label>Essence</q-item-label>
-                        <q-item-label caption lines="1" class="text-weight-bold text-negative">25 &euro;</q-item-label>
-                    </q-item-section>
+                                <q-item-section side>
+                                    <div class="text-grey-8 q-gutter-xs">
+                                        <q-btn flat dense round icon="edit" @click="user.editTransactionModal = true" />
+                                        <q-btn flat dense round icon="delete"
+                                            @click="user.deleteTransactionModal = true" />
+                                        <q-checkbox v-model="check1" />
+                                    </div>
+                                </q-item-section>
 
-                    <q-item-section side>
-                        <div class="text-grey-8 q-gutter-xs">
-                            <q-btn flat dense round icon="edit" />
-                            <q-btn flat dense round icon="delete" />
-                            <q-checkbox v-model="check3" />
-                        </div>
-                    </q-item-section>
-                </q-item>
-            </q-card>
+                            </q-item>
+                        </q-card>
+                    </div>
+                </div>
 
-            <q-item-label header class="q-pb-none text-weight-bold">25 Avril 2022</q-item-label>
-            <q-card square class="my-card q-my-sm q-mx-md">
-                <q-item class="q-my-sm">
-                    <q-item-section avatar>
-                        <q-avatar color="primary" text-color="white">
-                            S
-                        </q-avatar>
-                    </q-item-section>
-
-                    <q-item-section>
-                        <q-item-label>Salaire de Mai</q-item-label>
-                        <q-item-label caption lines="1" class="text-weight-bold text-positive">2500 &euro;
-                        </q-item-label>
-                    </q-item-section>
-
-                    <q-item-section side>
-                        <div class="text-grey-8 q-gutter-xs">
-                            <q-btn flat dense round icon="edit" />
-                            <q-btn flat dense round icon="delete" />
-                            <q-checkbox v-model="check4" />
-                        </div>
-                    </q-item-section>
-                </q-item>
-            </q-card>
+                <EditTransactionModal />
+                <DeleteTransactionModal />
+            </div>
         </div>
 
     </q-list>
@@ -109,11 +69,12 @@
 
 <script setup lang="ts">
 import { defineComponent, ref } from 'vue';
+import { date } from 'quasar';
+
 import EditTransactionModal from 'components/modals/EditTransactionModal.vue';
 import DeleteTransactionModal from 'components/modals/DeleteTransactionModal.vue';
 
 import { userStore } from 'stores/userStore';
-
 const user = userStore();
 
 defineComponent({
@@ -122,9 +83,6 @@ defineComponent({
 });
 
 const check1 = ref(false);
-const check2 = ref(false);
-const check3 = ref(false);
-const check4 = ref(false);
 
 </script>
 

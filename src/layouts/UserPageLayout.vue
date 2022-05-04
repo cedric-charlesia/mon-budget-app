@@ -3,13 +3,13 @@
     <q-header bordered>
       <q-toolbar>
         <q-toolbar-title>
-          Mon Budget
+          Budget de {{ user.username }}
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
     <q-page-container>
-      <router-view />
+      <UserPage />
     </q-page-container>
 
     <q-footer bordered>
@@ -26,6 +26,10 @@
 
 <script setup lang="ts">
 import { defineComponent, ref } from 'vue';
+import UserPage from '../pages/UserPage.vue'
+
+import { userStore } from 'stores/userStore';
+const user = userStore();
 
 defineComponent({
   name: 'UserLayout',

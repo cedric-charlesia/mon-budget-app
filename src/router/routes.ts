@@ -1,4 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
+import { userStore } from 'stores/userStore';
+
+import UserPageLayout from 'layouts/UserPageLayout.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -9,10 +12,15 @@ const routes: RouteRecordRaw[] = [
   },
 
   {
-    path: '/user',
+    path: '/user/:id',
     name: 'user',
-    component: () => import('layouts/UserPageLayout.vue'),
-    children: [{ path: '/user', component: () => import('pages/UserPage.vue') }],
+    component: UserPageLayout,
+    beforeEnter() {
+      const user = userStore();
+      if (!user.id) {
+        return { name: 'home' };
+      }
+    }
   },
 
   // Always leave this as last one,
