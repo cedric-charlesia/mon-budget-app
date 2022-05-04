@@ -1,12 +1,6 @@
 <template>
     <q-dialog v-model="user.deleteTransactionModal" full-width>
         <q-card>
-            <q-bar class="row items-center q-pb-none bg-primary text-white">
-                <div class="text-h6">Supprimer</div>
-                <q-space />
-                <q-btn icon="close" flat round dense v-close-popup />
-            </q-bar>
-
             <q-card-section>
                 Supprimer cette transaction ?
             </q-card-section>

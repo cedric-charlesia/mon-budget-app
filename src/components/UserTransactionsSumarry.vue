@@ -5,13 +5,13 @@
         </q-card-section>
 
         <q-card-actions align="around">
-            <q-btn text-color="positive" flat dense>
+            <q-btn text-color="positive" flat>
                 <span class="text-black q-pr-xs">Revenus :</span>
                 {{ user.transactionSummary.income.toFixed(2) }} &euro;
             </q-btn>
 
             <q-separator vertical size="0.15rem" color="primary" class="separator" />
-            <q-btn text-color="negative" flat dense>
+            <q-btn text-color="negative" flat>
                 <span class="text-black q-pr-xs">D&eacute;penses :</span>
                 {{ user.transactionSummary.expense.toFixed(2) }} &euro;
             </q-btn>

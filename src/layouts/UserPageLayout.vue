@@ -8,7 +8,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-page-container>
+    <q-page-container style="padding-top: 51px; padding-bottom: 0;">
       <UserPage />
     </q-page-container>
 
@@ -35,7 +35,7 @@ defineComponent({
   name: 'UserLayout',
 });
 
-const tab = ref('mails')
+const tab = ref('compte')
 </script>
 
 <style scoped lang="scss">

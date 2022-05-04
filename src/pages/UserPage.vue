@@ -32,6 +32,4 @@ defineComponent({
   name: 'UserPage',
   components: {},
 });
-
-
 </script>

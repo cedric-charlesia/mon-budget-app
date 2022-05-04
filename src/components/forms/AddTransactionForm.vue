@@ -1,22 +1,30 @@
 <template>
     <q-form class="q-pa-md q-gutter-md">
-        <q-select :options="transactionType" filled v-model="type" label="Type de transaction" lazy-rules />
-        <q-select :options="transactionCategory" filled v-model="category" label="Sélectionner la catégorie"
-            lazy-rules />
-        <q-input type="text" filled v-model="newCategory" placeholder="Créer une catégorie" lazy-rules />
-        <q-input type="date" filled v-model="date" lazy-rules />
-        <q-input type="text" filled v-model="description" placeholder="Ajouter une description" lazy-rules />
-        <q-input type="number" filled v-model="amount" placeholder="Indiquer le montant" lazy-rules />
+        <q-select :options="transactionType" filled v-model.lazy="type" label="Type de transaction" lazy-rules />
+
+        <q-select :options="transactionCategory" option-label="label" option-value="value" filled
+            v-model.lazy="category" emit-value map-options label="Sélectionner la catégorie" lazy-rules
+            :disable="tag !== ''" />
+
+        <q-input type="text" filled v-model.lazy="tag" placeholder="Créer une catégorie" lazy-rules />
+
+        <q-input type="date" filled v-model.lazy="date" lazy-rules />
+
+        <q-input type="text" filled v-model.lazy="description" placeholder="Ajouter une description" lazy-rules />
+
+        <q-input type="number" filled v-model.lazy="amount" placeholder="Indiquer le montant" lazy-rules />
 
         <div align="right">
             <q-btn flat label="Annuler" v-close-popup />
-            <q-btn label="Valider" color="positive" v-close-popup @click="addTransactionModal" />
+            <q-btn label="Valider" color="positive" v-close-popup @click="addTransaction" />
         </div>
     </q-form>
 </template>
 
 <script setup lang="ts">
 import { defineComponent, ref } from 'vue';
+import { userStore } from 'stores/userStore';
+const user = userStore();
 
 defineComponent({
     name: 'AddTransactionForm',
@@ -25,36 +33,42 @@ defineComponent({
 const type = ref('');
 const transactionType = ['Revenu', 'Dépense'];
 
-const category = ref('');
-const transactionCategory = ['Courses', 'Epargne', 'Jardin', 'Maison', 'Salaire'];
+const tag = ref('');
+const transactionCategory = user.transactionCategories;
 
-const newCategory = ref('');
+const category = ref([]);
 const date = ref('');
 const description = ref('');
 const amount = ref('');
 
-
-let transactionInput = {
+let categoryInput = {
     type: '',
-    category: '',
-    newCategory: '',
-    date: '',
-    description: '',
-    amount: '',
+    tag: '',
+    user_id: user.id,
 }
 
-const addTransactionModal = async () => {
+let transactionInput = {
+    category_id: NaN,
+    date: '',
+    description: '',
+    amount: NaN,
+    check: '',
+}
+
+const addTransaction = async () => {
 
     try {
-        transactionInput.type = type.value;
-        transactionInput.category = category.value;
-        transactionInput.newCategory = newCategory.value;
+        categoryInput.type = type.value;
+        categoryInput.tag = tag.value;
+
+        transactionInput.category_id = Number(category.value);
         transactionInput.date = date.value;
         transactionInput.description = description.value;
-        transactionInput.amount = amount.value;
-        transactionInput.type = type.value;
+        transactionInput.amount = Number(amount.value);
+        transactionInput.check = 'false';
 
-        console.log(transactionInput);
+        await user.addTransaction(categoryInput, transactionInput);
+
     } catch (error) {
         console.error(error)
     }

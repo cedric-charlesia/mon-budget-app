@@ -1,7 +1,7 @@
 // app global css in SCSS form
 
 // Q-Separator on transaction summary
-@media (max-width: 320px) {
+@media (max-width: 360px) {
     .separator {
         display: none;
     }
@@ -19,7 +19,7 @@
 // Transactions list container height  
 @media (max-height: 667px) {
     .screen-size {
-        max-height: 30vh;
+        max-height: 29vh;
     }
 };
 
@@ -43,6 +43,6 @@
 
 @media (min-height: 914px) {
     .screen-size {
-        max-height: 52vh;
+        max-height: 51vh;
     }
 };

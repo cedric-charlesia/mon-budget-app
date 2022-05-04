@@ -82,7 +82,7 @@ const updateCurrentDay = () => {
 }
 </script>
 
-<style>
+<style lang="scss">
 input[type="month"]::-webkit-calendar-picker-indicator,
 input[type="date"]::-webkit-calendar-picker-indicator {
     position: absolute;

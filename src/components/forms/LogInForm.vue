@@ -53,7 +53,7 @@ const login = async () => {
         userInput.email = email.value;
         userInput.password = password.value;
 
-        user.loginUser(userInput)
+        await user.loginUser(userInput);
     } catch (error) {
         console.error(error)
     }
