@@ -1,9 +1,9 @@
 <template>
   <q-page class="user-content">
 
-    <UserDateInput />
-
     <UserTransactionsSumarry />
+
+    <UserDateInput />
 
     <UserTransactionsList />
 

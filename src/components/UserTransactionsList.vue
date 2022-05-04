@@ -9,13 +9,9 @@
                         </q-avatar>
                     </q-item-section>
                     <q-item-section>
-                        <q-item-label class="">
-                            Pas encore de transaction enregistr&eacute;es ce mois-ci
+                        <q-item-label>
+                            Pas encore de transaction enregistr&eacute;es &agrave; cette date
                         </q-item-label>
-                    </q-item-section>
-                    <q-item-section side top>
-                        {{ date.formatDate(user.currentMonth, 'MMMM YYYY')
-                        }}
                     </q-item-section>
                 </q-item>
             </q-card>
@@ -23,7 +19,7 @@
 
         <div v-else class="screen-size details">
             <div v-for="transactionDate of user.dates" :key="transactionDate">
-                <q-item-label v-if="transactionDate.includes(user.currentMonth)" header
+                <q-item-label v-if="transactionDate.includes(user.selectedDate)" header
                     class="q-pb-none text-weight-bold">
 
                     {{ date.formatDate(transactionDate, 'DD MMM YYYY', {
@@ -42,7 +38,7 @@
                 <div v-for="transaction of user.transactions" :key="transaction.id">
                     <div v-for="category of user.categories" :key="category.id">
                         <q-card
-                            v-if="(transaction.date.includes(user.currentMonth)) && (transaction.date === transactionDate) && (transaction.category_id === category.id)"
+                            v-if="(transaction.date.includes(user.selectedDate)) && (transaction.date === transactionDate) && (transaction.category_id === category.id)"
                             square class="my-card q-my-sm q-mx-md">
 
                             <q-item class="q-my-sm">

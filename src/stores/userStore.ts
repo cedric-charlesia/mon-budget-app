@@ -29,7 +29,10 @@ export const userStore = defineStore('user', {
         check: '',
       },
     ],
+    currentYear: date.formatDate(Date.now(), 'YYYY'),
     currentMonth: date.formatDate(Date.now(), 'YYYY-MM'),
+    currentDay: date.formatDate(Date.now(), 'YYYY-MM-DD'),
+    selectedDate: date.formatDate(Date.now(), 'YYYY-MM'),
     noTransaction: false,
     addTransactionModal: false,
     editTransactionModal: false,
@@ -47,11 +50,11 @@ export const userStore = defineStore('user', {
       for (const transaction of state.transactions) {
         for (const category of state.categories) {
 
-          if (category.type === 'revenu' && (transaction.category_id === category.id)) {
+          if ((transaction.date.includes(state.selectedDate)) && (category.type === 'revenu') && (transaction.category_id === category.id)) {
             transactionSummary.income += Number(transaction.amount);
             transactionSummary.income;
           }
-          else if (category.type === 'dépense' && (transaction.category_id === category.id)) {
+          else if ((transaction.date.includes(state.selectedDate)) && (category.type === 'dépense') && (transaction.category_id === category.id)) {
             transactionSummary.expense += Number(transaction.amount);
             transactionSummary.expense;
           }

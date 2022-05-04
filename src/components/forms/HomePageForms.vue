@@ -1,6 +1,6 @@
 <template>
     <q-card class="q-mx-md" square>
-        <q-tabs v-model="tab" dense class="text-grey" active-color="primary" indicator-color="primary" align="justify"
+        <q-tabs v-model="tab" dense class="text-grey-7" active-color="primary" indicator-color="primary" align="justify"
             narrow-indicator>
             <q-tab name="login" label="Se connecter" />
             <q-tab name="signup" label="S'inscrire" />
