@@ -1,12 +1,34 @@
 <template>
     <q-list>
+        <div v-if="user.noTransaction === false">
+            <q-card square class="my-card q-my-sm q-mx-md">
+                <q-item class="q-my-sm">
+                    <q-item-section avatar>
+                        <q-avatar color="primary" text-color="white">
+                            P
+                        </q-avatar>
+                    </q-item-section>
+                    <q-item-section>
+                        <q-item-label class="">
+                            Pas encore de transaction enregistr&eacute;es ce mois-ci
+                        </q-item-label>
+                    </q-item-section>
+                    <q-item-section side top>
+                        {{ date.formatDate(user.currentMonth, 'MMMM YYYY')
+                        }}
+                    </q-item-section>
+                </q-item>
+            </q-card>
+        </div>
 
-        <div class="screen-size details">
+        <div v-else class="screen-size details">
             <div v-for="transactionDate of user.dates" :key="transactionDate">
-                <q-item-label header class="q-pb-none text-weight-bold">
+                <q-item-label v-if="transactionDate.includes(user.currentMonth)" header
+                    class="q-pb-none text-weight-bold">
+
                     {{ date.formatDate(transactionDate, 'DD MMM YYYY', {
                             days: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-                            daysShort: ['Dim', 'Lu', 'Ma', 'Me', 'Jeu', 'Ven', 'Sa'],
+                            daysShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
                             months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre',
                                 'Octobre', 'Novembre', 'Décembre'],
                             monthsShort: ['Jan', 'Févr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.',
@@ -14,10 +36,13 @@
                                 'Déc.']
                         })
                     }}
+
                 </q-item-label>
+
                 <div v-for="transaction of user.transactions" :key="transaction.id">
                     <div v-for="category of user.categories" :key="category.id">
-                        <q-card v-if="transaction.date === transactionDate && transaction.category_id === category.id"
+                        <q-card
+                            v-if="(transaction.date.includes(user.currentMonth)) && (transaction.date === transactionDate) && (transaction.category_id === category.id)"
                             square class="my-card q-my-sm q-mx-md">
 
                             <q-item class="q-my-sm">

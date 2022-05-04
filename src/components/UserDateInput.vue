@@ -1,18 +1,32 @@
 <template>
-    <q-input type="month" filled v-model="showToday" class="q-my-md q-mx-md" />
+    <q-input type="month" filled v-model="showToday" class="q-my-md q-mx-md" @change="updateCurrentMonth"
+        label="Changer de mois" />
 </template>
 
 <script setup lang="ts">
 import { defineComponent, ref } from 'vue';
-import { date } from 'quasar';
+import { userStore } from 'stores/userStore';
+const user = userStore();
 
 defineComponent({
     name: 'UserDateInput',
     components: {},
 });
 
-const showToday = ref(date.formatDate(Date.now(), 'YYYY-MM'));
+const showToday = ref(user.currentMonth);
 
+const updateCurrentMonth = () => {
+    user.currentMonth = showToday.value;
+
+    user.noTransaction = false;
+
+    for (const transactionDate of user.dates) {
+        if (transactionDate.includes(user.currentMonth)) {
+            user.noTransaction = true;
+        }
+    }
+    console.log(user.noTransaction);
+}
 </script>
 
 <style>

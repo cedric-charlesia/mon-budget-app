@@ -4,6 +4,8 @@ import UserService from '../services/UserService';
 
 import routes from '../router';
 
+import { date } from 'quasar';
+
 export const userStore = defineStore('user', {
   state: () => ({
     id: NaN,
@@ -27,6 +29,8 @@ export const userStore = defineStore('user', {
         check: '',
       },
     ],
+    currentMonth: date.formatDate(Date.now(), 'YYYY-MM'),
+    noTransaction: false,
     addTransactionModal: false,
     editTransactionModal: false,
     deleteTransactionModal: false,
