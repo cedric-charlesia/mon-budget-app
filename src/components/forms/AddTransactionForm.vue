@@ -1,18 +1,20 @@
 <template>
     <q-form class="q-pa-md q-gutter-md">
-        <q-select :options="transactionType" filled v-model.lazy="type" label="Type de transaction" lazy-rules />
+        <q-select dense :options="transactionType" option-label="label" option-value="value" filled v-model.lazy="type"
+            emit-value map-options label="Type de transaction" lazy-rules />
 
-        <q-select :options="transactionCategory" option-label="label" option-value="value" filled
+        <q-select dense :options="transactionCategory" option-label="label" option-value="value" filled
             v-model.lazy="category" emit-value map-options label="Sélectionner la catégorie" lazy-rules
             :disable="tag !== ''" />
 
-        <q-input type="text" filled v-model.lazy="tag" placeholder="Créer une catégorie" lazy-rules />
+        <q-input dense type="text" filled v-model.lazy="tag" :disable="category !== 0" placeholder="Créer une catégorie"
+            lazy-rules />
 
-        <q-input type="date" filled v-model.lazy="date" lazy-rules />
+        <q-input dense type="date" filled v-model.lazy="date" lazy-rules />
 
-        <q-input type="text" filled v-model.lazy="description" placeholder="Ajouter une description" lazy-rules />
+        <q-input dense type="text" filled v-model.lazy="description" placeholder="Ajouter une description" lazy-rules />
 
-        <q-input type="number" filled v-model.lazy="amount" placeholder="Indiquer le montant" lazy-rules />
+        <q-input dense type="number" filled v-model.lazy="amount" placeholder="Indiquer le montant" lazy-rules />
 
         <div align="right">
             <q-btn flat label="Annuler" v-close-popup />
@@ -31,12 +33,12 @@ defineComponent({
 });
 
 const type = ref('');
-const transactionType = ['Revenu', 'Dépense'];
+const transactionType = [{ label: 'Revenu', value: 'revenu' }, { label: 'Dépense', value: 'dépense' }];
 
 const tag = ref('');
 const transactionCategory = user.transactionCategories;
 
-const category = ref([]);
+const category = ref('');
 const date = ref('');
 const description = ref('');
 const amount = ref('');
@@ -67,7 +69,7 @@ const addTransaction = async () => {
         transactionInput.amount = Number(amount.value);
         transactionInput.check = 'false';
 
-        await user.addTransaction(categoryInput, transactionInput);
+        user.addTransaction(categoryInput, transactionInput);
 
     } catch (error) {
         console.error(error)

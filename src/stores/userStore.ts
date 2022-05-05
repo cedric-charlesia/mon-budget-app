@@ -93,7 +93,16 @@ export const userStore = defineStore('user', {
                   console.error(error);
                 });
               this.getUserCategories();
-              this.getUserTransactions();
+              this.getUserTransactions().then(() => {
+                for (const date of this.dates) {
+                  if (date.includes(this.currentMonth)) {
+                    this.noTransaction = true;
+                  }
+                }
+              })
+                .catch((error) => {
+                  console.error(error);
+                });
             }
           })
           .catch((error) => {
@@ -110,7 +119,7 @@ export const userStore = defineStore('user', {
         await UserService.getUserCategories(this.id, userToken).then(
           (response) => {
 
-            const userCategories: object[] = [];
+            const userCategories: object[] = [{ label: '--- Pas de sélection ---', value: 0 }];
 
             for (const category of response.data) {
               userCategories.push({ label: category.tag.charAt(0).toUpperCase() + category.tag.slice(1), value: category.id })
@@ -171,7 +180,16 @@ export const userStore = defineStore('user', {
               UserService.addTransaction(transaction, this.id, catId, userToken)
                 .then(() => {
                   this.getUserCategories();
-                  this.getUserTransactions();
+                  this.getUserTransactions().then(() => {
+                    for (const date of this.dates) {
+                      if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
+                        this.noTransaction = true;
+                      }
+                    }
+                  })
+                    .catch((error) => {
+                      console.error(error);
+                    });
                 })
                 .catch((error) => {
                   console.error(error);
@@ -192,7 +210,16 @@ export const userStore = defineStore('user', {
           )
             .then(() => {
               this.getUserCategories();
-              this.getUserTransactions();
+              this.getUserTransactions().then(() => {
+                for (const date of this.dates) {
+                  if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
+                    this.noTransaction = true;
+                  }
+                }
+              })
+                .catch((error) => {
+                  console.error(error);
+                });
 
             })
             .catch((error) => {
