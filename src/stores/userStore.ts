@@ -18,6 +18,14 @@ export const userStore = defineStore('user', {
       user_id: 0,
     },
     categories: [{ id: 0, tag: '', type: '', user_id: 0 }],
+    transaction: {
+      id: 0,
+      date: '',
+      description: '',
+      amount: 0,
+      category_id: 0,
+      check: '',
+    },
     transactions: [
       {
         id: 0,
@@ -29,12 +37,14 @@ export const userStore = defineStore('user', {
       },
     ],
     transactionCategories: [{}],
+    checkedTransactions: [{ id: 0 }],
     dates: [''],
     currentYear: date.formatDate(Date.now(), 'YYYY'),
     currentMonth: date.formatDate(Date.now(), 'YYYY-MM'),
     currentDay: date.formatDate(Date.now(), 'YYYY-MM-DD'),
     selectedDate: date.formatDate(Date.now(), 'YYYY-MM'),
     noTransaction: false,
+    deleteTransactionId: { catId: 0, transacId: 0 },
     addTransactionModal: false,
     editTransactionModal: false,
     deleteTransactionModal: false,
@@ -140,18 +150,92 @@ export const userStore = defineStore('user', {
           (response) => {
 
             const dates: string[] = [];
+            const check = [];
 
             for (const transaction of response.data) {
               dates.push(transaction.date);
+              check.push({ id: transaction.id });
             }
             const filteredDates = dates.filter(
               (date, index) => dates.indexOf(date) === index
             );
             this.dates = filteredDates;
+            this.checkedTransactions = check;
             this.transactions = response.data;
-
           }
         );
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async showTransactionDetails(catId: number, transacId: number) {
+
+      const userToken = localStorage.getItem('token');
+
+      const categoryId = Number(catId);
+      const transactionId = Number(transacId);
+
+      try {
+        await UserService.getOneTransaction(
+          this.id,
+          categoryId,
+          transactionId,
+          userToken
+        ).then((response) => {
+          this.transaction = response.data;
+
+          if (this.transaction.id !== 0) {
+            UserService.getOneCategory(
+              this.id,
+              categoryId,
+              userToken
+            ).then((response) => {
+              this.category = response.data;
+              this.editTransactionModal = true;
+            })
+              .catch((error) => {
+                console.error(error);
+              });
+          }
+        })
+          .catch((error) => {
+            console.error(error);
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async updateCategory(
+      tag: string,
+      type: string,
+      catId: number,
+    ) {
+      const categoryId = Number(catId);
+
+      const categoryTag = tag;
+      const categoryType = type;
+
+      const category = {
+        tag: categoryTag,
+        type: categoryType,
+        user_id: Number(this.id),
+      };
+
+      const userToken = localStorage.getItem('token');
+
+      try {
+        await UserService.updateCategory(
+          category,
+          this.id,
+          categoryId,
+          userToken
+        )
+          .then((response) => {
+            this.category = response.data;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       } catch (error) {
         console.error(error);
       }
@@ -180,6 +264,7 @@ export const userStore = defineStore('user', {
               UserService.addTransaction(transaction, this.id, catId, userToken)
                 .then(() => {
                   this.getUserCategories();
+
                   this.getUserTransactions().then(() => {
                     for (const date of this.dates) {
                       if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
@@ -210,6 +295,7 @@ export const userStore = defineStore('user', {
           )
             .then(() => {
               this.getUserCategories();
+
               this.getUserTransactions().then(() => {
                 for (const date of this.dates) {
                   if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
@@ -226,6 +312,80 @@ export const userStore = defineStore('user', {
               console.error(error);
             });
         }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async updateTransaction(
+      date: string,
+      description: string,
+      amount: number,
+      catId: number,
+      transacId: number
+    ) {
+      const dateTransaction = date;
+      const descriptionTransaction = description;
+      const amountTransaction = Number(amount);
+
+      const categoryId = Number(catId);
+      const transactionId = Number(transacId);
+
+      const transaction = {
+        date: dateTransaction,
+        description: descriptionTransaction,
+        amount: amountTransaction,
+        category_id: categoryId,
+        check: 'false',
+      };
+
+      const userToken = localStorage.getItem('token');
+
+      try {
+        await UserService.updateTransaction(
+          transaction,
+          this.id,
+          categoryId,
+          transactionId,
+          userToken
+        )
+          .then((response) => {
+            this.transaction = response.data;
+
+            this.getUserCategories();
+            this.getUserTransactions();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async deleteTransaction(catId: number, transacId: number) {
+      const categoryId = Number(catId);
+      const transactionId = Number(transacId);
+
+      const userToken = localStorage.getItem('token');
+
+      try {
+        await UserService.deleteTransaction(
+          this.id,
+          categoryId,
+          transactionId,
+          userToken
+        ).then(() => {
+          this.getUserCategories();
+
+          this.getUserTransactions().then(() => {
+            for (const date of this.dates) {
+              if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
+                this.noTransaction = true;
+              }
+            }
+          }).catch((error) => {
+            console.error(error);
+          });
+        });
       } catch (error) {
         console.error(error);
       }

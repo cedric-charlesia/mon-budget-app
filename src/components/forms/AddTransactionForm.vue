@@ -69,7 +69,7 @@ const addTransaction = async () => {
         transactionInput.amount = Number(amount.value);
         transactionInput.check = 'false';
 
-        user.addTransaction(categoryInput, transactionInput);
+        await user.addTransaction(categoryInput, transactionInput);
 
     } catch (error) {
         console.error(error)

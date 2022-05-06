@@ -1,14 +1,20 @@
 <template>
     <q-form class="q-pa-md q-gutter-md">
-        <q-input type="date" filled v-model="date" placeholder="03 mai 20222" lazy-rules />
-        <q-input type="text" filled v-model="description" placeholder="Courses chez Carrefour" lazy-rules />
-        <q-input type="number" filled v-model="amount" placeholder="34.90 &euro;" lazy-rules />
-        <q-input type="text" filled v-model="category" placeholder="Courses" lazy-rules />
-        <q-input type="text" filled v-model="type" placeholder="Dépense" lazy-rules />
+        <q-select dense :options="transactionType" option-label="label" option-value="value" filled v-model.lazy="type"
+            emit-value map-options label="Type de transaction" lazy-rules />
+
+        <q-select dense :options="transactionCategory" option-label="label" option-value="value" filled
+            v-model.lazy="category" emit-value map-options label="Sélectionner la catégorie" lazy-rules />
+
+        <q-input type="text" filled v-model="description" label="Description" lazy-rules />
+
+        <q-input type="date" filled v-model="transactionDate" label="Date" lazy-rules />
+
+        <q-input type="number" filled v-model="amount" label="Montant" lazy-rules />
 
         <div align="right">
             <q-btn flat label="Annuler" v-close-popup />
-            <q-btn label="Valider" color="positive" v-close-popup @click="editTransactionModal" />
+            <q-btn label="Valider" color="positive" v-close-popup @click="editTransaction" />
         </div>
     </q-form>
 </template>
@@ -16,34 +22,55 @@
 <script setup lang="ts">
 import { defineComponent, ref } from 'vue';
 
+import { date } from 'quasar';
+
+import { userStore } from 'stores/userStore';
+const user = userStore();
+
 defineComponent({
     name: 'EditTransactionForm',
 });
 
-const date = ref('');
-const description = ref('');
-const amount = ref('');
-const category = ref('');
-const type = ref('');
+const transactionType = [{ label: 'Revenu', value: 'revenu' }, { label: 'Dépense', value: 'dépense' }];
 
-let transactionInput = {
-    date: '',
-    description: '',
-    amount: '',
-    category: '',
+const transactionCategory = user.transactionCategories;
+
+const transactionDate = ref(date.formatDate(user.transaction.date, 'YYYY-MM-DD'));
+const description = ref(user.transaction.description);
+const amount = ref(user.transaction.amount);
+const category = ref(user.category.id);
+const type = ref(user.category.type);
+
+let categoryInput = {
+    id: NaN,
+    tag: '',
     type: '',
 }
 
-const editTransactionModal = async () => {
+let transactionInput = {
+    id: NaN,
+    date: '',
+    description: '',
+    amount: NaN,
+    category_id: NaN,
+}
+
+const editTransaction = async () => {
 
     try {
-        transactionInput.date = date.value;
-        transactionInput.description = description.value;
-        transactionInput.amount = amount.value;
-        transactionInput.category = category.value;
-        transactionInput.type = type.value;
+        categoryInput.id = Number(category.value);
+        categoryInput.tag = user.category.tag;
+        categoryInput.type = type.value;
 
-        console.log(transactionInput);
+        transactionInput.id = Number(user.transaction.id);
+        transactionInput.date = transactionDate.value;
+        transactionInput.description = description.value;
+        transactionInput.amount = Number(amount.value);
+        transactionInput.category_id = Number(category.value);
+
+        await user.updateCategory(categoryInput.tag, categoryInput.type, categoryInput.id);
+
+        await user.updateTransaction(transactionInput.date, transactionInput.description, transactionInput.amount, transactionInput.category_id, transactionInput.id);
     } catch (error) {
         console.error(error)
     }

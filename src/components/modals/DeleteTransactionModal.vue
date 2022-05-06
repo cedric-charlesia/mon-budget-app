@@ -7,7 +7,7 @@
 
             <q-card-actions align="right">
                 <q-btn flat label="Annuler" v-close-popup />
-                <q-btn label="Supprimer" color="negative" v-close-popup @click="deleteTransactionModal" />
+                <q-btn label="Supprimer" color="negative" v-close-popup @click="deleteTransaction" />
             </q-card-actions>
         </q-card>
     </q-dialog>
@@ -25,10 +25,13 @@ defineComponent({
     components: {},
 });
 
-const deleteTransactionModal = async () => {
+const deleteTransaction = async () => {
+
+    const categoryId = Number(user.deleteTransactionId.catId);
+    const transactionId = Number(user.deleteTransactionId.transacId);
 
     try {
-        console.log('Transaction deleted');
+        await user.deleteTransaction(categoryId, transactionId);
     } catch (error) {
         console.error(error)
     }

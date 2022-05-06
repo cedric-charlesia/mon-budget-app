@@ -17,10 +17,9 @@
             </q-card>
         </div>
 
-        <div v-else class="screen-size details">
-            <div v-for="transactionDate of user.dates" :key="transactionDate">
-                <q-item-label v-if="transactionDate.includes(user.selectedDate)" header
-                    class="q-pb-none text-weight-bold">
+        <div v-else class="screen-size details" v-for="transactionDate of user.dates" :key="transactionDate">
+            <div v-if="transactionDate.includes(user.selectedDate)">
+                <q-item-label header class="q-pb-none text-weight-bold">
 
                     {{ date.formatDate(transactionDate, 'DD MMM YYYY', {
                             days: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
@@ -67,22 +66,27 @@
                                 </q-item-section>
 
                                 <q-item-section side>
-                                    <div class="text-grey-8 q-gutter-xs">
-                                        <q-btn flat dense round icon="edit" @click="user.editTransactionModal = true" />
+                                    <div class="text-grey-8">
+                                        <q-btn flat dense round icon="edit"
+                                            @click="user.showTransactionDetails(category.id, transaction.id)" />
+
                                         <q-btn flat dense round icon="delete"
-                                            @click="user.deleteTransactionModal = true" />
-                                        <q-checkbox v-model="check1" />
+                                            @click="deleteTransaction(category.id, transaction.id)" />
+                                        <q-checkbox v-model="checkbox" :val="transaction.id" />
                                     </div>
                                 </q-item-section>
 
                             </q-item>
                         </q-card>
+
+                        <q-card v-else class="hide"></q-card>
                     </div>
                 </div>
 
                 <EditTransactionModal />
                 <DeleteTransactionModal />
             </div>
+            <div v-else class="hide"></div>
         </div>
 
     </q-list>
@@ -103,7 +107,20 @@ defineComponent({
     components: {},
 });
 
-const check1 = ref(false);
+const deleteTransaction = async (catId: number, transacId: number) => {
+    user.deleteTransactionId = { catId: 0, transacId: 0 };
+
+    try {
+        user.deleteTransactionId.catId = Number(catId);
+        user.deleteTransactionId.transacId = Number(transacId);
+
+        user.deleteTransactionModal = true;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const checkbox = ref(user.checkedTransactions);
 
 </script>
 
@@ -114,5 +131,9 @@ const check1 = ref(false);
 
 .user-content .details {
     overflow-y: auto;
+}
+
+.hide {
+    display: none;
 }
 </style>
