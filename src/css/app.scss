@@ -8,6 +8,10 @@
 };
 
 // Add transaction button positionning
+.overflow {
+    overflow-y: auto;
+};
+
 .add-transaction {
     position: absolute;
     bottom: 5%;
@@ -38,11 +42,5 @@
 @media (min-height: 896px) {
     .screen-size {
         max-height: 49vh;
-    }
-};
-
-@media (min-height: 914px) {
-    .screen-size {
-        max-height: 51vh;
     }
 };

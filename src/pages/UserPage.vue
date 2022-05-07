@@ -1,5 +1,5 @@
 <template>
-  <q-page class="user-content">
+  <q-page>
 
     <UserTransactionsSumarry />
 

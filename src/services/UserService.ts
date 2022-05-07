@@ -17,11 +17,8 @@ export default {
     login(user: object) {
         return apiClient.post('/login', user);
     },
-    user(id: number, token: object) {
-        return apiClient.get(`/user/${id}`, token);
-    },
-    getUserCategories(id: number, userToken: string | null) {
-        return apiClient.get(`/user/${id}/categories`, {
+    getUserDetails(id: number, userToken: string | null) {
+        return apiClient.get(`/user/${id}/transactions`, {
             headers: { authorization: `${userToken}` },
         });
     },
@@ -55,11 +52,6 @@ export default {
                 headers: { authorization: `${userToken}` },
             }
         );
-    },
-    getUserTransactions(id: number, userToken: string | null) {
-        return apiClient.get(`/user/${id}/transactions`, {
-            headers: { authorization: `${userToken}` },
-        });
     },
     getOneTransaction(
         id: number,
