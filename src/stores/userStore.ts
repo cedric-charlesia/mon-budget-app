@@ -127,27 +127,33 @@ export const userStore = defineStore('user', {
       const userToken = localStorage.getItem('token');
 
       try {
-        await UserService.getUserDetails(this.id, userToken).then(
-          (response) => {
+        await UserService.getUserDetails(this.id, userToken)
+          .then(
+            (response) => {
 
-            const dates: string[] = [];
-            const checked = [];
+              const dates: string[] = [];
+              const checked = [];
 
-            for (const transaction of response.data) {
-              dates.push(transaction.date);
-              checked.push({ id: transaction.id });
+              for (const transaction of response.data) {
+                dates.push(transaction.date);
+                checked.push({ id: transaction.id });
+              }
+              const filteredDates = dates.filter(
+                (date, index) => dates.indexOf(date) === index
+              );
+              this.dates = filteredDates;
+
+              this.checkedTransactions = checked;
+
+              this.transactions = response.data;
             }
-            const filteredDates = dates.filter(
-              (date, index) => dates.indexOf(date) === index
-            );
-            this.dates = filteredDates;
+          ).then(() => {
+            this.getUserCategories();
 
-            this.checkedTransactions = checked;
-
-            this.transactions = response.data;
-            console.table(this.transactions);
-          }
-        );
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       } catch (error) {
         console.error(error);
       }
@@ -185,6 +191,26 @@ export const userStore = defineStore('user', {
           .catch((error) => {
             console.error(error);
           });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getUserCategories() {
+      const userToken = localStorage.getItem('token');
+
+      try {
+        await UserService.getUserCategories(this.id, userToken).then(
+          (response) => {
+
+            const userCategories: object[] = [{ label: '--- Pas de sélection ---', value: 0 }];
+
+            for (const category of response.data) {
+              userCategories.push({ label: category.tag.charAt(0).toUpperCase() + category.tag.slice(1), value: category.id })
+            }
+            this.transactionCategories = userCategories;
+            this.categories = response.data;
+          }
+        );
       } catch (error) {
         console.error(error);
       }

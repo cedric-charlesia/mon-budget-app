@@ -6,7 +6,7 @@
         <q-select dense :options="transactionCategory" option-label="label" option-value="value" filled
             v-model.lazy="category" emit-value map-options label="Sélectionner la catégorie" lazy-rules />
 
-        <q-input type="text" filled v-model="description" label="Description" lazy-rules />
+        <q-input type="text" class="text-capitalize" filled v-model="description" label="Description" lazy-rules />
 
         <q-input type="date" filled v-model="transactionDate" label="Date" lazy-rules />
 

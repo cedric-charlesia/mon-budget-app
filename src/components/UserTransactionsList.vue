@@ -17,11 +17,14 @@
             </q-card>
         </div>
 
-        <div v-else v-for="transactionDate of user.dates" :key="transactionDate">
-            <div v-if="transactionDate.includes(user.selectedDate)">
-                <q-item-label header class="q-pb-none text-weight-bold">
+        <div v-else v-for="transaction of user.transactions" :key="transaction.id">
 
-                    {{ date.formatDate(transactionDate, 'DD MMM YYYY', {
+            <q-card v-if="(transaction.date.includes(user.selectedDate))" square class="my-card q-my-sm q-mx-md">
+
+                <q-item-label v-if="(transaction.date.includes(user.selectedDate))" header
+                    class="q-pb-none text-weight-bold">
+
+                    {{ date.formatDate(transaction.date, 'D MMMM YYYY', {
                             days: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
                             daysShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
                             months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre',
@@ -34,60 +37,53 @@
 
                 </q-item-label>
 
-                <div v-for="transaction of user.transactions" :key="transaction.id">
-                    <q-card
-                        v-if="(transaction.date.includes(user.selectedDate)) && (transaction.date === transactionDate)"
-                        square class="my-card q-my-sm q-mx-md">
+                <q-item class="q-my-sm">
 
-                        <q-item class="q-my-sm">
+                    <q-item-section avatar>
+                        <q-avatar color="primary" text-color="white">
+                            {{ transaction.description.charAt(0).toUpperCase() }}
+                        </q-avatar>
+                    </q-item-section>
 
-                            <q-item-section avatar>
-                                <q-avatar color="primary" text-color="white">
-                                    {{ transaction.description.charAt(0).toUpperCase() }}
-                                </q-avatar>
-                            </q-item-section>
+                    <q-item-section @click="user.showControlButtons = !user.showControlButtons">
 
-                            <q-item-section @click="user.showControlButtons = !user.showControlButtons">
+                        <q-item-label class="text-capitalize">
+                            {{ transaction.description }}
+                        </q-item-label>
 
-                                <q-item-label class="text-capitalize">
-                                    {{ transaction.description }}
-                                </q-item-label>
+                        <q-item-label v-if="transaction.type === 'dépense'" lines="1"
+                            class=" text-body2 text-weight-bold text-negative">
+                            {{ transaction.amount }} &euro;
+                        </q-item-label>
 
-                                <q-item-label v-if="transaction.type === 'dépense'" lines="1"
-                                    class=" text-body2 text-weight-bold text-negative">
-                                    {{ transaction.amount }} &euro;
-                                </q-item-label>
+                        <q-item-label v-else lines="1" class=" text-body2 text-weight-bold text-positive">
+                            {{ transaction.amount }} &euro;
+                        </q-item-label>
 
-                                <q-item-label v-else lines="1" class=" text-body2 text-weight-bold text-positive">
-                                    {{ transaction.amount }} &euro;
-                                </q-item-label>
+                    </q-item-section>
 
-                            </q-item-section>
+                    <q-item-section side>
+                        <div class="text-grey-8">
+                            <q-btn v-if="user.showControlButtons" flat dense round icon="edit"
+                                @click="user.showTransactionDetails(transaction.category_id, transaction.id)" />
 
-                            <q-item-section side>
-                                <div class="text-grey-8">
-                                    <q-btn v-if="user.showControlButtons" flat dense round icon="edit"
-                                        @click="user.showTransactionDetails(transaction.category_id, transaction.id)" />
+                            <q-btn v-if="user.showControlButtons" flat dense round icon="delete"
+                                @click="deleteTransaction(transaction.category_id, transaction.id)" />
 
-                                    <q-btn v-if="user.showControlButtons" flat dense round icon="delete"
-                                        @click="deleteTransaction(transaction.category_id, transaction.id)" />
+                            <q-checkbox v-model="checkbox" :val="transaction.id" />
+                        </div>
+                    </q-item-section>
 
-                                    <q-checkbox v-model="checkbox" :val="transaction.id" />
-                                </div>
-                            </q-item-section>
+                </q-item>
+            </q-card>
 
-                        </q-item>
-                    </q-card>
+            <q-card v-else class="hide"></q-card>
 
-                    <q-card v-else class="hide"></q-card>
-
-                </div>
-
-                <EditTransactionModal />
-                <DeleteTransactionModal />
-            </div>
-            <div v-else class="hide"></div>
         </div>
+
+        <EditTransactionModal />
+        <DeleteTransactionModal />
+
 
     </q-list>
 </template>

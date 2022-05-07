@@ -22,6 +22,11 @@ export default {
             headers: { authorization: `${userToken}` },
         });
     },
+    getUserCategories(id: number, userToken: string | null) {
+        return apiClient.get(`/user/${id}/categories`, {
+            headers: { authorization: `${userToken}` },
+        });
+    },
     getOneCategory(
         id: number,
         catId: number,

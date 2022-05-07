@@ -45,7 +45,7 @@ defineComponent({
     components: {},
 });
 
-const dateTab = ref('Month');
+const dateTab = ref('Year');
 
 const showYear = ref(user.currentYear);
 const showMonth = ref(user.currentMonth);
