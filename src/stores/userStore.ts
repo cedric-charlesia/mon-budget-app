@@ -378,8 +378,8 @@ export const userStore = defineStore('user', {
 
           this.getUserTransactions().then(() => {
             for (const date of this.dates) {
-              if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
-                this.noTransaction = true;
+              if (!date.includes(this.currentMonth)) {
+                this.noTransaction = false;
               }
             }
           }).catch((error) => {

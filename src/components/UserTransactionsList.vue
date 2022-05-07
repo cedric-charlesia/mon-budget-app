@@ -72,6 +72,7 @@
 
                                         <q-btn flat dense round icon="delete"
                                             @click="deleteTransaction(category.id, transaction.id)" />
+
                                         <q-checkbox v-model="checkbox" :val="transaction.id" />
                                     </div>
                                 </q-item-section>
