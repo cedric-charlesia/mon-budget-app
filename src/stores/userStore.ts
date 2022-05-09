@@ -100,17 +100,21 @@ export const userStore = defineStore('user', {
             const userId = parseInt(response.data.id, 10);
 
             if (!isNaN(userId) && isFinite(userId)) {
-              routes.push({
-                name: 'user',
-                params: { id: userId },
-              });
-              this.getUserDetails().then(() => {
-                for (const date of this.dates) {
-                  if (date.includes(this.currentMonth)) {
-                    this.noTransaction = true;
+              this.getUserCategories();
+              this.getUserDetails()
+                .then(() => {
+                  for (const date of this.dates) {
+                    if (date.includes(this.currentMonth)) {
+                      this.noTransaction = true;
+                    }
                   }
-                }
-              })
+                })
+                .then(() => {
+                  routes.push({
+                    name: 'user',
+                    params: { id: userId },
+                  });
+                })
                 .catch((error) => {
                   console.error(error);
                 });
@@ -135,8 +139,9 @@ export const userStore = defineStore('user', {
               const checked = [];
 
               for (const transaction of response.data) {
-                dates.push(transaction.date);
+                dates.push(date.formatDate(transaction.date, 'YYYY-MM-DD'));
                 checked.push({ id: transaction.id });
+
               }
               const filteredDates = dates.filter(
                 (date, index) => dates.indexOf(date) === index
@@ -273,6 +278,7 @@ export const userStore = defineStore('user', {
 
               UserService.addTransaction(transaction, this.id, catId, userToken)
                 .then(() => {
+                  this.getUserCategories();
 
                   this.getUserDetails().then(() => {
                     for (const date of this.dates) {
@@ -303,6 +309,7 @@ export const userStore = defineStore('user', {
             userToken
           )
             .then(() => {
+              this.getUserCategories();
               this.getUserDetails().then(() => {
                 for (const date of this.dates) {
                   if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
@@ -358,6 +365,7 @@ export const userStore = defineStore('user', {
           .then((response) => {
             this.transaction = response.data;
 
+            this.getUserCategories();
             this.getUserDetails();
           })
           .catch((error) => {
@@ -380,11 +388,12 @@ export const userStore = defineStore('user', {
           transactionId,
           userToken
         ).then(() => {
+          this.getUserCategories();
 
           this.getUserDetails().then(() => {
             for (const date of this.dates) {
-              if (!date.includes(this.currentMonth)) {
-                this.noTransaction = false;
+              if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
+                this.noTransaction = true;
               }
             }
           }).catch((error) => {
