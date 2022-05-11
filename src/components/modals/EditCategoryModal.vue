@@ -1,14 +1,14 @@
 <template>
-    <q-dialog v-model="user.editTransactionModal" full-width>
+    <q-dialog v-model="user.editCategoryModal" full-width>
         <q-card>
             <q-card-section>
                 <div class="text-h6">
-                    Modifier cette transaction
+                    Modifier cette cat&eacute;gorie
                 </div>
             </q-card-section>
 
             <q-card-section>
-                <EditTransactionForm />
+                <EditCategoryForm />
             </q-card-section>
 
         </q-card>
@@ -17,14 +17,14 @@
 
 <script setup lang="ts">
 import { defineComponent } from 'vue';
-import EditTransactionForm from '../forms/EditTransactionForm.vue';
+import EditCategoryForm from '../forms/EditCategoryForm.vue';
 
 import { userStore } from 'stores/userStore';
 
 const user = userStore();
 
 defineComponent({
-    name: 'EditTransactionModal',
+    name: 'EditCategoryModal',
     components: {},
 });
 

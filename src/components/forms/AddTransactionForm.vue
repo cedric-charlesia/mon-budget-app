@@ -7,8 +7,8 @@
             v-model.lazy="category" emit-value map-options label="Sélectionner la catégorie" lazy-rules
             :disable="tag !== ''" />
 
-        <q-input dense type="text" filled v-model.lazy="tag" :disable="category !== 0" placeholder="Créer une catégorie"
-            lazy-rules />
+        <q-input dense type="text" filled v-model.lazy="tag" :disable="Number(category) !== 0"
+            placeholder="Créer une catégorie" lazy-rules />
 
         <q-input dense type="date" filled v-model.lazy="date" lazy-rules />
 

@@ -58,6 +58,18 @@ export default {
             }
         );
     },
+    deleteCategory(
+        id: number,
+        catId: number,
+        userToken: string | null
+    ) {
+        return apiClient.delete(
+            `/user/${id}/categories/${catId}`,
+            {
+                headers: { authorization: `${userToken}` },
+            }
+        );
+    },
     getOneTransaction(
         id: number,
         catId: number,

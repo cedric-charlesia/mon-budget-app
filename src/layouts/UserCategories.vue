@@ -3,7 +3,7 @@
     <UserHeader />
 
     <q-page-container style="padding-top: 51px; padding-bottom: 0;">
-      <UserDetails />
+      <UserCategoriesDetails />
     </q-page-container>
 
     <UserFooter />
@@ -14,11 +14,11 @@
 import { defineComponent } from 'vue';
 
 import UserHeader from '../components/UserHeader.vue';
-import UserDetails from 'pages/UserDetails.vue';
+import UserCategoriesDetails from '../pages/UserCategoriesDetails.vue';
 import UserFooter from '../components/UserFooter.vue';
 
 defineComponent({
-  name: 'UserAccountDetails',
+  name: 'UserCategories',
 });
 
 </script>

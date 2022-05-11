@@ -2,7 +2,9 @@
     <q-dialog v-model="user.addTransactionModal" full-width>
         <q-card>
             <q-card-section>
-                Ajouter une transaction
+                <div class="text-h6">
+                    Ajouter une transaction
+                </div>
             </q-card-section>
 
             <q-card-section>

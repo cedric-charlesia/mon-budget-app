@@ -1,15 +1,15 @@
 <template>
-    <q-dialog v-model="user.deleteTransactionModal" full-width>
+    <q-dialog v-model="user.logOutModal" full-width>
         <q-card>
             <q-card-section>
                 <div class="text-h6">
-                    Supprimer cette transaction ?
+                    Je me d&eacute;connecte ?
                 </div>
             </q-card-section>
 
             <q-card-actions align="right">
                 <q-btn flat label="Annuler" v-close-popup />
-                <q-btn label="Supprimer" color="negative" v-close-popup @click="deleteTransaction" />
+                <q-btn label="Oui" color="negative" v-close-popup @click="logOut()" />
             </q-card-actions>
         </q-card>
     </q-dialog>
@@ -18,22 +18,28 @@
 <script setup lang="ts">
 import { defineComponent } from 'vue';
 
+import routes from '../../router';
+
 import { userStore } from 'stores/userStore';
 
 const user = userStore();
 
 defineComponent({
-    name: 'DeleteTransactionModal',
+    name: 'LogOutModal',
     components: {},
 });
 
-const deleteTransaction = async () => {
-
-    const categoryId = Number(user.deleteTransactionId.catId);
-    const transactionId = Number(user.deleteTransactionId.transacId);
+const logOut = () => {
 
     try {
-        await user.deleteTransaction(categoryId, transactionId);
+        user.$reset;
+
+        localStorage.removeItem('token');
+
+        routes.push({
+            path: '/',
+        });
+        ;
     } catch (error) {
         console.error(error)
     }

@@ -91,7 +91,6 @@
         <EditTransactionModal />
         <DeleteTransactionModal />
 
-
     </q-list>
 </template>
 

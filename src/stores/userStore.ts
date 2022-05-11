@@ -55,10 +55,14 @@ export const userStore = defineStore('user', {
     selectedDate: date.formatDate(Date.now(), 'YYYY'),
     checked: false,
     noTransaction: false,
+    deleteCategoryId: 0,
     deleteTransactionId: { catId: 0, transacId: 0 },
     addTransactionModal: false,
     editTransactionModal: false,
     deleteTransactionModal: false,
+    editCategoryModal: false,
+    deleteCategoryModal: false,
+    logOutModal: false,
   }),
   getters: {
     transactionSummary: (state) => {
@@ -117,8 +121,6 @@ export const userStore = defineStore('user', {
             localStorage.setItem('token', response.headers.authorization);
 
             const userId = parseInt(response.data.id, 10);
-
-            console.log(response.data);
 
             if (!isNaN(userId) && isFinite(userId)) {
               this.getUserCategories();
@@ -223,6 +225,28 @@ export const userStore = defineStore('user', {
         console.error(error);
       }
     },
+    async showCategoryDetails(catId: number) {
+
+      const userToken = localStorage.getItem('token');
+
+      const categoryId = Number(catId);
+
+      try {
+        await UserService.getOneCategory(
+          this.id,
+          categoryId,
+          userToken
+        ).then((response) => {
+          this.category = response.data;
+          this.editCategoryModal = true;
+        })
+          .catch((error) => {
+            console.error(error);
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async getUserCategories() {
       const userToken = localStorage.getItem('token');
 
@@ -233,7 +257,7 @@ export const userStore = defineStore('user', {
             const userCategories: object[] = [{ label: '--- Pas de sélection ---', value: 0 }];
 
             for (const category of response.data) {
-              userCategories.push({ label: category.tag.charAt(0).toUpperCase() + category.tag.slice(1), value: category.id })
+              userCategories.push({ label: category.tag.charAt(0).toUpperCase() + category.tag.slice(1), value: category.id, tag: category.tag })
             }
             this.transactionCategories = userCategories;
             this.categories = response.data;
@@ -262,6 +286,26 @@ export const userStore = defineStore('user', {
       const userToken = localStorage.getItem('token');
 
       try {
+        await UserService.addCategories(this.id, userToken, category)
+          .then((response) => {
+            this.category = response.data;
+
+            this.getUserCategories();
+            this.getUserDetails().then(() => {
+              for (const date of this.dates) {
+                if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
+                  this.noTransaction = true;
+                }
+              }
+            })
+              .catch((error) => {
+                console.error(error);
+              });
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+
         await UserService.updateCategory(
           category,
           this.id,
@@ -277,6 +321,33 @@ export const userStore = defineStore('user', {
           .catch((error) => {
             console.error(error);
           });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async deleteCategory(catId: number) {
+      const categoryId = Number(catId);
+
+      const userToken = localStorage.getItem('token');
+
+      try {
+        await UserService.deleteCategory(
+          this.id,
+          categoryId,
+          userToken
+        ).then(() => {
+          this.getUserCategories();
+
+          this.getUserDetails().then(() => {
+            for (const date of this.dates) {
+              if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
+                this.noTransaction = true;
+              }
+            }
+          }).catch((error) => {
+            console.error(error);
+          });
+        });
       } catch (error) {
         console.error(error);
       }
