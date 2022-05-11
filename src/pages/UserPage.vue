@@ -1,7 +1,7 @@
 <template>
   <q-page>
 
-    <UserTransactionsSumarry />
+    <UserTransactionsSummary />
 
     <UserDateInput />
 
@@ -18,7 +18,7 @@
 import { defineComponent } from 'vue';
 
 import UserDateInput from 'components/UserDateInput.vue';
-import UserTransactionsSumarry from 'components/UserTransactionsSumarry.vue';
+import UserTransactionsSummary from 'components/UserTransactionsSummary.vue';
 import UserTransactionsList from 'components/UserTransactionsList.vue';
 
 import AddButton from 'components/buttons/AddButton.vue';

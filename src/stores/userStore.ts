@@ -118,6 +118,8 @@ export const userStore = defineStore('user', {
 
             const userId = parseInt(response.data.id, 10);
 
+            console.log(response.data);
+
             if (!isNaN(userId) && isFinite(userId)) {
               this.getUserCategories();
               this.getUserDetails()
