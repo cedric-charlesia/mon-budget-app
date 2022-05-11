@@ -47,14 +47,14 @@ export const userStore = defineStore('user', {
       },
     ],
     transactionCategories: [{}],
-    checkedTransactions: [{ id: 0 }],
+    checkedTransactions: [''],
     dates: [''],
     currentYear: date.formatDate(Date.now(), 'YYYY'),
     currentMonth: date.formatDate(Date.now(), 'YYYY-MM'),
     currentDay: date.formatDate(Date.now(), 'YYYY-MM-DD'),
     selectedDate: date.formatDate(Date.now(), 'YYYY'),
+    checked: false,
     noTransaction: false,
-    showControlButtons: false,
     deleteTransactionId: { catId: 0, transacId: 0 },
     addTransactionModal: false,
     editTransactionModal: false,
@@ -87,6 +87,25 @@ export const userStore = defineStore('user', {
     },
   },
   actions: {
+    async registerUser(newUser: object) {
+      try {
+        await UserService.register(newUser)
+          .then((response) => {
+            this.id = parseInt(response.data.id, 10);
+            this.username = response.data.username;
+            this.email = response.data.email;
+            console.log(response.data);
+
+          })
+          .catch((error) => {
+            if (error) {
+              console.error(error);
+            }
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async loginUser(user: object) {
       try {
         await UserService.login(user)
@@ -104,7 +123,7 @@ export const userStore = defineStore('user', {
               this.getUserDetails()
                 .then(() => {
                   for (const date of this.dates) {
-                    if (date.includes(this.currentMonth)) {
+                    if (date.includes(this.currentYear)) {
                       this.noTransaction = true;
                     }
                   }
@@ -136,18 +155,20 @@ export const userStore = defineStore('user', {
             (response) => {
 
               const dates: string[] = [];
-              const checked = [];
+              const checked: string[] = [];
 
               for (const transaction of response.data) {
                 dates.push(date.formatDate(transaction.date, 'YYYY-MM-DD'));
-                checked.push({ id: transaction.id });
 
+                if (transaction.check === 'true') {
+                  checked.push(String(transaction.id))
+                }
               }
+
               const filteredDates = dates.filter(
                 (date, index) => dates.indexOf(date) === index
               );
               this.dates = filteredDates;
-
               this.checkedTransactions = checked;
 
               this.transactions = response.data;
@@ -248,6 +269,9 @@ export const userStore = defineStore('user', {
           .then((response) => {
             this.category = response.data;
           })
+          .then(() => {
+            this.getUserDetails();
+          })
           .catch((error) => {
             console.error(error);
           });
@@ -335,8 +359,12 @@ export const userStore = defineStore('user', {
       description: string,
       amount: number,
       catId: number,
-      transacId: number
+      transacId: number,
+      check: string
     ) {
+
+      const checkTransaction = check;
+
       const dateTransaction = date;
       const descriptionTransaction = description;
       const amountTransaction = Number(amount);
@@ -349,7 +377,7 @@ export const userStore = defineStore('user', {
         description: descriptionTransaction,
         amount: amountTransaction,
         category_id: categoryId,
-        check: 'false',
+        check: checkTransaction,
       };
 
       const userToken = localStorage.getItem('token');
@@ -364,7 +392,6 @@ export const userStore = defineStore('user', {
         )
           .then((response) => {
             this.transaction = response.data;
-
             this.getUserCategories();
             this.getUserDetails();
           })

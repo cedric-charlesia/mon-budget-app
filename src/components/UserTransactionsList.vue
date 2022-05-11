@@ -39,7 +39,8 @@
 
                 <q-card
                     v-if="(date.formatDate(transaction.date, 'YYYY-MM-DD').includes(user.selectedDate)) && (date.formatDate(transaction.date, 'YYYY-MM-DD') === transactionDate)"
-                    square class="my-card q-my-sm q-mx-md">
+                    square class="my-card q-my-sm q-mx-md"
+                    :class="transaction.check === 'true' ? 'checked-transaction' : ''">
 
                     <q-item class="q-my-sm">
 
@@ -49,7 +50,7 @@
                             </q-avatar>
                         </q-item-section>
 
-                        <q-item-section @click="user.showControlButtons = !user.showControlButtons">
+                        <q-item-section>
 
                             <q-item-label class="text-capitalize">
                                 {{ transaction.description }}
@@ -68,13 +69,14 @@
 
                         <q-item-section side>
                             <div class="text-grey-8">
-                                <q-btn v-if="user.showControlButtons" flat dense round icon="edit"
+                                <q-btn flat dense round icon="edit"
                                     @click="user.showTransactionDetails(transaction.category_id, transaction.id)" />
 
-                                <q-btn v-if="user.showControlButtons" flat dense round icon="delete"
+                                <q-btn flat dense round icon="delete"
                                     @click="deleteTransaction(transaction.category_id, transaction.id)" />
 
-                                <q-checkbox v-model="checkbox" :val="transaction.id" />
+                                <q-checkbox v-model="checkbox" :val="String(transaction.id)"
+                                    @click="updateCheckedTransaction(String(transaction.id), transaction.date, transaction.description, transaction.amount, transaction.category_id)" />
                             </div>
                         </q-item-section>
 
@@ -108,6 +110,8 @@ defineComponent({
     components: {},
 });
 
+const checkbox = ref(user.checkedTransactions);
+
 const deleteTransaction = async (catId: number, transacId: number) => {
     user.deleteTransactionId = { catId: 0, transacId: 0 };
 
@@ -121,12 +125,33 @@ const deleteTransaction = async (catId: number, transacId: number) => {
     }
 };
 
-const checkbox = ref(user.checkedTransactions);
+const updateCheckedTransaction = async (id: string, transactionDate: string, transactionDescription: string, transactionAmount: number, transactionCategory_id: number) => {
+
+    const checkedCheckbox = user.checked = !user.checked;
+
+    let checkedTransaction = {
+        date: date.formatDate(transactionDate, 'YYYY-MM-DD'),
+        description: transactionDescription,
+        amount: transactionAmount,
+        category_id: transactionCategory_id,
+        check: String(checkedCheckbox),
+    }
+    try {
+        user.updateTransaction(checkedTransaction.date, checkedTransaction.description, checkedTransaction.amount, checkedTransaction.category_id, Number(id), checkedTransaction.check);
+
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 </script>
 
 <style scoped lang="scss">
 .hide {
     display: none;
+}
+
+.checked-transaction {
+    background-color: $grey;
 }
 </style>

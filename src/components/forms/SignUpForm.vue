@@ -2,7 +2,7 @@
     <FormInpuModel>
 
         <template #inputTextOrEmail>
-            <q-input type="text" filled v-model="firstname" placeholder="Pr&eacute;nom *" lazy-rules
+            <q-input type="text" filled v-model="username" placeholder="Pr&eacute;nom *" lazy-rules
                 :rules="[val => val && val.length > 0 || 'Veuiller entrer votre prénom']" @keyup.enter="signup">
                 <template v-slot:prepend>
                     <q-icon name="person" />
@@ -50,17 +50,20 @@ import FormButton from 'components/buttons/FormButton.vue';
 
 import { defineComponent, ref } from 'vue';
 
+import { userStore } from 'stores/userStore';
+const user = userStore();
+
 defineComponent({
     name: 'SignUpForm',
 });
 
-const firstname = ref('');
+const username = ref('');
 const email = ref('');
 const password = ref('');
 const confirmPassword = ref('');
 
 let userInput = {
-    firstname: '',
+    username: '',
     email: '',
     password: '',
 }
@@ -68,14 +71,14 @@ let userInput = {
 const signup = async () => {
 
     try {
-        userInput.firstname = firstname.value;
+        userInput.username = username.value;
         userInput.email = email.value;
 
         if (password.value === confirmPassword.value) {
             userInput.password = password.value;
         }
 
-        console.log(userInput);
+        await user.registerUser(userInput);
     } catch (error) {
         console.error(error)
     }

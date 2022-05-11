@@ -53,6 +53,7 @@ let transactionInput = {
     description: '',
     amount: NaN,
     category_id: NaN,
+    check: 'false',
 }
 
 const editTransaction = async () => {
@@ -67,10 +68,11 @@ const editTransaction = async () => {
         transactionInput.description = description.value;
         transactionInput.amount = Number(amount.value);
         transactionInput.category_id = Number(category.value);
+        transactionInput.check = user.transaction.check;
 
         await user.updateCategory(categoryInput.tag, categoryInput.type, categoryInput.id);
 
-        await user.updateTransaction(transactionInput.date, transactionInput.description, transactionInput.amount, transactionInput.category_id, transactionInput.id);
+        await user.updateTransaction(transactionInput.date, transactionInput.description, transactionInput.amount, transactionInput.category_id, transactionInput.id, transactionInput.check);
     } catch (error) {
         console.error(error)
     }
