@@ -4,6 +4,12 @@
             <q-list>
                 <q-item clickable v-close-popup @click="filterByCategories">
                     <q-item-section>
+                        <q-item-label>Par date</q-item-label>
+                    </q-item-section>
+                </q-item>
+
+                <q-item clickable v-close-popup @click="filterByCategories">
+                    <q-item-section>
                         <q-item-label>Par cat&eacute;gorie</q-item-label>
                     </q-item-section>
                 </q-item>

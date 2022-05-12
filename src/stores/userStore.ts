@@ -4,7 +4,7 @@ import UserService from '../services/UserService';
 
 import routes from '../router';
 
-import { date } from 'quasar';
+import { date, Notify } from 'quasar';
 
 export const userStore = defineStore('user', {
   state: () => ({
@@ -63,6 +63,8 @@ export const userStore = defineStore('user', {
     editCategoryModal: false,
     deleteCategoryModal: false,
     logOutModal: false,
+    inputError: false,
+    invalidEmailError: false,
     filterTransactions: false,
   }),
   getters: {
@@ -99,7 +101,10 @@ export const userStore = defineStore('user', {
             this.id = parseInt(response.data.id, 10);
             this.username = response.data.username;
             this.email = response.data.email;
-            console.log(response.data);
+
+            if (response.data.invalidEmailStatusCode === 409) {
+              this.invalidEmailError = true;
+            };
 
           })
           .catch((error) => {
@@ -119,12 +124,20 @@ export const userStore = defineStore('user', {
             this.username = response.data.username;
             this.email = response.data.email;
 
+            if (response.status === 204) {
+              this.inputError = true;
+            }
+            else { this.inputError = false; };
+
+            console.log(this.inputError);
+
             localStorage.setItem('token', response.headers.authorization);
 
             const userId = parseInt(response.data.id, 10);
 
             if (!isNaN(userId) && isFinite(userId)) {
               this.getUserCategories();
+
               this.getUserDetails()
                 .then(() => {
                   for (const date of this.dates) {
@@ -135,6 +148,14 @@ export const userStore = defineStore('user', {
                   }
                 })
                 .then(() => {
+
+                  Notify.create({
+                    color: 'green-4',
+                    textColor: 'white',
+                    icon: 'done',
+                    message: 'Connecté !'
+                  });
+
                   routes.push({
                     name: 'user',
                     params: { id: userId },

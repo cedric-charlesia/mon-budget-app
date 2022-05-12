@@ -1,5 +1,5 @@
 <template>
-    <q-form class="q-mx-lg">
+    <q-form class="q-mx-lg q-gutter-sm">
         <slot name="inputTextOrEmail">
             <q-input v-model="input" placeholder="">
                 <template v-slot:prepend>
