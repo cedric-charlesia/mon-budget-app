@@ -1,6 +1,6 @@
 <template>
     <q-list class="screen-size overflow">
-        <div v-if="user.noTransaction === false">
+        <div v-if="user.noTransaction === true">
             <q-card square class="my-card q-my-sm q-mx-md">
                 <q-item class="q-my-sm">
                     <q-item-section avatar>
@@ -17,7 +17,7 @@
             </q-card>
         </div>
 
-        <div v-else v-for="transactionDate of user.dates" :key="transactionDate">
+        <div v-else-if="user.filterTransactions === true" v-for="transactionDate of user.dates" :key="transactionDate">
 
             <q-item-label v-if="(transactionDate.includes(user.selectedDate))" header
                 class="q-pb-none text-weight-bold">
@@ -58,11 +58,17 @@
 
                             <q-item-label v-if="transaction.type === 'dépense'" lines="1"
                                 class=" text-body2 text-weight-bold text-negative">
-                                {{ transaction.amount }} &euro;
+                                {{ transaction.amount }} &euro; <span class="text-capitalize text-black text-subtitle2">
+                                    &bull; {{
+                                            transaction.tag
+                                    }}</span>
                             </q-item-label>
 
                             <q-item-label v-else lines="1" class=" text-body2 text-weight-bold text-positive">
-                                {{ transaction.amount }} &euro;
+                                {{ transaction.amount }} &euro; <span class="text-capitalize text-black text-subtitle2">
+                                    &bull; {{
+                                            transaction.tag
+                                    }}</span>
                             </q-item-label>
 
                         </q-item-section>
@@ -126,16 +132,17 @@ const deleteTransaction = async (catId: number, transacId: number) => {
 
 const updateCheckedTransaction = async (id: string, transactionDate: string, transactionDescription: string, transactionAmount: number, transactionCategory_id: number) => {
 
-    const checkedCheckbox = user.checked = !user.checked;
-
-    let checkedTransaction = {
-        date: date.formatDate(transactionDate, 'YYYY-MM-DD'),
-        description: transactionDescription,
-        amount: transactionAmount,
-        category_id: transactionCategory_id,
-        check: String(checkedCheckbox),
-    }
     try {
+        const checkedCheckbox = user.checked = !user.checked;
+
+        let checkedTransaction = {
+            date: date.formatDate(transactionDate, 'YYYY-MM-DD'),
+            description: transactionDescription,
+            amount: transactionAmount,
+            category_id: transactionCategory_id,
+            check: String(checkedCheckbox),
+        };
+
         user.updateTransaction(checkedTransaction.date, checkedTransaction.description, checkedTransaction.amount, checkedTransaction.category_id, Number(id), checkedTransaction.check);
 
     } catch (error) {

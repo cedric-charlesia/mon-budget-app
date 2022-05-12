@@ -55,10 +55,12 @@ const updateCurrentYear = () => {
     user.selectedDate = showYear.value;
 
     user.noTransaction = false;
+    user.filterTransactions = false;
 
     for (const transactionDate of user.dates) {
         if (transactionDate.includes(user.selectedDate)) {
-            user.noTransaction = true;
+            user.noTransaction = false;
+            user.filterTransactions = true;
         }
     }
 }
@@ -66,11 +68,13 @@ const updateCurrentYear = () => {
 const updateCurrentMonth = () => {
     user.selectedDate = showMonth.value;
 
-    user.noTransaction = false;
+    user.noTransaction = true;
+    user.filterTransactions = false;
 
     for (const transactionDate of user.dates) {
         if (transactionDate.includes(user.selectedDate)) {
-            user.noTransaction = true;
+            user.noTransaction = false;
+            user.filterTransactions = true;
         }
     }
 }
@@ -78,11 +82,13 @@ const updateCurrentMonth = () => {
 const updateCurrentDay = () => {
     user.selectedDate = showToday.value;
 
-    user.noTransaction = false;
+    user.noTransaction = true;
+    user.filterTransactions = false;
 
     for (const transactionDate of user.dates) {
         if (transactionDate.includes(user.selectedDate)) {
-            user.noTransaction = true;
+            user.noTransaction = false;
+            user.filterTransactions = true;
         }
     }
 }

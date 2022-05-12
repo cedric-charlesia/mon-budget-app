@@ -54,7 +54,7 @@ export const userStore = defineStore('user', {
     currentDay: date.formatDate(Date.now(), 'YYYY-MM-DD'),
     selectedDate: date.formatDate(Date.now(), 'YYYY'),
     checked: false,
-    noTransaction: false,
+    noTransaction: true,
     deleteCategoryId: 0,
     deleteTransactionId: { catId: 0, transacId: 0 },
     addTransactionModal: false,
@@ -63,6 +63,7 @@ export const userStore = defineStore('user', {
     editCategoryModal: false,
     deleteCategoryModal: false,
     logOutModal: false,
+    filterTransactions: false,
   }),
   getters: {
     transactionSummary: (state) => {
@@ -128,7 +129,8 @@ export const userStore = defineStore('user', {
                 .then(() => {
                   for (const date of this.dates) {
                     if (date.includes(this.currentYear)) {
-                      this.noTransaction = true;
+                      this.noTransaction = false;
+                      this.filterTransactions = true;
                     }
                   }
                 })
@@ -294,7 +296,8 @@ export const userStore = defineStore('user', {
             this.getUserDetails().then(() => {
               for (const date of this.dates) {
                 if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
-                  this.noTransaction = true;
+                  this.noTransaction = false;
+                  this.filterTransactions = true;
                 }
               }
             })
@@ -341,7 +344,8 @@ export const userStore = defineStore('user', {
           this.getUserDetails().then(() => {
             for (const date of this.dates) {
               if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
-                this.noTransaction = true;
+                this.noTransaction = false;
+                this.filterTransactions = true;
               }
             }
           }).catch((error) => {
@@ -380,7 +384,8 @@ export const userStore = defineStore('user', {
                   this.getUserDetails().then(() => {
                     for (const date of this.dates) {
                       if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
-                        this.noTransaction = true;
+                        this.noTransaction = false;
+                        this.filterTransactions = true;
                       }
                     }
                   })
@@ -410,7 +415,8 @@ export const userStore = defineStore('user', {
               this.getUserDetails().then(() => {
                 for (const date of this.dates) {
                   if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
-                    this.noTransaction = true;
+                    this.noTransaction = false;
+                    this.filterTransactions = true;
                   }
                 }
               })
@@ -493,7 +499,8 @@ export const userStore = defineStore('user', {
           this.getUserDetails().then(() => {
             for (const date of this.dates) {
               if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
-                this.noTransaction = true;
+                this.noTransaction = false;
+                this.filterTransactions = true;
               }
             }
           }).catch((error) => {
