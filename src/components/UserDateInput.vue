@@ -26,7 +26,7 @@
                     :rules="yearRules" placeholder="Entre 1900 et 2099">
 
                     <template v-slot:after>
-                        <q-btn label="Valider" color="primary" @click="updateCurrentYear" />
+                        <q-btn label="Valider" color="secondary" @click="updateCurrentYear" />
                     </template>
                 </q-input>
             </q-tab-panel>
