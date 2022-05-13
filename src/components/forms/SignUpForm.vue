@@ -1,9 +1,9 @@
 <template>
-    <div v-if="user.invalidEmailError" class="q-mb-md row justify-center">
-        <q-chip removable outline v-model="invalidEmail" color="negative" text-color="white"
-            class="bg-deep-orange-1 q-pa-md">
-            Email déjà utilis&eacute;
-        </q-chip>
+    <div v-if="user.invalidEmailError" :v-model="invalidEmail" class="q-mb-md row justify-center text-negative">
+        Email d&eacute;j&agrave; utilis&eacute;
+    </div>
+    <div v-else-if="!user.invalidEmailError" :v-model="invalidEmail" class="q-mb-md row justify-center text-negative">
+        &nbsp;
     </div>
     <FormInpuModel>
 
@@ -58,12 +58,16 @@ import FormButton from 'components/buttons/FormButton.vue';
 
 import { defineComponent, ref } from 'vue';
 
+import { useQuasar } from 'quasar';
+
 import { userStore } from 'stores/userStore';
 const user = userStore();
 
 defineComponent({
     name: 'SignUpForm',
 });
+
+const $q = useQuasar();
 
 const invalidEmail = ref(true);
 
@@ -85,6 +89,18 @@ const isValidEmail = (val: string) => {
 
 const signup = async () => {
 
+    if (username.value === '' || email.value === '' || password.value === '' || confirmPassword.value === '') {
+        $q.notify({
+            color: 'red-5',
+            textColor: 'white',
+            icon: 'warning',
+            message: 'Veuillez renseigner tous les champs',
+            position: 'top',
+            timeout: 2500,
+        });
+        return;
+    };
+
     try {
         userInput.username = username.value;
         userInput.email = email.value;
@@ -92,6 +108,7 @@ const signup = async () => {
         if (password.value === confirmPassword.value) {
             userInput.password = password.value;
         }
+        else { return; }
 
         await user.registerUser(userInput);
     } catch (error) {

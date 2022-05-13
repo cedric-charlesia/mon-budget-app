@@ -104,7 +104,25 @@ export const userStore = defineStore('user', {
 
             if (response.data.invalidEmailStatusCode === 409) {
               this.invalidEmailError = true;
+
+              setTimeout(() => {
+                this.invalidEmailError = false;
+              }, 2500);
+              return;
             };
+
+            Notify.create({
+              color: 'green-4',
+              textColor: 'white',
+              icon: 'done',
+              message: 'Compte créé, vous pouvez vous connecter !',
+              position: 'top',
+              timeout: 2500,
+            });
+
+            routes.push({
+              path: '/',
+            });
 
           })
           .catch((error) => {
@@ -117,6 +135,7 @@ export const userStore = defineStore('user', {
       }
     },
     async loginUser(user: object) {
+
       try {
         await UserService.login(user)
           .then((response) => {
@@ -124,12 +143,14 @@ export const userStore = defineStore('user', {
             this.username = response.data.username;
             this.email = response.data.email;
 
-            if (response.status === 204) {
+            if (response.data.invalidUserStatusCode === 204) {
               this.inputError = true;
-            }
-            else { this.inputError = false; };
 
-            console.log(this.inputError);
+              setTimeout(() => {
+                this.inputError = false;
+              }, 2500);
+              return;
+            };
 
             localStorage.setItem('token', response.headers.authorization);
 
@@ -153,7 +174,9 @@ export const userStore = defineStore('user', {
                     color: 'green-4',
                     textColor: 'white',
                     icon: 'done',
-                    message: 'Connecté !'
+                    message: 'Connecté !',
+                    position: 'top',
+                    timeout: 2500,
                   });
 
                   routes.push({

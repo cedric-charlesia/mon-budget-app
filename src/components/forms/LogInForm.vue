@@ -1,9 +1,8 @@
 <template>
-    <div v-if="user.inputError" class="q-mb-md row justify-center">
-        <q-chip removable outline v-model="usernameOrPasswordError" color="negative" text-color="white"
-            class="bg-deep-orange-1 q-pa-md">
-            Email ou mot de passe incorrect
-        </q-chip>
+    <div v-if="user.inputError" :v-model="inputError" class="q-mb-md row justify-center text-negative">
+        Email ou mot de passe incorrect
+    </div>
+    <div v-else-if="!user.inputError" :v-model="inputError" class="q-mb-md row justify-center text-negative">&nbsp;
     </div>
     <FormInpuModel>
         <template #inputTextOrEmail>
@@ -36,6 +35,8 @@
 <script setup lang="ts">
 import { defineComponent, ref } from 'vue';
 
+import { useQuasar } from 'quasar';
+
 import FormInpuModel from 'components/forms/FormInputModel.vue';
 import FormButton from 'components/buttons/FormButton.vue';
 
@@ -46,7 +47,9 @@ defineComponent({
     name: 'LogInForm',
 });
 
-const usernameOrPasswordError = ref(true);
+const $q = useQuasar();
+
+const inputError = ref(user.inputError);
 
 const email = ref('');
 const password = ref('');
@@ -62,6 +65,16 @@ const isValidEmail = (val: string) => {
 };
 
 const login = async () => {
+
+    if (email.value === '' || password.value === '') {
+        $q.notify({
+            color: 'red-5',
+            textColor: 'white',
+            icon: 'warning',
+            message: 'Veuillez entrer votre adresse email et votre mot de passe',
+        });
+        return;
+    };
 
     try {
         userInput.email = email.value;
