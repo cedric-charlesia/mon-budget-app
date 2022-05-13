@@ -18,6 +18,7 @@ defineComponent({
 });
 
 const tab = ref('acceuil');
+
 </script>
 
 <style scoped lang="scss">

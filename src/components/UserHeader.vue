@@ -2,7 +2,8 @@
     <q-header bordered>
         <q-toolbar>
             <q-toolbar-title>
-                Budget de {{ user.username }}
+                <q-btn flat no-caps class="q-pl-none text-h6 text-weight-regular" to="/user">Budget de {{ user.username
+                }}</q-btn>
             </q-toolbar-title>
         </q-toolbar>
     </q-header>
