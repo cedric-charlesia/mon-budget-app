@@ -7,7 +7,7 @@
     <FormInpuModel>
         <template #inputTextOrEmail>
             <q-input type="email" filled v-model="email" placeholder="Email *" lazy-rules
-                :rules="[val => val && val.length > 0 || 'Veuiller entrer votre email', isValidEmail]"
+                :rules="[val => val && val.length > 0 || 'Veuillez entrer votre email', isValidEmail]"
                 @keyup.enter="login">
                 <template v-slot:prepend>
                     <q-icon name="mail" />
@@ -17,7 +17,7 @@
 
         <template #inputPassword>
             <q-input type="password" filled v-model="password" placeholder="Mot de passe *" lazy-rules
-                :rules="[val => val && val.length > 0 || 'Veuiller entrer votre mot de passe', val => val && val.length >= 8 || 'Le mot de passe doit avoir 8 caractères min.']"
+                :rules="[val => val && val.length > 0 || 'Veuillez entrer votre mot de passe', val => val && val.length >= 8 || 'Le mot de passe doit avoir 8 caractères min.']"
                 @keyup.enter="login">
                 <template v-slot:prepend>
                     <q-icon name="lock" />
@@ -72,6 +72,8 @@ const login = async () => {
             textColor: 'white',
             icon: 'warning',
             message: 'Veuillez entrer votre adresse email et votre mot de passe',
+            position: 'top',
+            timeout: 2500,
         });
         return;
     };

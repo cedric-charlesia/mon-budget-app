@@ -9,14 +9,14 @@
 
         <template #inputTextOrEmail>
             <q-input type="text" filled v-model="username" placeholder="Pr&eacute;nom *" lazy-rules
-                :rules="[val => val && val.length > 0 || 'Veuiller entrer votre prénom']" @keyup.enter="signup">
+                :rules="[val => val && val.length > 0 || 'Veuillez entrer votre prénom']" @keyup.enter="signup">
                 <template v-slot:prepend>
                     <q-icon name="person" />
                 </template>
             </q-input>
 
             <q-input type="email" filled v-model="email" placeholder="Email *" lazy-rules
-                :rules="[val => val && val.length > 0 || 'Veuiller entrer votre email', isValidEmail]"
+                :rules="[val => val && val.length > 0 || 'Veuillez entrer votre email', isValidEmail]"
                 @keyup.enter="signup">
                 <template v-slot:prepend>
                     <q-icon name="mail" />
@@ -28,7 +28,7 @@
         <template #inputPassword>
 
             <q-input type="password" filled v-model="password" placeholder="Mot de passe *" lazy-rules
-                :rules="[val => val && val.length > 0 || 'Veuiller entrer votre mot de passe', val => val && val.length >= 8 || 'Le mot de passe doit avoir 8 caractères min.']"
+                :rules="[val => val && val.length > 0 || 'Veuillez entrer votre mot de passe', val => val && val.length >= 8 || 'Le mot de passe doit avoir 8 caractères min.']"
                 @keyup.enter="signup">
                 <template v-slot:prepend>
                     <q-icon name="lock" />
@@ -36,7 +36,7 @@
             </q-input>
 
             <q-input type="password" filled v-model="confirmPassword" placeholder="Confirmer votre mot de passe *"
-                lazy-rules :rules="[val => val && val === password || 'Veuiller confirmer votre mot de passe']"
+                lazy-rules :rules="[val => val && val === password || 'Veuillez confirmer votre mot de passe']"
                 @keyup.enter="signup">
                 <template v-slot:prepend>
                     <q-icon name="key" />
@@ -46,7 +46,7 @@
         </template>
 
         <template #formButton>
-            <FormButton title="S'inscrire" @click="signup" />
+            <FormButton title="S'inscrire" @click.prevent="signup" />
         </template>
 
     </FormInpuModel>

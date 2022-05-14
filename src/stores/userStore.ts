@@ -4,7 +4,7 @@ import UserService from '../services/UserService';
 
 import routes from '../router';
 
-import { date, Notify } from 'quasar';
+import { date, Notify, Loading, } from 'quasar';
 
 export const userStore = defineStore('user', {
   state: () => ({
@@ -95,6 +95,7 @@ export const userStore = defineStore('user', {
   },
   actions: {
     async registerUser(newUser: object) {
+      Loading.show();
       try {
         await UserService.register(newUser)
           .then((response) => {
@@ -111,11 +112,13 @@ export const userStore = defineStore('user', {
               return;
             };
 
+            Loading.hide();
+
             Notify.create({
               color: 'green-4',
               textColor: 'white',
               icon: 'done',
-              message: 'Compte créé, vous pouvez vous connecter !',
+              message: 'Compte créé, connectez-vous !',
               position: 'top',
               timeout: 2500,
             });
@@ -135,6 +138,8 @@ export const userStore = defineStore('user', {
       }
     },
     async loginUser(user: object) {
+
+      Loading.show();
 
       try {
         await UserService.login(user)
@@ -170,6 +175,8 @@ export const userStore = defineStore('user', {
                 })
                 .then(() => {
 
+                  Loading.hide();
+
                   Notify.create({
                     color: 'green-4',
                     textColor: 'white',
@@ -199,6 +206,8 @@ export const userStore = defineStore('user', {
     async getUserDetails() {
       const userToken = localStorage.getItem('token');
 
+      Loading.show();
+
       try {
         await UserService.getUserDetails(this.id, userToken)
           .then(
@@ -226,6 +235,8 @@ export const userStore = defineStore('user', {
           ).then(() => {
             this.getUserCategories();
 
+            Loading.hide();
+
           })
           .catch((error) => {
             console.error(error);
@@ -240,6 +251,8 @@ export const userStore = defineStore('user', {
 
       const categoryId = Number(catId);
       const transactionId = Number(transacId);
+
+      Loading.show();
 
       try {
         await UserService.getOneTransaction(
@@ -258,6 +271,9 @@ export const userStore = defineStore('user', {
             ).then((response) => {
               this.category = response.data;
               this.editTransactionModal = true;
+
+              Loading.hide();
+
             })
               .catch((error) => {
                 console.error(error);
@@ -331,6 +347,8 @@ export const userStore = defineStore('user', {
 
       const userToken = localStorage.getItem('token');
 
+      Loading.show();
+
       try {
         await UserService.addCategories(this.id, userToken, category)
           .then((response) => {
@@ -342,8 +360,11 @@ export const userStore = defineStore('user', {
                 if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
                   this.noTransaction = false;
                   this.filterTransactions = true;
-                }
-              }
+                };
+              };
+
+              Loading.hide();
+
             })
               .catch((error) => {
                 console.error(error);
@@ -377,6 +398,8 @@ export const userStore = defineStore('user', {
 
       const userToken = localStorage.getItem('token');
 
+      Loading.show();
+
       try {
         await UserService.deleteCategory(
           this.id,
@@ -390,8 +413,11 @@ export const userStore = defineStore('user', {
               if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
                 this.noTransaction = false;
                 this.filterTransactions = true;
-              }
-            }
+              };
+            };
+
+            Loading.hide();
+
           }).catch((error) => {
             console.error(error);
           });
@@ -411,6 +437,8 @@ export const userStore = defineStore('user', {
       }
     ) {
       const userToken = localStorage.getItem('token');
+
+      Loading.show();
 
       try {
         if (category.tag !== '') {
@@ -463,6 +491,7 @@ export const userStore = defineStore('user', {
                     this.filterTransactions = true;
                   }
                 }
+                Loading.hide();
               })
                 .catch((error) => {
                   console.error(error);
@@ -505,6 +534,8 @@ export const userStore = defineStore('user', {
 
       const userToken = localStorage.getItem('token');
 
+      Loading.show();
+
       try {
         await UserService.updateTransaction(
           transaction,
@@ -517,6 +548,9 @@ export const userStore = defineStore('user', {
             this.transaction = response.data;
             this.getUserCategories();
             this.getUserDetails();
+
+            Loading.hide();
+
           })
           .catch((error) => {
             console.error(error);
@@ -530,6 +564,8 @@ export const userStore = defineStore('user', {
       const transactionId = Number(transacId);
 
       const userToken = localStorage.getItem('token');
+
+      Loading.show();
 
       try {
         await UserService.deleteTransaction(
@@ -545,8 +581,11 @@ export const userStore = defineStore('user', {
               if (date.includes(this.currentDay) || date.includes(this.currentMonth) || date.includes(this.currentYear)) {
                 this.noTransaction = false;
                 this.filterTransactions = true;
-              }
-            }
+              };
+            };
+
+            Loading.hide();
+
           }).catch((error) => {
             console.error(error);
           });
