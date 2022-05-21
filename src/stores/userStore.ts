@@ -109,6 +109,9 @@ export const userStore = defineStore('user', {
               setTimeout(() => {
                 this.invalidEmailError = false;
               }, 2500);
+
+              Loading.hide();
+
               return;
             };
 
@@ -154,6 +157,8 @@ export const userStore = defineStore('user', {
               setTimeout(() => {
                 this.inputError = false;
               }, 2500);
+
+              Loading.hide();
               return;
             };
 
