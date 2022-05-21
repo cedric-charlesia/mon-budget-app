@@ -1,24 +1,11 @@
-<script setup lang="ts">
-import HomePageView from "@/views/HomePageView.vue";
-</script>
-
 <template>
-  <HomePageView />
+  <router-view />
 </template>
 
-<style>
-@import "@/assets/normalize.css";
-@import "@/assets/base.css";
+<script lang="ts">
+import { defineComponent } from 'vue';
 
-#app {
-  display: flex;
-  flex-direction: column;
-}
-
-@media screen and (min-width: 768px) {
-  #app {
-    width: 20vw;
-    margin: auto;
-  }
-}
-</style>
+export default defineComponent({
+  name: 'App'
+});
+</script>

@@ -1,0 +1,46 @@
+// app global css in SCSS form
+
+// Q-Separator on transaction summary
+@media (max-width: 360px) {
+    .separator {
+        display: none;
+    }
+};
+
+// Add transaction button positionning
+.overflow {
+    overflow-y: auto;
+};
+
+.add-transaction {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+  }
+
+// Transactions list container height  
+@media (max-height: 667px) {
+    .screen-size {
+        max-height: 26vh;
+    }
+};
+
+@media (min-height: 736px) {
+    .screen-size {
+        max-height: 40vh;
+    }
+};
+
+@media (min-height: 813px) {
+    .screen-size {
+        max-height: 45vh;
+    }
+};
+
+@media (min-height: 896px) {
+    .screen-size {
+        max-height: 49vh;
+    }
+};

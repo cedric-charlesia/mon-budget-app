@@ -1,99 +1,22 @@
-<script setup lang="ts">
-import { loggedInUserStore } from "@/stores/loggedInUser";
-import { RouterLink } from "vue-router";
-import router from "@/router";
-import LogOut from "@/components/images/LogOut.vue";
-import UserAccountSummary from "@/components/UserAccountSummary.vue";
-import { ref } from "vue";
-
-defineProps<{
-  mainTitle: string;
-}>();
-
-const user = loggedInUserStore();
-
-let getCurrentMonth = "";
-
-const now = Date.now();
-if (new Date(now).getMonth() + 1 < 10) {
-  getCurrentMonth = `${new Date(now).getFullYear()}-0${
-    new Date(now).getMonth() + 1
-  }`;
-} else {
-  getCurrentMonth = `${new Date(now).getFullYear()}-${
-    new Date(now).getMonth() + 1
-  }`;
-}
-
-let month = ref(getCurrentMonth);
-
-const refreshTransactions = () => {
-  user.currentMonth = month.value;
-};
-
-const logout = () => {
-  user.$reset;
-
-  localStorage.removeItem("token");
-
-  router.push({
-    name: "login",
-  });
-};
-</script>
-
 <template>
-  <header class="user-container">
-    <nav class="top-nav">
-      <h1 class="main-title">
-        <RouterLink to="/">{{ mainTitle }}</RouterLink>
-      </h1>
-      <p>Bonjour, {{ user.username }} !</p>
-      <button @click.prevent="logout()" class="logout"><LogOut /></button>
-    </nav>
-    <p class="calendar">
-      <input
-        v-model.lazy="month"
-        type="month"
-        id="currentMonth"
-        name="currentMonth"
-        @change="refreshTransactions()"
-      />
-    </p>
-    <UserAccountSummary />
-  </header>
+    <q-header bordered>
+        <q-toolbar>
+            <q-toolbar-title>
+                <q-btn flat no-caps class="q-pl-none text-h6 text-weight-regular" to="/user">Budget de {{ user.username
+                }}</q-btn>
+            </q-toolbar-title>
+        </q-toolbar>
+    </q-header>
 </template>
 
-<style scoped>
-.user-container {
-  height: 30%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-}
-.top-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+<script setup lang="ts">
+import { defineComponent } from 'vue';
 
-.calendar {
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
+import { userStore } from 'stores/userStore';
+const user = userStore();
 
-input[type="month"] {
-  width: 42%;
-  appearance: none;
-  color: var(--accent-color);
-  border: 0.15rem solid var(--accent-color);
-  border-radius: 0.15rem;
-  background-color: transparent;
-}
+defineComponent({
+    name: 'UserHeader',
+});
 
-.logout {
-  width: 10%;
-  background-color: transparent;
-  border: none;
-}
-</style>
+</script>

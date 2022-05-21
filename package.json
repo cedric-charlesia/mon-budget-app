@@ -1,37 +1,46 @@
 {
-  "name": "mon-budget-client",
-  "version": "0.0.0",
+  "name": "mon-budget-quasar",
+  "version": "0.0.1",
+  "description": "L'application personnalisé pour suivre vos dépenses avec simplicité !",
+  "productName": "Mon Budget",
+  "author": "cedric-charlesia <ccharlesia@gmail.com>",
+  "private": true,
   "scripts": {
-    "dev": "vite",
-    "serve": "vite preview",
-    "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview --port 5050",
-    "typecheck": "vue-tsc --noEmit",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "lint": "eslint --ext .js,.ts,.vue ./",
+    "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
+    "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@vuelidate/core": "^2.0.0-alpha.40",
-    "@vuelidate/validators": "^2.0.0-alpha.28",
-    "axios": "^0.26.0",
+    "@quasar/extras": "^1.0.0",
+    "axios": "^0.21.1",
     "pinia": "^2.0.11",
-    "vue": "^3.2.31",
-    "vue-router": "^4.0.12",
-    "vue-toastification": "^2.0.0-rc.5"
+    "quasar": "^2.6.0",
+    "vue": "^3.0.0",
+    "vue-pwa-install": "^1.1.0",
+    "vue-router": "^4.0.0"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.1.0",
-    "@types/node": "^16.11.25",
-    "@vitejs/plugin-vue": "^2.2.2",
-    "@vue/eslint-config-prettier": "^7.0.0",
-    "@vue/eslint-config-typescript": "^10.0.0",
-    "@vue/tsconfig": "^0.1.3",
-    "eslint": "^8.5.0",
-    "eslint-plugin-vue": "^8.2.0",
+    "@quasar/app-vite": "^1.0.0-alpha.0",
+    "@types/node": "^12.20.21",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "autoprefixer": "^10.4.2",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-vue": "^8.5.0",
     "prettier": "^2.5.1",
-    "typescript": "~4.5.5",
-    "vite": "^2.8.4",
-    "vite-plugin-pwa": "^0.11.13",
-    "vue-tsc": "^0.31.4",
-    "workbox-precaching": "^6.5.2"
+    "typescript": "^4.5.4",
+    "workbox-build": "^6.5.3",
+    "workbox-cacheable-response": "^6.5.3",
+    "workbox-core": "^6.5.3",
+    "workbox-expiration": "^6.5.3",
+    "workbox-precaching": "^6.5.3",
+    "workbox-routing": "^6.5.3",
+    "workbox-strategies": "^6.5.3"
+  },
+  "engines": {
+    "node": "^18 || ^16 || ^14.19",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
   }
 }
