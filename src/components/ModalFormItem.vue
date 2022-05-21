@@ -1,9 +1,11 @@
 <template>
   <form class="modal-form">
     <div class="transaction-type">
-      <slot name="modalRadio">
-        <input type="radio" id="" name="" value="" required />
+      <slot name="modalTransactionType">
         <label for="" name=""></label>
+        <select name="" id="">
+          <option value=""></option>
+        </select>
       </slot>
     </div>
     <slot name="categorySelection">
@@ -47,6 +49,7 @@
   padding: 1rem;
 }
 
+.select-type-label,
 .select-category-label,
 .add-category-label,
 .date-label {
@@ -55,6 +58,7 @@
 
 .modal-form .transaction-type {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 

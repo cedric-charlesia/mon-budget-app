@@ -13,7 +13,7 @@ const user = loggedInUserStore();
 const toast = useToast();
 
 const state = reactive({
-  type: "revenu",
+  type: "",
   category_id: "",
   tag: "",
   date: "",
@@ -26,6 +26,12 @@ const optionalInputCategory = () => state.category_id != "";
 
 const rules = computed(() => {
   return {
+    type: {
+      required: helpers.withMessage(
+        "Veuillez choisir un type de transaction",
+        required
+      ),
+    },
     category_id: {
       requiredUnless: helpers.withMessage(
         "Veuillez choisir une catégorie",
@@ -128,29 +134,22 @@ const addTransaction = async () => {
   <teleport to="#modals">
     <div class="modal" v-if="user.showModal">
       <ModalFormItem>
-        <template #modalRadio>
-          <div>
-            <input
-              v-model.lazy="state.type"
-              type="radio"
-              id="income"
-              name="transation-type"
-              value="revenu"
-              required
-              checked
-            />
-            <label for="income" name="income">Revenu</label>
-          </div>
-          <div>
-            <input
-              v-model.lazy="state.type"
-              type="radio"
-              id="expense"
-              name="transation-type"
-              value="dépense"
-            />
-            <label for="expense" name="expense">Dépense</label>
-          </div>
+        <template #modalTransactionType>
+          <label class="select-type-label" for="select-type" name="select-type"
+            >Choisissez le type de transaction :</label
+          >
+          <select
+            v-model.lazy="state.type"
+            name="select-type"
+            id="transaction-type"
+          >
+            <option value="">--- Choisir un type ---</option>
+            <option value="revenu">Revenu</option>
+            <option value="dépense">Dépense</option>
+          </select>
+          <span v-if="v$.type.$error" class="error">{{
+            v$.type.$errors[0].$message
+          }}</span>
         </template>
 
         <template #categorySelection>
@@ -158,7 +157,7 @@ const addTransaction = async () => {
             class="select-category-label"
             for="select-category"
             name="select-category"
-            >Créez vos catégories et retrouvez-les ci-dessous :</label
+            >Retrouvez vos catégories ci-dessous :</label
           >
           <select
             v-model.lazy="state.category_id"
@@ -172,7 +171,7 @@ const addTransaction = async () => {
               :key="category.id"
               :value="category.id"
             >
-              {{ category.tag }}
+              {{ category.tag.charAt(0).toUpperCase() + category.tag.slice(1) }}
             </option>
           </select>
           <span

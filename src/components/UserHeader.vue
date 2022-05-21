@@ -66,9 +66,10 @@ const logout = () => {
 
 <style scoped>
 .user-container {
+  height: 30%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  gap: 0.7rem;
 }
 .top-nav {
   display: flex;

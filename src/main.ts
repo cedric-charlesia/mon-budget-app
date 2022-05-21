@@ -13,7 +13,7 @@ app.use(createPinia());
 app.use(router, axios);
 
 const options = {
-  timeout: 2500,
+  timeout: 2000,
   position: "top-left",
 };
 

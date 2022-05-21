@@ -17,9 +17,10 @@ defineProps<{
 
 <style>
 .header {
+  height: 35%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  gap: 1rem;
 }
 .main-title {
   font-size: var(--main-title-size);

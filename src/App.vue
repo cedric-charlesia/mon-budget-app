@@ -11,8 +11,8 @@ import HomePageView from "@/views/HomePageView.vue";
 @import "@/assets/base.css";
 
 #app {
-  display: grid;
-  grid-template-rows: 24vh 71vh 5vh;
+  display: flex;
+  flex-direction: column;
 }
 
 @media screen and (min-width: 768px) {

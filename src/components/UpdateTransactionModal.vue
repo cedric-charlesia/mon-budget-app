@@ -92,7 +92,7 @@ const updateTransaction = async () => {
               :key="category.id"
               :value="category.id"
             >
-              {{ category.tag }}
+              {{ category.tag.charAt(0).toUpperCase() + category.tag.slice(1) }}
             </option>
           </select>
           <span v-if="v$.category_id.$error" class="error">{{

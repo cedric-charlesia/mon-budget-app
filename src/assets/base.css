@@ -11,11 +11,6 @@
   --text-size: 1rem;
 }
 
-html {
-	scroll-behavior: smooth;
-  overflow-x: hidden;
-}
-
 body {
   background-color: var(--white-color);
   color: var(--accent-color);
@@ -27,4 +22,14 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  min-height: fill-available;
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  height: fill-available;
 }

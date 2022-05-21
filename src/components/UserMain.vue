@@ -14,8 +14,10 @@ import UserTransactionModal from "@/components/UserTransactionModal.vue";
 
 <style scoped>
 .user-main {
+  height: 70%;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
 }
 .main_content {
   height: 90%;

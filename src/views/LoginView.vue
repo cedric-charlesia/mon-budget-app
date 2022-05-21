@@ -4,7 +4,7 @@ import { RouterLink } from "vue-router";
 </script>
 
 <template>
-  <main>
+  <main class="main">
     <LoginForm />
     <div class="login-register">
       <p>Pas encore inscrit ?</p>
