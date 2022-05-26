@@ -8,36 +8,39 @@
       </q-card-section>
     </q-card>
 
-    <q-card square class="my-card q-my-xs q-mx-md" v-for="category of user.categories" :key="category.id">
+    <q-list class="categories-container overflow">
+      <q-card square class="my-card q-my-xs q-mx-md" v-for="category of user.categories" :key="category.id">
 
-      <q-item>
+        <q-item>
 
-        <q-item-section avatar>
-          <q-avatar color="primary" text-color="white">
-            {{ category.tag.charAt(0).toUpperCase() }}
-          </q-avatar>
-        </q-item-section>
+          <q-item-section avatar>
+            <q-avatar color="primary" text-color="white">
+              {{ category.tag.charAt(0).toUpperCase() }}
+            </q-avatar>
+          </q-item-section>
 
-        <q-item-section>
+          <q-item-section>
 
-          <q-item-label class="text-capitalize text-subtitle1">
-            {{ category.tag }}
-          </q-item-label>
+            <q-item-label class="text-capitalize text-subtitle1">
+              {{ category.tag }}
+            </q-item-label>
 
-        </q-item-section>
+          </q-item-section>
 
-        <q-item-section side>
-          <div class="text-grey-8">
-            <q-btn flat dense round icon="edit" @click="user.showCategoryDetails(category.id)" />
+          <q-item-section side>
+            <div class="text-grey-8">
+              <q-btn flat dense round icon="edit" @click="user.showCategoryDetails(category.id)" />
 
-            <q-btn flat dense round icon="delete" @click="deleteCategory(category.id)" />
+              <q-btn flat dense round icon="delete" @click="deleteCategory(category.id)" />
 
-          </div>
-        </q-item-section>
+            </div>
+          </q-item-section>
 
-      </q-item>
+        </q-item>
 
-    </q-card>
+      </q-card>
+    </q-list>
+
 
     <EditCategoryModal />
     <DeleteCategoryModal />

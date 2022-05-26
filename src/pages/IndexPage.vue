@@ -4,6 +4,17 @@
       personnalis&eacute;e et avec simplicit&eacute; !</h2>
     <HomePageForms />
 
+    <!-- <q-card bordered square class="my-card q-my-xl q-mx-md absolute-bottom" v-if="deferredPrompt">
+      <q-banner inline-actions rounded class="bg-white text-primary q-gutter-md">
+        <q-icon size="md"><img src="../../mon-budget-logo.png" /></q-icon>
+
+        <template v-slot:action>
+          <q-btn flat label="Annuler" @click="deferredPrompt = false" />
+          <q-btn color="primary" label="Installer" @onClick="promptInstall" />
+        </template>
+      </q-banner>
+    </q-card> -->
+
   </q-page>
 </template>
 
@@ -31,3 +42,10 @@ defineComponent({
 //       console.log('User dismissed the install prompt');
 //     }
 
+//     deferredPrompt = null;
+//     console.log(deferredPrompt);
+
+//   });
+// };
+
+</script>

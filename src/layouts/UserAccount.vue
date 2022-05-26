@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" class="desktop-layout">
     <UserHeader />
 
     <q-page-container style="padding-top: 51px; padding-bottom: 0;">
