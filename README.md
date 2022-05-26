@@ -1,6 +1,6 @@
 # Mon Budget Progressive Web App (v.1)
 
-[Mon Budget](https://mon-budget.netlify.app/) est une progressive web app personnalisé servant à suivre vos dépenses avec simplicité !
+Mon Budget est une progressive web app personnalisé servant à suivre vos dépenses avec simplicité !
 
 ## Entièrement personnalisable !
 
@@ -31,5 +31,5 @@ quasar build
 
 ### Interface utilisateur
 
-![Mon Budget Homepage](/public/screenshots/mon-budget-01.jpg "Homepage")![Categories](/public/screenshots/mon-budget-02.jpg "Categories")![Daily transaction view](/public/screenshots/mon-budget-03.jpg "Daily transaction")
-![Daily transaction view](/public/screenshots/mon-budget-04.jpg "Daily transaction")![Yearly transaction view](/public/screenshots/mon-budget-05.jpg "Yearly view")![User interface](/public/screenshots/mon-budget-06.jpg "Update a transaction")
+|![Mon Budget Homepage](/public/screenshots/mon-budget-01.jpg "Homepage")|![Categories](/public/screenshots/mon-budget-02.jpg "Categories")|![Daily transaction view](/public/screenshots/mon-budget-03.jpg "Daily transaction")|
+|![Daily transaction view](/public/screenshots/mon-budget-04.jpg "Daily transaction")|![Yearly transaction view](/public/screenshots/mon-budget-05.jpg "Yearly view")|![User interface](/public/screenshots/mon-budget-06.jpg "Update a transaction")|
