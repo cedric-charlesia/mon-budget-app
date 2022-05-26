@@ -20,16 +20,33 @@
     width: 90%;
   }
 
-// Transactions list container height  
+//   Resposive design
+
+@media (min-width: 720px) {
+    .desktop-layout {
+        width: 50vw;
+        margin: auto;
+    }
+}
+
+// Transactions list container height and category container height 
 @media (max-height: 667px) {
     .screen-size {
         max-height: 26vh;
+    };
+
+    .categories-container {
+        max-height: 65vh;
     }
 };
 
 @media (min-height: 736px) {
     .screen-size {
         max-height: 40vh;
+    }
+
+    .categories-container {
+        max-height: 70vh;
     }
 };
 
@@ -42,5 +59,9 @@
 @media (min-height: 896px) {
     .screen-size {
         max-height: 49vh;
+    }
+
+    .categories-container {
+        max-height: 75vh;
     }
 };
