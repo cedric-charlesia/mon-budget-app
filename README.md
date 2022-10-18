@@ -1,5 +1,4 @@
 # Mon Budget Progressive Web App (v.1)
-
 Mon Budget est une progressive web app personnalisée servant à suivre les dépenses personnelles.
 
 ## Entièrement personnalisable !
