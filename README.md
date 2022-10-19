@@ -1,17 +1,18 @@
 # Mon Budget Progressive Web App (v.1)
-Mon Budget, une progressive web app pour suivre les dépenses personnelles.
 
-## Entièrement personnalisable !
+Mon Budget, une progressive web app (PWA) pour suivre les dépenses personnelles. Elle est connectée à [Mon Budget API](https://github.com/cedric-charlesia/mon-budget-API)
 
-La plupart des applications de suivi des dépenses propose de classer les transactions par catégories prédéfinies. Cela peut être pratique, mais c'est catégories ne correspondent pas toujours aux besoins de l'utilisateur. C'est là que **Mon Budget** intervient.
+### Entièrement personnalisable !
 
-Aucune catégorie n'est imposée, c'est à l'utilisateur de personnaliser comme il le souhaite.
+La plupart des applications de suivi de budget proposent de classer les transactions par catégories prédéfinies. Cela peut être pratique, mais ces catégories ne correspondent pas toujours aux besoins de l'utilisateur.
 
-## Resources utilisées
-* [Vue.js](https://vuejs.org/)
-* [Quasar Framework](https://quasar.dev/)
+C'est là que l'application **Mon Budget** intervient : aucune catégorie n'est imposée, c'est à l'utilisateur de tout personnaliser comme il le souhaite.
 
-## Installer les dépendences
+### Outils et resources utilisés
+* [Vue.js](https://vuejs.org/) pour l'interface utilisateur
+* [Quasar Framework](https://quasar.dev/), un framework Vue.js qui permet de développer rapidement des PWA
+
+### Installer les dépendences
 ```bash
 yarn
 # ou
@@ -27,6 +28,8 @@ quasar dev
 ```bash
 quasar build
 ```
+
+Pour voir une démo, le projet est déployé sur [netlify](https://mon-budget.netlify.app/).
 
 ### Interface utilisateur
 
